@@ -88,7 +88,7 @@ function upgrade() {
   const num = Math.random()
   console.log(num, current_sword.prob)
 
-  if(num < current_sword.prob) {
+  if(0 < current_sword.prob) {
       sword_index++
   } else {
       const re = swords[sword_index].pieces.map(value => value.caculate())
