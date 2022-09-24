@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검 강화하기</title>
+    <link rel="stylesheet" href="s.css">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon:400" rel="stylesheet">
+    <link type="image/x-icon" rel="shortcut icon" href="images/swords/단검.png">
+
+    <script src="scripts/main.js" defer></script>
+  </head>
+  <body ondragstart="return false">
+
+    <header class="main_header">
+      <h1>검 강화하기</h1>
+    </header>
+    <main class="main_main" id="main-body">
+      
+    </main>
+    <footer class="main_footer">
+      <ul>
+        <li>
+          <div class="icon sword" id="main-game-button">
+            <img src="images/icon/icons.png" alt="none">
+          </div>
+          검강화
+        </li>
+        <li>
+          <div class="icon infomation" id="information-button">
+            <img src="images/icon/icons.png" alt="none">
+          </div>
+          내정보
+        </li>
+        <li>
+          <div class="icon inventory" id="inventory-button">
+            <img src="images/icon/icons.png" alt="none">
+          </div>
+          보관함
+        </li>
+        <li>
+          <div class="icon making" id="making-button">
+            <img src="images/icon/icons.png" alt="none">
+          </div>
+          제작소
+        </li>
+      </ul>
+      <div class="coinbox">
+        보유자산: <span id="gold-number"></span>골드
+        <span id="gold-change"></span>
+        <div id="gold-record">
+          <p class="record_title">최근 기록</p>
+          <div id="records"></div>
+        </div>
+      </div>
+    </footer>
+
+    <template id="game-interface">
+      <div class="swordbox">
+        <img id="sword-image" src="">
+        <section class="infomation">
+          <span id="sword-number"></span>
+          <span id="sword-name"></span>
+          <span id="sword-prob"></span>
+          <span id="sword-cost"></span>
+          <span id="sword-price"></span>
+        </section>
+        
+      </div>
+
+      <div class="buttons">
+        <div class="blue_button toleft rotate" id="upgrade-button" onclick="upgrade()">
+          <img src="images/ui/강화하기.png" alt="none">
+          <span>강화하기</span>
+        </div>
+        <div class="red_button scale" id="sell-button" onclick="sell()">
+          <img src="images/ui/판매하기.png" alt="none">
+          <span>판매하기</span>
+        </div>
+
+      </div>
+
+      <div class="message" id="message-box">
+
+        <div class="message_main">
+          <div class="text">
+            <p class="fall">실패했습니다.</p>
+            <p class="loss" id="loss"></p>
+            <div class="pieces" id="pieces"></div>
+          </div>
+          <div class="buttons">
+            <div class="green_button scale" id="fix-button" onclick="fixButton()">
+              <img src="images/bok/상급 복구권.png" alt="none">
+              <span>복구하기</span>
+            </div>
+            <div class="dark_blue_button turning" id="init-button" onclick="initButton()">
+              <img src="images/ui/다시하기.png" alt="none">
+              <span>다시하기</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="inventory">
+      <div class="window inventory_window">
+        <header>보관함</header>
+        <main>
+          <div class="piece">
+            <img src="images/piece/여신의 눈물.png">
+          </div>
+          <p class="piece_name">여신의 눈물</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/바미의 불씨.png">
+          </div>
+          <p class="piece_name">바미의 불씨</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/도란의 반지.png">
+          </div>
+          <p class="piece_name">도란의 반지</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+          <div class="piece">
+            <img src="images/piece/삼위일체.png">
+          </div>
+          <p class="piece_name">삼위 일체</p>
+          <p class="piece_count">1</p>
+        </main>
+      </div>
+    </template>
+
+    <template id="game-information">
+      <div class="window sword_book_window">
+        <header>내 정보</header>
+        <main>
+          <header>
+            현재 <span id="found-sword-count">0</span>개의 검 발견
+          </header>
+          <div class="swords">
+            <div class="sword_icon">
+              <img src="images/swords/도란의 검.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/BF 대검.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/월식.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/드락사르의 황혼검.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/제국의 명령.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/톱날 단검.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/마나무네.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/무라마나.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/수호 천사.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/피바라기.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+            <div class="sword_icon">
+              <img src="images/swords/unknown.png" alt="none">
+            </div>
+          </div>
+        </main>
+      </div>
+    </template>
+
+  </body>
+</html>

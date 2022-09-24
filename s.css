@@ -1,0 +1,561 @@
+:root {
+  --color-blue: rgb(45, 119, 240);
+  --color-dark-blue: rgb(42, 35, 176);
+  --color-red: rgb(255, 57, 57);
+  --color-gold: rgb(238, 155, 0);
+  --color-dark-gold: rgb(130, 84, 0);
+  --color-green: rgb(0, 140, 33);
+
+  --color-white: rgb(243, 243, 243);
+  --color-black: rgb(22, 22, 22);
+
+  --color-dark-gray: rgb(61, 61, 61);
+  --color-gray: rgb(130, 130, 130);
+  --color-light-gray: rgb(199, 199, 199);
+}
+
+* {
+  font-family: 'Do Hyeon';
+  user-select: none;
+
+  word-break: keep-all;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+
+  grid-template-rows: 1fr minmax(60vh, 9fr) 1fr;
+
+  height: 100vh;
+
+  overflow: hidden;
+
+  background: no-repeat center/cover url("image.png");
+
+}
+
+
+.main_header {
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main_header h1 {
+
+  width: fit-content;
+
+  background: linear-gradient(to right, var(--color-red), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  font-size:2.75rem;
+}
+
+.main_main {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.swordbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swordbox img {
+  width: 30vmin;
+  height: 30vmin;
+
+  border-radius: 50%;
+
+  transition: all .3s;
+
+  filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray)); 
+}
+
+.swordbox img:hover {
+  transform: scale(1.2);
+
+  border-radius: 0;
+
+  transition: all .3s;
+}
+
+.swordbox .infomation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+#sword-number {
+  font-size: 1.75rem;
+}
+
+#sword-name {
+  font-size: 2.25rem;
+}
+
+#sword-prob{
+  font-size: 1.25rem;
+}
+
+#sword-cost,
+#sword-price {
+  font-size: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  
+  width: 185px;
+
+  margin-top: 0.5rem;
+}
+
+.buttons > div {
+  width: 65px;
+  height: 65px;
+  border-radius: 100%;
+
+  overflow: hidden;
+  position: relative;
+
+  cursor: pointer;
+
+  transition: all .3s;
+}
+
+.buttons > div:hover  {
+  transform: scale(1.1);
+  transition: all .3s;
+}
+
+.buttons > div:active {
+  filter: brightness(0.7);
+  transform: scale(1.0);
+}
+
+.buttons > div:hover.rotate.toleft > img {
+  transform: translateX(-5%) scale(1.5) rotate(0.2turn);
+  transition: all .5s;
+}
+
+.buttons > div:hover.rotate > img {
+  transform: scale(1.5) rotate(0.2turn);
+  transition: all .5s;
+}
+
+.buttons > div:hover.scale > img {
+  transform: scale(1.5);
+  transition: all .5s;
+}
+
+.buttons > div:hover.turning > img {
+
+  animation: turn 2s linear infinite;
+}
+
+@keyframes turn {
+  0% {transform: rotate(0);}
+  100% {transform: rotate(-360deg);}
+}
+
+.buttons > div > img {
+  height: 100%;
+
+  transition: all .5s;
+}
+
+.buttons > div.toleft > img {
+  transform: translateX(-5%);
+}
+
+.buttons > div > span {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+
+  transform: translateY(-50%);
+
+  background-color: rgba(255, 255, 255, 0.607);
+
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.blue_button {
+  border: 4px solid var(--color-blue);
+}
+
+.blue_button > span {
+  color: var(--color-blue);
+}
+
+.red_button {
+  border: 4px solid var(--color-red);
+}
+
+.red_button > span {
+  color: var(--color-red);
+}
+
+.dark_blue_button {
+  border: 4px solid var(--color-dark-blue);
+}
+
+.dark_blue_button > span {
+  color: var(--color-dark-blue);
+}
+
+.green_button {
+  border: 4px solid var(--color-green);
+}
+
+.green_button > span {
+  color: var(--color-green);
+}
+
+.message {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+  background-color: rgba(255, 255, 255, 0.556);
+
+  display: none;
+
+  z-index: 2;
+}
+
+
+.message .message_main {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+}
+
+.fall {
+  color: var(--color-red);
+}
+
+.loss {
+  font-size: 1.75rem;
+}
+
+.pieces {
+  font-size: 1.5rem;
+}
+
+.icon {
+
+  width: 35px;
+  height: 35px;
+
+  display: inline-block;
+
+  position: relative;;
+  overflow: hidden;
+}
+
+.icon > img {
+  width: 500%;
+  height: 100%;
+
+  position: absolute;
+}
+
+.icon.information > img {
+  left: 0;
+}
+
+.icon.inventory > img {
+  left: -100%;
+}
+
+.icon.making > img {
+  left: -200%;
+}
+
+.icon.store > img {
+  left: -300%;
+}
+
+.icon.sword > img {
+  left: -400%;
+}
+
+.main_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  width: 100vw;
+
+  padding: 0.5rem;
+
+}
+
+.main_footer ul {
+  display: flex;
+  width: 180px;
+  justify-content: space-around;
+}
+
+
+.main_footer ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  cursor: pointer;
+
+}
+
+.main_footer ul li:hover {
+  transform: scale(1.1);
+}
+
+.main_footer ul li:active {
+  transform: scale(0.9);
+
+}
+
+.main_footer .coinbox {
+  text-align: end;
+  word-break: keep-all;
+  font-size: 1.5rem;
+
+  position: relative;
+}
+
+.main_footer .coinbox #gold-number {
+  color: var(--color-gold);
+}
+
+.main_footer .coinbox #gold-change {
+  position: absolute;
+  top: 0;
+  right: 0;
+  
+  color: var(--color-dark-gold);
+
+  opacity: 0;
+}
+
+.main_footer .coinbox:hover > #gold-record {
+  
+  transform: translateY(-100%);
+
+  opacity: 0.8;
+
+  transition: all .5s;
+}
+
+.main_footer .coinbox #gold-record {
+
+  position: absolute;
+  top: 0;
+
+  opacity: 0;
+
+  transform: translateY(100%);
+
+  background-color: rgb(255, 255, 255);
+
+
+  padding: 0 1rem;
+
+  width: 100%;
+  
+  border: solid 2px black;
+  border-bottom: none;
+
+  font-size: 1rem;
+
+  transition: all .3s;
+
+}
+
+.main_footer .coinbox #gold-record .record_title {
+  text-align: center;
+}
+
+.window {
+
+  width: 100vw;
+  height: 100%;
+  display: grid;
+
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 9fr;
+
+  place-items: center;
+
+}
+
+.window > header {
+  font-size: 1.5rem;
+}
+
+.inventory_window main {
+  display: grid;
+  flex-direction: column;
+  align-items: center;
+
+  grid-template-columns: 1fr 2fr 1fr 1fr 2fr 1fr;
+  gap: 1rem;
+
+  max-height: 90%;
+  max-width: 95vw;
+
+  overflow: hidden scroll;
+}
+
+.inventory_window main::-webkit-scrollbar-track {
+  background-color: var(--color-white);
+  border-radius: 5px;
+}
+
+.inventory_window main::-webkit-scrollbar {
+  width: 7px;
+}
+
+.inventory_window main::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray);
+  border-radius: 5px;
+
+}
+
+.piece {
+
+  width: 50px;
+  height: 50px;
+
+  background-image: url("images/ui/item_frame.png");
+  background-size: contain;
+
+  position: relative;
+
+}
+
+.piece > img {
+  width: 80%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  transition: all .5s;
+}
+
+.piece > img:hover {
+  width: 100%;
+
+  transition: all .1s;
+}
+
+.piece_name {
+  font-size: 1.25rem;
+}
+
+.piece_count {
+  font-size: 1.5rem;
+}
+
+.inventory_window main .piece_count::before {
+  content: "x";
+}
+
+.sword_book_window main {
+  display: flex;
+  
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  height: 100%;
+}
+
+.sword_book_window main header {
+  font-size: 1.25rem;
+}
+
+.sword_book_window main header span{
+  color: var(--color-gold);
+  margin: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.sword_book_window main .swords {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+
+}
+
+.sword_icon {
+
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;;
+
+  background: url("images/ui/sword_frame.png");
+  background-size: contain;
+
+  cursor: pointer;
+
+  transition: all .1s;
+}
+
+.sword_icon > img {
+  width: 90%;
+
+  position: absolute;
+
+  transition: all .3s;
+
+}
+
+.sword_icon:hover {
+  transform: scale(1.2);
+  transition: all .5s;
+}
+
+.sword_icon:hover > img {
+  transform: scale(1.3);
+  transition: all .3s;
+}
