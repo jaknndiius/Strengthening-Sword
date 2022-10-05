@@ -10,6 +10,7 @@
     <link type="image/x-icon" rel="shortcut icon" href="images/swords/단검.png">
 
     <script src="scripts/main.js" defer></script>
+    <script src="scripts/script.js" defer></script>
   </head>
   <body ondragstart="return false">
 
@@ -90,7 +91,7 @@
             <div class="pieces" id="pieces"></div>
           </div>
           <div class="buttons">
-            <div class="green_button scale" id="fix-button" onclick="fixButton()">
+            <div class="green_button scale" id="fix-button" onclick="repair()">
               <img src="images/bok/상급 복구권.png" alt="none">
               <span>복구하기</span>
             </div>
@@ -107,132 +108,90 @@
       <div class="window inventory_window">
         <header>보관함</header>
         <main>
-          <div class="group">
+          <section class="group">
             <div class="piece">
-              <img src="images/piece/여신의 눈물.png">
+              <img src="images/repair_paper/신화급 복구권.png">
             </div>
-            <p class="piece_name">여신의 눈물</p>
+            <p class="piece_name">신화급 복구권</p>
             <p class="piece_count">1</p>
-          </div>
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
-              <img src="images/piece/바미의 불씨.png">
+              <img src="images/repair_paper/전설급 복구권.png">
             </div>
-            <p class="piece_name">바미의 불씨</p>
+            <p class="piece_name">전설급 복구권</p>
             <p class="piece_count">1</p>
-          </div>
-          <div class="group">
+          </section>
+          <section class="group">
+            <div class="piece">
+              <img src="images/repair_paper/상급 복구권.png">
+            </div>
+            <p class="piece_name">상급 복구권</p>
+            <p class="piece_count">1</p>
+          </section>
+          <section class="group">
+            <div class="piece">
+              <img src="images/repair_paper/중급 복구권.png">
+            </div>
+            <p class="piece_name">중급 복구권</p>
+            <p class="piece_count">1</p>
+          </section>
+          <section class="group">
+            <div class="piece">
+              <img src="images/repair_paper/하급 복구권.png">
+            </div>
+            <p class="piece_name">하급 복구권</p>
+            <p class="piece_count">1</p>
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/도란의 반지.png">
             </div>
             <p class="piece_name">도란의 반지</p>
             <p class="piece_count">1</p>
-          </div>
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
+          </section>
+          <section class="group">
             <div class="piece">
               <img src="images/piece/삼위일체.png">
             </div>
             <p class="piece_name">삼위 일체</p>
             <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>  
-          <div class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </div>
+          </section>
         </main>
       </div>
     </template>
@@ -246,34 +205,34 @@
           </header>
           <div class="swords">
             <div class="sword_icon">
-              <img src="images/swords/도란의 검.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/BF 대검.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/월식.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/드락사르의 황혼검.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/제국의 명령.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/톱날 단검.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/마나무네.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/무라마나.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/수호 천사.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
-              <img src="images/swords/피바라기.png" alt="none">
+              <img src="images/swords/unknown.png" alt="none">
             </div>
             <div class="sword_icon">
               <img src="images/swords/unknown.png" alt="none">
