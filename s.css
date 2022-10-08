@@ -471,7 +471,7 @@ body {
 
 }
 
-.piece {
+.inventory_window main .group .item {
 
   width: 50px;
   height: 50px;
@@ -483,7 +483,7 @@ body {
 
 }
 
-.piece > img {
+.inventory_window main .group .item > img {
   width: 80%;
 
   position: absolute;
@@ -494,22 +494,22 @@ body {
   transition: all .5s;
 }
 
-.piece > img:hover {
+.inventory_window main .group .item > img:hover {
   width: 100%;
 
   transition: all .1s;
 }
 
-.piece_name {
+.inventory_window main .group .item_name {
   font-size: 1.25rem;
 }
 
-.piece_count {
+.inventory_window main .group .item_count {
   font-size: 1.5rem;
 }
 
-.inventory_window main .piece_count::before {
-  content: "x";
+.inventory_window main .group .item_count::before {
+  content: "x ";
 }
 
 .sword_book_window main {

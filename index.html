@@ -92,7 +92,7 @@
           </div>
           <div class="buttons">
             <div class="green_button scale" id="fix-button" onclick="repair()">
-              <img src="images/bok/상급 복구권.png" alt="none">
+              <img src="images/repair_paper/복구권.png" alt="none">
               <span>복구하기</span>
             </div>
             <div class="dark_blue_button turning" id="init-button" onclick="initButton()">
@@ -109,89 +109,13 @@
         <header>보관함</header>
         <main>
           <section class="group">
-            <div class="piece">
-              <img src="images/repair_paper/신화급 복구권.png">
+            <div class="item">
+              <img src="images/repair_paper/복구권.png">
             </div>
-            <p class="piece_name">신화급 복구권</p>
-            <p class="piece_count">1</p>
+            <p class="item_name">복구권</p>
+            <p class="item_count">0</p>
           </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/repair_paper/전설급 복구권.png">
-            </div>
-            <p class="piece_name">전설급 복구권</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/repair_paper/상급 복구권.png">
-            </div>
-            <p class="piece_name">상급 복구권</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/repair_paper/중급 복구권.png">
-            </div>
-            <p class="piece_name">중급 복구권</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/repair_paper/하급 복구권.png">
-            </div>
-            <p class="piece_name">하급 복구권</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/도란의 반지.png">
-            </div>
-            <p class="piece_name">도란의 반지</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
-          <section class="group">
-            <div class="piece">
-              <img src="images/piece/삼위일체.png">
-            </div>
-            <p class="piece_name">삼위 일체</p>
-            <p class="piece_count">1</p>
-          </section>
+          <section class="group"></section>
         </main>
       </div>
     </template>
@@ -203,7 +127,7 @@
           <header>
             현재 <span id="found-sword-count">0</span>개의 검 발견
           </header>
-          <div class="swords">
+          <div class="swords" id="found-swords">
             <div class="sword_icon">
               <img src="images/swords/unknown.png" alt="none">
             </div>
