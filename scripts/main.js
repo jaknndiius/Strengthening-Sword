@@ -56,12 +56,15 @@ GameManager.renderGameInformation = function() {
 
   const unknown = this.max_upgradable_count - found.length;
   for(let i = 0; i<unknown; i++) {
-    found.push(`<div class="sword_icon"><img src="images/swords/unknown.png" alt="none"></div>`);
+    found.push(`<div class="sword_icon"><img src="images/swords/unknown.png" alt="unknown"></div>`);
   }
   $("#found-swords").innerHTML = found.join("");
 }
 GameManager.renderInventory = function() {
 
+}
+GameManager.renderMaking = function() {
+  
 }
 GameManager.returnDroppedPieces = function(name, count) {
   return {name: name, count: count};
@@ -144,6 +147,10 @@ GameManager.showInventory = function() {
   this.changeBody("inventory");
   this.renderInventory();
 }
+GameManager.showMaking = function() {
+  this.changeBody("making");
+  this.renderMaking();
+}
 GameManager.popupFallMessage = function(...pieces) {
 
   this.renderFallMessage(...pieces);
@@ -213,7 +220,8 @@ asdf.forEach(value => GameManager.appendSword(value));
 // 초기화 및 전체 업데이트
 function init() {
   GameManager.resetSword();
-  GameManager.showGameInterface();
+  //GameManager.showGameInterface();
+  GameManager.showMaking();
   GameManager.renderGold();
 }
 
@@ -280,7 +288,6 @@ $("#inventory-button").addEventListener("click", () => {
   GameManager.showInventory();
 })
 $("#making-button").addEventListener("click", () => {
-
+  GameManager.showMaking();
 })
-
 init();
