@@ -7,9 +7,40 @@ const GameManager = {
   max_sword_index: 0,
   money: 100000,
   repair_paper: 0,
-  inventory: [],
+  inventory: {
+    "여신의 눈물": 30,
+    "도란의 반지": 230,
+    "심연의 가면": 30,
+    "얼음 방패": 40,
+    "역병의 보석": 100,
+    "삼위일체": 2000,
+    "바미의 불씨": 2500
+  },
   records: [],
-  max_recordable_count: 10
+  max_recordable_count: 10,
+  repair_paper_recipe: {
+    "여신의 눈물": 2,
+    "도란의 반지": 220
+  },
+  recipes: {
+    "BF 대검": {
+      "여신의 눈물": 10,
+      "도란의 반지": 13
+    },
+    "수호자의 검": {
+      "심연의 가면": 10,
+      "얼음 방패": 10,
+      "역병의 보석": 10
+    },
+    "요우무의 유령검": {
+      "도란의 반지": 12,
+      "여신의 눈물": 7
+    },
+    "헤르메스의 시미터": {
+      "도란의 반지": 24,
+      "바미의 불씨": 30,
+    }
+  }
 }
 GameManager.resetSword = function() {
   this.sword_index = 0;
@@ -63,8 +94,42 @@ GameManager.renderGameInformation = function() {
 GameManager.renderInventory = function() {
 
 }
+
+GameManager.makeMaterialSection = function(recipes) {
+  let material = '<section class="material">';
+  for(const [piece_name, count] of Object.entries(recipes)) {
+    material += this.makeMaterialDiv(piece_name, this.inventory[piece_name], count);
+  }
+  material += '</section>';
+
+  return material;
+}
+GameManager.makeMaterialDiv = function(piece_name, curc, count) {
+  curc = (curc) ? curc :0
+
+  return `
+  <div class="item">
+  <img src="images/piece/${piece_name}.png">
+  <span${(curc < count) ?  ' class="unable"' : ''}>${count + "/" + curc}</span$>
+  </div>
+  `
+}
 GameManager.renderMaking = function() {
-  
+  $("#recipes").innerHTML = "";
+
+  const material = this.makeMaterialSection(this.repair_paper_recipe);
+
+  $("#recipes").innerHTML += `<article class="gruop">${material}<section class="result"><div class="item"><img src="images/repair_paper/복구권.png"><span>복구권</span></div></section><button onclick="GameManager.makeRepairPaper()">제작</button></article>`;
+
+  for(const [sword_name, recipe] of Object.entries(this.recipes)) {
+
+    const result = `<section class="result"><div class="item"><img src="images/swords/${sword_name}.png"><span>${sword_name}</span></div></section>`;
+    const material = this.makeMaterialSection(recipe);
+
+    $("#recipes").innerHTML += `<article class="gruop">${material}${result}<button onclick="GameManager.makeSword('${sword_name}')">제작</button></article>`;
+
+  }
+
 }
 GameManager.returnDroppedPieces = function(name, count) {
   return {name: name, count: count};
@@ -122,7 +187,7 @@ GameManager.renderRecords = function () {
   const records_div = $("#records");
 
   records_div.innerHTML = "";
-  for(rec of this.records) {
+  for(const rec of this.records) {
       const p = document.createElement("p");
       
       if(rec.type == "upgrade") {
@@ -162,6 +227,34 @@ GameManager.popupFallMessage = function(...pieces) {
       {duration: 300, fill: "both"}
   );
 }
+GameManager.canMake = function(recipe) {
+  for(const [key, value] of Object.entries(recipe)) {
+    if(this.inventory[key] == null ||
+      this.inventory[key] == undefined ||
+      this.inventory[key] < value) //재료부족
+      return false;
+  }
+  return true;
+}
+GameManager.makeWithRecipe = function(recipe) {
+  if(!this.canMake(recipe)) return false;
+  for(const [key, value] of Object.entries(recipe)) {
+    this.inventory[key] -= value;
+  }
+  return true;
+}
+GameManager.makeSword = function(sword_name) {
+  this.makeWithRecipe(this.recipes[sword_name]);
+
+  // toDo("검으로 이동하기")
+  // this.swords.find(value => value.name == sword_name)
+  this.renderMaking();
+}
+GameManager.makeRepairPaper = function() {
+  const a = this.makeWithRecipe(this.repair_paper_recipe);
+  this.renderMaking();
+}
+
 
 // sword class
 class Sword {
@@ -198,10 +291,10 @@ const asdf = [
   new Sword("처형인의 대검", 0.9, 400, 300, 1),
   new Sword("BF 대검", 0.85, 500, 600, 1),
   new Sword("마나무네", 0.8, 600, 1000, 1),
-  new Sword("무라마나", 0.75, 700, 1200, 1, new Piece("name", 1.0, 10), new Piece("name2", 1.0, 100)),
-  new Sword("드락사르의 황혼검", 0.7, 1000, 1500, 1, new Piece("name", 1.0, 10), new Piece("name2", 1.0, 100)),
-  new Sword("무한의 대검", 0.65, 1500, 3000, 1, new Piece("name", 1.0, 10), new Piece("name2", 1.0, 100)),
-  new Sword("수호 천사", 0.6, 5000, 12000, 1, new Piece("name", 1.0, 10), new Piece("name2", 1.0, 100)),
+  new Sword("무라마나", 0.75, 700, 1200, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword("드락사르의 황혼검", 0.7, 1000, 1500, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword("무한의 대검", 0.65, 1500, 3000, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword("수호 천사", 0.6, 5000, 12000, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
   new Sword("제국의 명령", 0.55, 10000, 30000, 1),
   new Sword("요우무의 유령검", 0.5, 300, 0, 1),
   new Sword("톱날 단검", 0.45, 300, 100, 1),
