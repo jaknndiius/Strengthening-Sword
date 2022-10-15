@@ -79,57 +79,113 @@ GameManager.renderGameInterFace = function() {
   sell_button.style.display = (this.sword_index === 0) ? "none" : "block";
 
 }
+GameManager.makeSwordIcon = function(src, alt) {
+  const div = document.createElement("div");
+  div.classList.add("sword_icon");
+  const img = new Image();
+  img.src = src;
+  img.alt = alt;
+  div.appendChild(img);
+  return div;
+}
 GameManager.renderGameInformation = function() {
-
   const found = this.swords.slice(0, this.max_sword_index +1)
-    .map(value => `<div class="sword_icon"><img src="${value.image}" alt="${value.name}"></div>`);
+    .map(value => this.makeSwordIcon(value.image, value.name));
   $("#found-sword-count").textContent = found.length;
 
   const unknown = this.max_upgradable_count - found.length;
   for(let i = 0; i<unknown; i++) {
-    found.push(`<div class="sword_icon"><img src="images/swords/unknown.png" alt="unknown"></div>`);
+    found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown"));
   }
-  $("#found-swords").innerHTML = found.join("");
+  $("#found-swords").replaceChildren(...found);
 }
 GameManager.renderInventory = function() {
 
 }
-
 GameManager.makeMaterialSection = function(recipes) {
-  let material = '<section class="material">';
+
+  const material = document.createElement("section");
+  material.classList.add("material");
+
   for(const [piece_name, count] of Object.entries(recipes)) {
-    material += this.makeMaterialDiv(piece_name, this.inventory[piece_name], count);
+    material.appendChild(this.makeMaterialDiv(piece_name, this.inventory[piece_name], count));
   }
-  material += '</section>';
 
   return material;
 }
 GameManager.makeMaterialDiv = function(piece_name, curc, count) {
   curc = (curc) ? curc :0
 
-  return `
-  <div class="item">
-  <img src="images/piece/${piece_name}.png">
-  <span${(curc < count) ?  ' class="unable"' : ''}>${curc + "/" + count}</span$>
-  </div>
-  `
+  const div = document.createElement("div");
+  div.classList.add("item");
+  const img = new Image();
+  img.src = `images/piece/${piece_name}.png`;
+  const span = document.createElement("span");
+  if(curc < count) span.classList.add("unable");
+  span.textContent = curc + "/" + count;
+
+  div.appendChild(img);
+  div.appendChild(span);
+
+  return div;
+}
+GameManager.makeGroupArticle = function(material, result, clickFunction) {
+
+  const article = document.createElement("article");
+  article.classList.add("gruop");
+
+  article.appendChild(material);
+  article.appendChild(result);
+  
+  const btn = document.createElement("button");
+  btn.onclick = clickFunction;
+  btn.textContent = "제작";
+
+  article.appendChild(btn);
+
+  return article;
+
+}
+GameManager.makeResultSection = function(src, name)  {
+
+  const result = document.createElement("section");
+  result.classList.add("result");
+
+  const img_div = document.createElement("div");
+  img_div.classList.add("item");
+  const img = new Image();
+  img.src = src;
+
+  img_div.appendChild(img);
+
+  const span = document.createElement("span");
+  span.textContent = name;
+
+  img_div.appendChild(span);
+  result.appendChild(img_div);
+
+  return result;
 }
 GameManager.renderMaking = function() {
-  $("#recipes").innerHTML = "";
+
+  const inner = [];
 
   const material = this.makeMaterialSection(this.repair_paper_recipe);
+  const result = this.makeResultSection("images/repair_paper/복구권.png", "복구권")
+  const article = this.makeGroupArticle(material, result, () => this.makeRepairPaper());
 
-  $("#recipes").innerHTML += `<article class="gruop">${material}<section class="result"><div class="item"><img src="images/repair_paper/복구권.png"><span>복구권</span></div></section><button onclick="GameManager.makeRepairPaper()">제작</button></article>`;
+  inner.push(article);
 
   for(const [sword_name, recipe] of Object.entries(this.recipes)) {
 
-    const result = `<section class="result"><div class="item"><img src="images/swords/${sword_name}.png"><span>${sword_name}</span></div></section>`;
     const material = this.makeMaterialSection(recipe);
+    const result = this.makeResultSection(`images/swords/${sword_name}.png`, sword_name)
+    const article = this.makeGroupArticle(material, result, () => GameManager.makeSword(sword_name))
 
-    $("#recipes").innerHTML += `<article class="gruop">${material}${result}<button onclick="GameManager.makeSword('${sword_name}')">제작</button></article>`;
-
+    inner.push(article)
   }
 
+  $("#recipes").replaceChildren(...inner);
 }
 GameManager.returnDroppedPieces = function(name, count) {
   return {name: name, count: count};
@@ -138,15 +194,16 @@ GameManager.renderFallMessage = function(...pieces) {
   const pieces_box = $("#pieces");
 
   $("#loss").textContent = "손실: " + this.calculateLoss(this.sword_index) + "원";
-  pieces_box.innerHTML = "";
 
-  pieces.forEach(
+  const ret = pieces.map(
       ele => {
-          const p = document.createElement("p")
-          p.textContent = ele.name + " x " + ele.count
-          pieces_box.appendChild(p)
+          const p = document.createElement("p");
+          p.textContent = ele.name + " x " + ele.count;
+          return p;
       }
   );
+
+  pieces_box.replaceChildren(...ret);
 }
 GameManager.changeGold = function(number) {
 
@@ -186,19 +243,19 @@ GameManager.addRecord = function(sword, type) {
 GameManager.renderRecords = function () {
   const records_div = $("#records");
 
-  records_div.innerHTML = "";
-  for(const rec of this.records) {
-      const p = document.createElement("p");
-      
-      if(rec.type == "upgrade") {
-          p.textContent = `${rec.sword.name} 강화 -${rec.sword.cost}`;
-      } else if(rec.type == "sell")
+  const ret = this.records.map(rec => {
+    const p = document.createElement("p");
+    if(rec.type == "upgrade")
+      p.textContent = `${rec.sword.name} 강화 -${rec.sword.cost}`;
+    else if(rec.type == "sell")
       p.textContent =  `${rec.sword.name} 판매 +${rec.sword.price}`;
-      $("#records").appendChild(p);
-  }
+    return p;
+  });
+
+  records_div.replaceChildren(...ret);
 }
 GameManager.changeBody = function(id) {
-  $("#main-body").innerHTML = $("#" + id).innerHTML;
+  $("#main-body").replaceChildren(document.importNode($("#" + id).content, true))
 }
 GameManager.showGameInterface = function() {
   this.changeBody("game-interface");
@@ -227,19 +284,19 @@ GameManager.popupFallMessage = function(...pieces) {
       {duration: 300, fill: "both"}
   );
 }
+GameManager.makeWithRecipe = function(recipe) {
+  if(!this.canMake(recipe)) return false;
+  for(const [key, value] of Object.entries(recipe)) {
+    this.inventory[key] -= value;
+  }
+  return true;
+}
 GameManager.canMake = function(recipe) {
   for(const [key, value] of Object.entries(recipe)) {
     if(this.inventory[key] == null ||
       this.inventory[key] == undefined ||
       this.inventory[key] < value) //재료부족
       return false;
-  }
-  return true;
-}
-GameManager.makeWithRecipe = function(recipe) {
-  if(!this.canMake(recipe)) return false;
-  for(const [key, value] of Object.entries(recipe)) {
-    this.inventory[key] -= value;
   }
   return true;
 }
@@ -251,10 +308,15 @@ GameManager.makeSword = function(sword_name) {
   this.renderMaking();
 }
 GameManager.makeRepairPaper = function() {
-  const a = this.makeWithRecipe(this.repair_paper_recipe);
+  this.makeWithRecipe(this.repair_paper_recipe);
   this.renderMaking();
 }
-
+GameManager.init = function() {
+  this.resetSword();
+  //GameManager.showGameInterface();
+  this.showMaking();
+  this.renderGold();
+}
 
 // sword class
 class Sword {
@@ -310,14 +372,6 @@ const asdf = [
 
 asdf.forEach(value => GameManager.appendSword(value));
 
-// 초기화 및 전체 업데이트
-function init() {
-  GameManager.resetSword();
-  //GameManager.showGameInterface();
-  GameManager.showMaking();
-  GameManager.renderGold();
-}
-
 // onClick: upgrade button
 function upgrade() {
 
@@ -355,13 +409,13 @@ function sell() {
   GameManager.addRecord(GameManager.getCurrentSword(), "sell");
   GameManager.changeGold(GameManager.getCurrentSword().price);
   
-  init();
+  GameManager.init();
 }
 
 // onClick: init button
 function initButton() {
   $("#message-box").style.display = "none";
-  init();
+  GameManager.init();
 }
 
 // onClick: fix button
@@ -383,4 +437,4 @@ $("#inventory-button").addEventListener("click", () => {
 $("#making-button").addEventListener("click", () => {
   GameManager.showMaking();
 })
-init();
+GameManager.init();
