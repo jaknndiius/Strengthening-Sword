@@ -110,7 +110,7 @@ GameManager.makeMaterialDiv = function(piece_name, curc, count) {
   return `
   <div class="item">
   <img src="images/piece/${piece_name}.png">
-  <span${(curc < count) ?  ' class="unable"' : ''}>${count + "/" + curc}</span$>
+  <span${(curc < count) ?  ' class="unable"' : ''}>${curc + "/" + count}</span$>
   </div>
   `
 }
