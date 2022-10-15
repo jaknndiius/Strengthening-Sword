@@ -1,4 +1,12 @@
 const $ = (selector) => document.querySelector(selector)
+const $createElementWithClasses = function(tagName, ...classes) {
+  const tag = document.createElement(tagName);
+  tag.classList.add(...classes);
+  return tag;
+}
+Node.prototype.appendChildren = function(...nodes) {
+  for(const node of nodes) this.appendChild(node);
+}
 
 const GameManager = {
   swords: [],
@@ -19,8 +27,7 @@ const GameManager = {
   records: [],
   max_recordable_count: 10,
   repair_paper_recipe: {
-    "여신의 눈물": 2,
-    "도란의 반지": 220
+    "돈": 2000
   },
   recipes: {
     "BF 대검": {
@@ -39,6 +46,12 @@ const GameManager = {
     "헤르메스의 시미터": {
       "도란의 반지": 24,
       "바미의 불씨": 30,
+    },
+    "제국의 명령": {
+      "도란의 반지": 24,
+      "바미의 불씨": 30,
+      "역병의 보석": 10,
+      "돈": 1002
     }
   }
 }
@@ -47,7 +60,6 @@ GameManager.resetSword = function() {
 }
 GameManager.upgradeSword = function() {
   if(++this.sword_index > this.max_sword_index) this.max_sword_index = this.sword_index;
-
 }
 GameManager.canBeRepaired = function() {
   return this.repair_paper >= this.getCurrentSword().requiredRepairs;
@@ -79,9 +91,9 @@ GameManager.renderGameInterFace = function() {
   sell_button.style.display = (this.sword_index === 0) ? "none" : "block";
 
 }
-GameManager.makeSwordIcon = function(src, alt) {
-  const div = document.createElement("div");
-  div.classList.add("sword_icon");
+GameManager.makeSwordIcon = function(src, alt, type) {
+  const div = $createElementWithClasses("div", "sword_icon", type);
+
   const img = new Image();
   img.src = src;
   img.alt = alt;
@@ -90,78 +102,90 @@ GameManager.makeSwordIcon = function(src, alt) {
 }
 GameManager.renderGameInformation = function() {
   const found = this.swords.slice(0, this.max_sword_index +1)
-    .map(value => this.makeSwordIcon(value.image, value.name));
+    .map(value => this.makeSwordIcon(value.image, value.name, "sword"));
   $("#found-sword-count").textContent = found.length;
 
   const unknown = this.max_upgradable_count - found.length;
   for(let i = 0; i<unknown; i++) {
-    found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown"));
+    found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown", "unknown"));
   }
   $("#found-swords").replaceChildren(...found);
 }
 GameManager.renderInventory = function() {
-
 }
 GameManager.makeMaterialSection = function(recipes) {
 
-  const material = document.createElement("section");
-  material.classList.add("material");
+  const material = $createElementWithClasses("section", "material")
 
-  for(const [piece_name, count] of Object.entries(recipes)) {
+  const picount = Object.entries(recipes);
+
+  if(picount.length == 1) material.classList.add("one");
+
+  for(const [piece_name, count] of picount) {
     material.appendChild(this.makeMaterialDiv(piece_name, this.inventory[piece_name], count));
   }
 
   return material;
 }
 GameManager.makeMaterialDiv = function(piece_name, curc, count) {
-  curc = (curc) ? curc :0
 
-  const div = document.createElement("div");
-  div.classList.add("item");
+  if(piece_name == "돈") curc = this.money;
+  curc = (curc) ? curc :0;
+
+  const div = $createElementWithClasses("div", "item");
+
   const img = new Image();
-  img.src = `images/piece/${piece_name}.png`;
-  const span = document.createElement("span");
-  if(curc < count) span.classList.add("unable");
-  span.textContent = curc + "/" + count;
+  img.src = `images/item/${piece_name}.png`;
 
-  div.appendChild(img);
-  div.appendChild(span);
+  const span = $createElementWithClasses("span", "count");
+  if(curc < count) span.classList.add("unable");
+
+  /* 돈이면 "필요수량" 아니면 "필요수량/가진갯수" */
+  span.textContent = (piece_name == "돈") ? count : curc + "/" + count;
+
+  div.appendChildren(img, span);
 
   return div;
 }
-GameManager.makeGroupArticle = function(material, result, clickFunction) {
+GameManager.makeGroupArticle = function(material, result, canMake, clickFunction) {
 
-  const article = document.createElement("article");
-  article.classList.add("gruop");
+  const article = $createElementWithClasses("article", "group")
 
-  article.appendChild(material);
-  article.appendChild(result);
+  article.appendChildren(material, result);
   
   const btn = document.createElement("button");
   btn.onclick = clickFunction;
   btn.textContent = "제작";
+  btn.disabled = canMake;
 
   article.appendChild(btn);
 
   return article;
 
 }
-GameManager.makeResultSection = function(src, name)  {
+GameManager.makeResultSection = function(src, name, count)  {
 
-  const result = document.createElement("section");
-  result.classList.add("result");
+  const result = $createElementWithClasses("section", "result");
 
-  const img_div = document.createElement("div");
-  img_div.classList.add("item");
+  const img_div = $createElementWithClasses("div", "item");
+;
   const img = new Image();
   img.src = src;
 
-  img_div.appendChild(img);
-
-  const span = document.createElement("span");
+  const span = $createElementWithClasses("span", "name");
   span.textContent = name;
 
-  img_div.appendChild(span);
+  img_div.appendChildren(img, span);
+
+
+  /* 결과 아이템의 갯수 */
+  if(count != null) {
+    const countspan = $createElementWithClasses("span", "count");
+    countspan.textContent = count;
+
+    img_div.appendChild(countspan);
+  }
+
   result.appendChild(img_div);
 
   return result;
@@ -170,17 +194,20 @@ GameManager.renderMaking = function() {
 
   const inner = [];
 
+  /* 복구권 */
   const material = this.makeMaterialSection(this.repair_paper_recipe);
-  const result = this.makeResultSection("images/repair_paper/복구권.png", "복구권")
-  const article = this.makeGroupArticle(material, result, () => this.makeRepairPaper());
+
+  const result = this.makeResultSection("images/repair_paper/복구권.png", "복구권", this.repair_paper)
+  const article = this.makeGroupArticle(material, result, !this.canMake(this.repair_paper_recipe), () => this.makeRepairPaper());
 
   inner.push(article);
 
+  /* 조각 */
   for(const [sword_name, recipe] of Object.entries(this.recipes)) {
 
     const material = this.makeMaterialSection(recipe);
     const result = this.makeResultSection(`images/swords/${sword_name}.png`, sword_name)
-    const article = this.makeGroupArticle(material, result, () => GameManager.makeSword(sword_name))
+    const article = this.makeGroupArticle(material, result, !this.canMake(recipe), () => GameManager.makeSword(sword_name))
 
     inner.push(article)
   }
@@ -190,18 +217,26 @@ GameManager.renderMaking = function() {
 GameManager.returnDroppedPieces = function(name, count) {
   return {name: name, count: count};
 }
+GameManager.makeDroppedPieceDiv = function(name, count) {
+  const div = document.createElement("div");
+
+  const img = new Image();
+  img.src = `images/item/${name}.png`;
+
+  const span0 = $createElementWithClasses("span", "name");
+  const span1 = $createElementWithClasses("span", "count");
+  span0.innerHTML = name;
+  span1.innerHTML = count;
+
+  div.appendChildren(img, span0, span1)
+  return div;
+}
 GameManager.renderFallMessage = function(...pieces) {
   const pieces_box = $("#pieces");
 
   $("#loss").textContent = "손실: " + this.calculateLoss(this.sword_index) + "원";
 
-  const ret = pieces.map(
-      ele => {
-          const p = document.createElement("p");
-          p.textContent = ele.name + " x " + ele.count;
-          return p;
-      }
-  );
+  const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
 
   pieces_box.replaceChildren(...ret);
 }
@@ -284,15 +319,13 @@ GameManager.popupFallMessage = function(...pieces) {
       {duration: 300, fill: "both"}
   );
 }
-GameManager.makeWithRecipe = function(recipe) {
-  if(!this.canMake(recipe)) return false;
-  for(const [key, value] of Object.entries(recipe)) {
-    this.inventory[key] -= value;
-  }
-  return true;
-}
 GameManager.canMake = function(recipe) {
   for(const [key, value] of Object.entries(recipe)) {
+    if(key == "돈") {
+      if(this.money >= value) continue;
+      return false;
+    }
+
     if(this.inventory[key] == null ||
       this.inventory[key] == undefined ||
       this.inventory[key] < value) //재료부족
@@ -300,20 +333,30 @@ GameManager.canMake = function(recipe) {
   }
   return true;
 }
+GameManager.makeWithRecipe = function(recipe) {
+  if(!this.canMake(recipe)) return false;
+  for(const [key, value] of Object.entries(recipe)) {
+    if(key == "돈") this.changeGold(-value);
+    else this.inventory[key] -= value;
+  }
+  return true;
+}
 GameManager.makeSword = function(sword_name) {
-  this.makeWithRecipe(this.recipes[sword_name]);
-
-  // toDo("검으로 이동하기")
-  // this.swords.find(value => value.name == sword_name)
-  this.renderMaking();
+  if(this.makeWithRecipe(this.recipes[sword_name])) {
+    // toDo("검으로 이동하기")
+    console.log(this.swords.find(value => value.name == sword_name))
+    this.renderMaking();
+  }
 }
 GameManager.makeRepairPaper = function() {
-  this.makeWithRecipe(this.repair_paper_recipe);
-  this.renderMaking();
+  if(this.makeWithRecipe(this.repair_paper_recipe)) {
+    this.repair_paper += 1;
+    this.renderMaking();
+  }
 }
 GameManager.init = function() {
   this.resetSword();
-  //GameManager.showGameInterface();
+  //this.showGameInterface();
   this.showMaking();
   this.renderGold();
 }
@@ -340,7 +383,6 @@ class Piece {
 
   calculate() {
       if(Math.random() < this.prob) {
-          // const num = Math.round(Math.random()*100);
           const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
           return GameManager.returnDroppedPieces(this.name, result);
       } return null;
@@ -378,7 +420,6 @@ function upgrade() {
   const current_sword = GameManager.getCurrentSword();
   if(GameManager.money - current_sword.cost <= 0) return;
 
-  console.log(GameManager.max_sword_index);
   GameManager.addRecord(current_sword, "upgrade");
   GameManager.changeGold(-current_sword.cost);
 
@@ -399,7 +440,6 @@ function upgrade() {
       });
       GameManager.popupFallMessage(...re);
   }
-  
   GameManager.renderGameInterFace();
 }
 

@@ -256,7 +256,6 @@ body {
   z-index: 2;
 }
 
-
 .message .message_main {
   position: fixed;
   top: 50%;
@@ -272,6 +271,12 @@ body {
 
 }
 
+.message .message_main .text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .fall {
   color: var(--color-red);
 }
@@ -280,8 +285,40 @@ body {
   font-size: 1.75rem;
 }
 
-.pieces {
+.pieces div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.pieces div img {
+  width: 2rem;
+  height: 2rem;
+
+  margin-right: 0.25rem;
+}
+
+.pieces div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.pieces div span.name {
+  font-size: 1.4rem;
+
+  color: var(--color-black);
+}
+
+.pieces div span.count {
   font-size: 1.5rem;
+  color: var(--color-gold);
+}
+
+.pieces div span.count::before {
+  content: "x";
+  margin: 0.3rem;
+  color: var(--color-black);
+  font-size: 1.4rem;
 }
 
 .icon {
@@ -558,14 +595,20 @@ body {
   justify-content: center;
   align-items: center;
 
-  position: relative;;
-
-  background: url("images/ui/sword_frame.png");
-  background-size: contain;
+  position: relative;
 
   cursor: pointer;
 
   transition: all .1s;
+}
+
+.sword_icon.sword {
+  background: center / contain url("images/ui/item_frame.png");
+}
+
+.sword_icon.unknown {
+  background: center / contain url("images/ui/sword_frame.png");
+
 }
 
 .sword_icon > img {
@@ -580,16 +623,28 @@ body {
 
 }
 
-.sword_icon:hover {
+.sword_icon.sword:hover {
   transform: scale(1.2);
   transition: all .5s;
   z-index: 1;
 }
 
-.sword_icon:hover > img {
+.sword_icon.sword:hover > img {
   transform: translate(-50%, -50%) scale(1.3);
   transition: all .3s;
 }
+
+.sword_icon.unknown:hover {
+  transform: scale(0.8);
+  transition: all .5s;
+  z-index: 1;
+}
+
+.sword_icon.unknown:hover > img {
+  transform: translate(-50%, -50%) scale(0.7);
+  transition: all .3s;
+}
+
 
 .maker_window main {
 
@@ -609,7 +664,7 @@ body {
   gap: 8px;
 }
 
-.maker_window main .gruop {
+.maker_window main .group {
   display: grid;
   grid-template-columns: 4fr 2fr 1fr;
 
@@ -620,7 +675,7 @@ body {
   position: relative;
 }
 
-.maker_window main .gruop .material {
+.maker_window main .group .material {
   display: flex;
   justify-content: space-between;
 
@@ -630,23 +685,37 @@ body {
 
 }
 
-.maker_window main .gruop .result {
+.maker_window main .group .material.one {
+  justify-content: center;
+}
+
+.maker_window main .group .result {
   display: flex;
   justify-content: center;
 }
 
-.maker_window main .gruop .item {
+.maker_window main .group .material .item {
   width: 50px;
   height: 50px;
 
   background-image: url("images/ui/item_frame.png");
   background-size: contain;
+  
+  position: relative;
+}
 
+.maker_window main .group .result .item {
+  width: 55px;
+  height: 55px;
+
+  background-image: url("images/ui/result_frame.png");
+  background-size: contain;
+  
   position: relative;
 
 }
 
-.maker_window main .gruop .item img {
+.maker_window main .group .item img {
   
   width: 90%;
 
@@ -656,14 +725,17 @@ body {
   transform: translate(-50%, -50%);
 
   transition: all .3s;
-
 }
 
-.maker_window main .gruop .material .item span {
+.maker_window main .group .result .item img {
+  filter: drop-shadow(2px 2px 3px var(--color-light-gray));
+}
+
+.maker_window main .group .item .count {
   position: absolute;
-  width: 100%;
   bottom: -10%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
 
   font-size: 16px;
 
@@ -681,9 +753,11 @@ body {
   color: var(--color-white);
 
   pointer-events: none;
+
+  transition: opacity .3s;
 }
 
-.maker_window main .gruop .material .item span.unable {
+.maker_window main .group .item .count.unable {
   text-shadow: -1px -1px 0px var(--color-white),
   -1px 1px 0px var(--color-white),
   1px 1px 0px var(--color-white),
@@ -696,11 +770,11 @@ body {
   color: var(--color-red);
 }
 
-.maker_window main .gruop .material .item img:hover {
+.maker_window main .group .material .item img:hover {
   width: 110%;
 }
 
-.maker_window main .gruop .result .item span {
+.maker_window main .group .item .name {
   position: absolute;
 
   top: 50%;
@@ -729,15 +803,20 @@ body {
   transition: opacity .3s;
 }
 
-.maker_window main .gruop .result .item img:hover {
+.maker_window main .group .result .item img:hover {
   filter: brightness(0.7);
+
 }
 
-.maker_window main .gruop .result .item img:hover + span {
+.maker_window main .group .result .item img:hover ~ .name {
   opacity: 1;
 }
 
-.maker_window main .gruop button {
+.maker_window main .group .result .item img:hover ~ .count {
+  opacity: 0;
+}
+
+.maker_window main .group button {
   width: 50px;
   height: 50px;
 
@@ -750,13 +829,45 @@ body {
   text-align: center;
   color: var(--color-dark-gray);
 
+  cursor: pointer;
+
   transition: background-color .1s;
 }
 
-.maker_window main .gruop button:hover {
+.maker_window main .group button[disabled] {
+  background-color: var(--color-gray);
+  border: none;
+
+  text-shadow: -1px -1px 0px var(--color-light-gray),
+  -1px 1px 0px var(--color-light-gray),
+  1px 1px 0px var(--color-light-gray),
+  1px -1px 0px var(--color-light-gray),
+  
+  -1px 0px 0px var(--color-light-gray),
+  1px 0px 0px var(--color-light-gray),
+  0px 1px 0px var(--color-light-gray),
+  0px -1px 0px var(--color-light-gray);
+  color: var(--color-red);
+
+  cursor: not-allowed;
+}
+
+.maker_window main .group button[disabled]::after {
+  content: " 불가";
+}
+
+.maker_window main .group button:hover {
   background-color: var(--color-light-gray);
 }
 
-.maker_window main .gruop button:active {
+.maker_window main .group button:active {
   transform: scale(0.9);
+}
+
+.maker_window main .group button[disabled]:hover {
+  background-color: var(--color-dark-gray);
+}
+
+.maker_window main .group button[disabled]:active {
+  transform: none;
 }
