@@ -172,7 +172,7 @@ GameManager.makeMaterialDiv = function(piece_name, curc, count) {
   const span = $createElementWithClasses("span", "count");
   if(curc < count) span.classList.add("unable");
 
-  /* 돈이면 "필요수량" 아니면 "필요수량/가진갯수" */
+  /* 돈이면 "필요수량" 아니면 "가진갯수/필요수량" */
   span.textContent = (piece_name == "돈") ? count : curc + "/" + count;
 
   div.appendChildren(img, span);
@@ -286,8 +286,8 @@ GameManager.changeGold = function(number) {
 
   gold_change_span.animate(
     [
-      {opacity: '1', transform: 'translate(-50%, 0%)'}, 
-      {opacity: '0', transform: 'translate(-50%, -70%)'}
+      {opacity: '1', transform: 'translate(-30%, 0%)'}, 
+      {opacity: '0', transform: 'translate(-30%, -70%)'}
     ],
     {duration: 300, fill: "both"}
   );

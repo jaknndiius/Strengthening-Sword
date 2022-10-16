@@ -24,8 +24,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-
 }
 
 body {
@@ -37,7 +35,7 @@ body {
 
   overflow: hidden;
 
-  /* background: no-repeat center/cover url("image.png"); */
+  /* background: no-repeat center/cover url(""); */
 }
 
 
@@ -127,7 +125,7 @@ body {
   justify-content: space-evenly;
   
   max-width: 185px;
-  width: 100%;
+  width: 60%;
   margin-top: 0.5rem;
 }
 
@@ -198,8 +196,6 @@ body {
 
   top: 50%;
   left: 50%;
-
-  width: 100%;
 
   transform: translate(-50%, -50%);
 
@@ -542,6 +538,7 @@ body {
 
 .inventory_window main .group .item_count {
   font-size: 1.2rem;
+  text-align: start;
 }
 
 .inventory_window main .group .item_count::before {
