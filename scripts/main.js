@@ -444,13 +444,7 @@ const asdf = [
   new Sword("구인수의 격노검", 0.5, 10000, 30000, 1)
 ]
 
-asdf.forEach(value => {
-  GameManager.appendSword(value);
-
-  const img = new Image();
-  img.src = "images/swords/" + value + ".png";
-  $("#img-lodder").appendChild(img);
-});
+asdf.forEach(value => GameManager.appendSword(value));
 
 // onClick: upgrade button
 function upgrade() {
@@ -464,7 +458,7 @@ function upgrade() {
   const num = Math.random();
   console.log(num, current_sword.prob);
 
-  if(true) {
+  if(num < current_sword.prob) {
       GameManager.upgradeSword();
   } else {
       const re = current_sword.pieces.map(value => value.calculate());
