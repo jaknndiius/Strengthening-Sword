@@ -8,6 +8,20 @@ Node.prototype.appendChildren = function(...nodes) {
   for(const node of nodes) this.appendChild(node);
 }
 
+const nl = [
+  "롱소드",
+  "처형인의 대검",
+  "BF 대검",
+  "마나무네"
+]
+
+nl.forEach(value => {
+  const img = new Image();
+  img.src = "images/swords/" + value + ".png";
+
+  $("#img-lodder").appendChild(img);
+})
+
 const GameManager = {
   swords: [],
   max_upgradable_count: 30,
@@ -111,7 +125,39 @@ GameManager.renderGameInformation = function() {
   }
   $("#found-swords").replaceChildren(...found);
 }
+GameManager.makeInventoryArticle = function(src, name, count) {
+  const article = $createElementWithClasses("article", "group");
+
+  if(src == undefined) return article;
+
+  const div = $createElementWithClasses("div", "item");
+  const img = new Image();
+  img.src = src;
+  
+  div.appendChild(img);
+  
+  const pname = $createElementWithClasses("p", "item_name");
+  pname.textContent = name;
+  const pcount = $createElementWithClasses("p", "item_count");
+  pcount.textContent = count;
+  article.appendChildren(div, pname, pcount);
+
+  return article;
+}
 GameManager.renderInventory = function() {
+
+  const inner = [
+    this.makeInventoryArticle("images/repair_paper/복구권.png", "복구권", this.repair_paper), //복구권
+    this.makeInventoryArticle() //한칸 채우기
+  ];
+
+  for(const [item, count] of Object.entries(this.inventory)) {
+    inner.push(
+      this.makeInventoryArticle(`images/item/${item}.png`, item, count)
+    )
+  } 
+
+  $("#inventory-items").replaceChildren(...inner);
 }
 GameManager.makeMaterialSection = function(recipes) {
 

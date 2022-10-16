@@ -472,7 +472,7 @@ body {
   display: flex;
 
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   
   width: 90%;
 
@@ -503,7 +503,7 @@ body {
 .inventory_window main .group {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  width: 250px;
+  width: 230px;
   align-items: center;
 }
 
@@ -541,7 +541,7 @@ body {
 }
 
 .inventory_window main .group .item_count {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .inventory_window main .group .item_count::before {
@@ -835,21 +835,11 @@ body {
 }
 
 .maker_window main .group button[disabled] {
-  background-color: var(--color-gray);
-  border: none;
+  background-color: var(--color-light-gray);
 
-  text-shadow: -1px -1px 0px var(--color-light-gray),
-  -1px 1px 0px var(--color-light-gray),
-  1px 1px 0px var(--color-light-gray),
-  1px -1px 0px var(--color-light-gray),
+  font-size: 1.1rem;
   
-  -1px 0px 0px var(--color-light-gray),
-  1px 0px 0px var(--color-light-gray),
-  0px 1px 0px var(--color-light-gray),
-  0px -1px 0px var(--color-light-gray);
-  color: var(--color-red);
-
-  cursor: not-allowed;
+  transform: scale(0.9);
 }
 
 .maker_window main .group button[disabled]::after {
@@ -862,12 +852,4 @@ body {
 
 .maker_window main .group button:active {
   transform: scale(0.9);
-}
-
-.maker_window main .group button[disabled]:hover {
-  background-color: var(--color-dark-gray);
-}
-
-.maker_window main .group button[disabled]:active {
-  transform: none;
 }
