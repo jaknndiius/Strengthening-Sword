@@ -8,20 +8,6 @@ Node.prototype.appendChildren = function(...nodes) {
   for(const node of nodes) this.appendChild(node);
 }
 
-const nl = [
-  "롱소드",
-  "처형인의 대검",
-  "BF 대검",
-  "마나무네"
-]
-
-nl.forEach(value => {
-  const img = new Image();
-  img.src = "images/swords/" + value + ".png";
-
-  $("#img-lodder").appendChild(img);
-})
-
 const GameManager = {
   swords: [],
   max_upgradable_count: 30,
@@ -458,7 +444,13 @@ const asdf = [
   new Sword("구인수의 격노검", 0.5, 10000, 30000, 1)
 ]
 
-asdf.forEach(value => GameManager.appendSword(value));
+asdf.forEach(value => {
+  GameManager.appendSword(value);
+
+  const img = new Image();
+  img.src = "images/swords/" + value + ".png";
+  $("#img-lodder").appendChild(img);
+});
 
 // onClick: upgrade button
 function upgrade() {
@@ -472,7 +464,7 @@ function upgrade() {
   const num = Math.random();
   console.log(num, current_sword.prob);
 
-  if(num < current_sword.prob) {
+  if(true) {
       GameManager.upgradeSword();
   } else {
       const re = current_sword.pieces.map(value => value.calculate());
