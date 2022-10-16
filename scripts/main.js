@@ -444,7 +444,13 @@ const asdf = [
   new Sword("구인수의 격노검", 0.5, 10000, 30000, 1)
 ]
 
-asdf.forEach(value => GameManager.appendSword(value));
+asdf.forEach(value => {
+  GameManager.appendSword(value);
+
+  const img = new Image();
+  img.src = "images/swords/" + value + ".png";
+  $("#img-lodder").appendChild(img);
+});
 
 // onClick: upgrade button
 function upgrade() {
