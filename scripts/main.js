@@ -448,7 +448,7 @@ asdf.forEach(value => {
   GameManager.appendSword(value);
 
   const img = new Image();
-  img.src = "images/swords/" + value + ".png";
+  img.src = "images/swords/" + value.name + ".png";
   $("#img-lodder").appendChild(img);
 });
 
