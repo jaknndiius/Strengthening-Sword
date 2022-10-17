@@ -35,7 +35,7 @@ body {
 
   overflow: hidden;
 
-  /* background: no-repeat center/cover url(""); */
+  /* background: no-repeat center url(""); */
 }
 
 
@@ -43,6 +43,7 @@ body {
   width: 100%;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 }
@@ -56,6 +57,71 @@ body {
   -webkit-text-fill-color: transparent;
 
   font-size:2.75rem;
+}
+
+#chb + label {
+  width: 200px;
+  height: 140px;
+
+  position: relative;
+  
+  cursor: pointer;
+}
+
+#chb + label .a {
+  width: 200px;  
+}
+#chb + label .b {
+  position: absolute;
+  width: 50px;
+}
+
+#chb + label .x {
+  transform: rotate(148deg);
+  left: 21px;
+  top: 19px;
+  z-index: -1;
+  transition: all .1s;
+}
+
+#chb + label .y {
+  transform: rotate(213deg);
+  right: 13px;
+  top: 17px;
+  z-index: -1;
+  transition: all .1s;
+}
+
+#chb:checked + label .a,
+#chb + label:hover .a {
+  animation: .4s ease-in both pop;
+}
+
+#chb:checked + label .x,
+#chb + label:hover .x {
+  transform: scale(1.2) rotate(327deg) translate(-6px, -10px);
+  transition: all .5s;
+  
+}
+
+#chb:checked + label .y,
+#chb + label:hover .y {
+  transform: scale(1.2) rotate(39deg) translate(8px, -10px);
+  transition: all .5s;
+}
+
+
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }
 
 .main_main {
@@ -273,48 +339,58 @@ body {
   align-items: center;
 }
 
-.fall {
+.message .message_main .text .fall {
   color: var(--color-red);
 }
 
-.loss {
+.message .message_main .text .loss {
   font-size: 1.75rem;
 }
 
-.pieces div {
+.message .message_main .text .pieces div {
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 
-.pieces div img {
+.message .message_main .text .pieces div img {
   width: 2rem;
   height: 2rem;
 
   margin-right: 0.25rem;
 }
 
-.pieces div {
+.message .message_main .text .pieces div {
   display: flex;
   align-items: flex-end;
 }
 
-.pieces div span.name {
+.message .message_main .text .pieces div span.name {
   font-size: 1.4rem;
 
   color: var(--color-black);
 }
 
-.pieces div span.count {
+.message .message_main .text .pieces div span.count {
   font-size: 1.5rem;
   color: var(--color-gold);
 }
 
-.pieces div span.count::before {
+.message .message_main .text .pieces div span.count::before {
   content: "x";
   margin: 0.3rem;
   color: var(--color-black);
   font-size: 1.4rem;
+}
+
+.message .message_main .text .required_count {
+  margin: 1rem 0 0 0;
+  font-size: 1.5rem;
+  color: var(--color-blue);
+}
+
+.message .message_main .text .required_count.red-text {
+  color: var(--color-red);
 }
 
 .icon {

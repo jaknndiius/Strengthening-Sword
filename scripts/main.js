@@ -271,6 +271,16 @@ GameManager.renderFallMessage = function(...pieces) {
   const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
 
   pieces_box.replaceChildren(...ret);
+
+  if(this.canBeRepaired()) {
+    $("#fix-button").style.display = "block";
+    $("#required-count").textContent = `복구권 ${this.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다.`;
+    $("#required-count").classList.remove("red-text");
+  } else {
+    $("#fix-button").style.display = "none";
+    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다.`;
+    $("#required-count").classList.add("red-text");
+  }
 }
 GameManager.changeGold = function(number) {
 
@@ -386,10 +396,11 @@ GameManager.makeRepairPaper = function() {
     this.renderMaking();
   }
 }
-GameManager.init = function() {
-  this.resetSword();
-  //this.showGameInterface();
-  this.showMaking();
+GameManager.init = function(start) {
+  if(start != undefined) {
+    this.sword_index = start;
+  } else this.resetSword();
+  this.showGameInterface();
   this.renderGold();
 }
 
@@ -498,7 +509,10 @@ function initButton() {
 
 // onClick: fix button
 function repair() {
-  console.log(GameManager.canBeRepaired());
+  if(GameManager.canBeRepaired()) {
+    GameManager.repair_paper -= GameManager.getCurrentSword().requiredRepairs;
+    GameManager.init(GameManager.sword_index)
+  }
 }
 
 /* Footer */

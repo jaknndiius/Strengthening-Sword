@@ -15,7 +15,14 @@
   <body ondragstart="return false">
 
     <header class="main_header">
-      <h1>검 강화하기</h1>
+      <!-- <h1>검 강화하기</h1> -->
+      <input type="checkbox" id="chb" hidden>
+      <label for="chb">
+        <img class="a" src="images/logo/word.png">
+        <img class="b x" src="images/logo/sword1.png">
+        <img class="b y" src="images/logo/sword2.png">
+      </label>
+      
     </header>
     <main class="main_main" id="main-body">
       
@@ -89,6 +96,7 @@
             <p class="fall">실패했습니다.</p>
             <p class="loss" id="loss"></p>
             <div class="pieces" id="pieces"></div>
+            <p class="required_count" id="required-count"></p>
           </div>
           <div class="buttons">
             <div class="green_button scale" id="fix-button" onclick="repair()">
