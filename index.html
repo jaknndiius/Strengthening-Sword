@@ -16,17 +16,14 @@
 
     <header class="main_header">
       <!-- <h1>검 강화하기</h1> -->
-      <input type="checkbox" id="chb" hidden>
-      <label for="chb">
-        <img class="a" src="images/logo/word.png">
-        <img class="b x" src="images/logo/sword1.png">
-        <img class="b y" src="images/logo/sword2.png">
+      <input type="checkbox" id="logo-chb" hidden>
+      <label for="logo-chb">
+        <img class="main_logo" src="images/logo/word.png">
+        <img class="sub_logo left_sword" src="images/logo/sword1.png">
+        <img class="sub_logo right_sword" src="images/logo/sword2.png">
       </label>
-      
     </header>
-    <main class="main_main" id="main-body">
-      
-    </main>
+    <main class="main_main" id="main-body"><!-- Will be filled with JavaScript --></main>
     <footer class="main_footer">
       <ul>
         <li id="main-game-button">
@@ -64,6 +61,7 @@
       </div>
     </footer>
 
+    <!-- main game screen -->
     <template id="game-interface">
       <div class="swordbox">
         <img id="sword-image" src="">
@@ -74,7 +72,6 @@
           <span id="sword-cost"></span>
           <span id="sword-price"></span>
         </section>
-        
       </div>
 
       <div class="buttons">
@@ -90,13 +87,12 @@
       </div>
 
       <div class="message" id="message-box">
-
         <div class="message_main">
           <div class="text">
             <p class="fall">실패했습니다.</p>
-            <p class="loss" id="loss"></p>
-            <div class="pieces" id="pieces"></div>
-            <p class="required_count" id="required-count"></p>
+            <p class="loss" id="loss"><!-- 손실액 --></p>
+            <div class="pieces" id="pieces"><!-- 떨어진 조각 --></div>
+            <p class="required_count" id="required-count"><!-- 필요한 복구권 갯수 --></p>
           </div>
           <div class="buttons">
             <div class="green_button scale" id="fix-button" onclick="repair()">
@@ -112,19 +108,11 @@
       </div>
     </template>
 
+    <!-- inventory screen -->
     <template id="inventory">
       <div class="window inventory_window">
         <header>보관함</header>
-        <main id="inventory-items">
-          <article class="group">
-            <div class="item">
-              <img src="images/repair_paper/복구권.png">
-            </div>
-            <p class="item_name">복구권</p>
-            <p class="item_count">0</p>
-          </article>
-          <article class="group"></article>
-        </main>
+        <main id="inventory-items"><!-- Will be filled with JavaScript --></main>
       </div>
     </template>
 
@@ -133,9 +121,9 @@
         <header>내 정보</header>
         <main>
           <header>
-            현재 <span id="found-sword-count">0</span>개의 검 발견
+            현재 <span id="found-sword-count"><!-- 발견한 검 갯수 --></span>개의 검 발견
           </header>
-          <div class="swords" id="found-swords"></div>
+          <div class="swords" id="found-swords"><!-- Will be filled with JavaScript --></div>
         </main>
       </div>
     </template>
@@ -143,11 +131,13 @@
     <template id="making">
       <div class="window maker_window">
         <header>제작소</header>
-        <main id="recipes"></main>
+        <main id="recipes"><!-- Will be filled with JavaScript --></main>
       </div>
     </template>
 
 
-    <div id="img-lodder" hidden>ads</div>
+    <div id="img-lodder" hidden>
+      <!-- 이미지 로드 줄이기 -->
+    </div>
   </body>
 </html>

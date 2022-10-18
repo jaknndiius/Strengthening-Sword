@@ -59,7 +59,7 @@ body {
   font-size:2.75rem;
 }
 
-#chb + label {
+#logo-chb + label {
   width: 200px;
   height: 140px;
 
@@ -68,15 +68,15 @@ body {
   cursor: pointer;
 }
 
-#chb + label .a {
+#logo-chb + label .main_logo {
   width: 200px;  
 }
-#chb + label .b {
+#logo-chb + label .sub_logo {
   position: absolute;
   width: 50px;
 }
 
-#chb + label .x {
+#logo-chb + label .left_sword {
   transform: rotate(148deg);
   left: 21px;
   top: 19px;
@@ -84,7 +84,7 @@ body {
   transition: all .1s;
 }
 
-#chb + label .y {
+#logo-chb + label .right_sword {
   transform: rotate(213deg);
   right: 13px;
   top: 17px;
@@ -92,40 +92,37 @@ body {
   transition: all .1s;
 }
 
-#chb:checked + label .a,
-#chb + label:hover .a {
-  animation: .4s ease-in both pop;
+#logo-chb:checked + label .main_logo,
+#logo-chb + label:hover .main_logo {
+  animation: .3s linear both pop;
 }
 
-#chb:checked + label .x,
-#chb + label:hover .x {
+#logo-chb:checked + label .left_sword,
+#logo-chb + label:hover .left_sword {
   transform: scale(1.2) rotate(327deg) translate(-6px, -10px);
-  transition: all .5s;
+  transition: all .35s;
   
 }
 
-#chb:checked + label .y,
-#chb + label:hover .y {
+#logo-chb:checked + label .right_sword,
+#logo-chb + label:hover .right_sword {
   transform: scale(1.2) rotate(39deg) translate(8px, -10px);
-  transition: all .5s;
+  transition: all .35s;
 }
-
-
 
 @keyframes pop {
   0% {
     transform: scale(1);
   }
-  60% {
+  75% {
     transform: scale(1.2);
   }
   100% {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
 }
 
 .main_main {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,11 +145,12 @@ body {
 
   border-radius: 50%;
 
-  transition: all .3s;
-
   margin-bottom: 3%;
 
-  filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray)); 
+  filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray));
+
+  transition: all .3s;
+
 }
 
 .swordbox img:hover {

@@ -461,6 +461,7 @@ asdf.forEach(value => {
   const img = new Image();
   img.src = "images/swords/" + value.name + ".png";
   $("#img-lodder").appendChild(img);
+
 });
 
 // onClick: upgrade button
