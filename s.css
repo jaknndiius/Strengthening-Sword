@@ -929,3 +929,44 @@ body {
   font-size: 1rem;
   color: var(--color-dark-gray);
 }
+
+.lodding {
+
+  display: none;
+
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+    
+  background: rgba(243, 243, 243, 0.7);
+}
+
+.lodding div {
+
+  width: 100px;
+  height: 100px;
+
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(calc(-50% - 38.4765625px), -50%);
+  transform-origin: 76.953125px 100px;
+
+  animation: hammer .8s ease infinite;
+}
+
+.lodding div img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes hammer {
+  0% { transform: translate(calc(-50% - 38.4765625px), -50%) rotate(0deg); }
+  50% { transform: translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn); }
+  100% { transform: translate(calc(-50% - 38.4765625px), -50%) rotate(0turn); }
+}

@@ -408,13 +408,59 @@ GameManager.makeSword = function(sword_name) {
     const index = this.swords.indexOf(sword);
 
     this.jumpTo(index);
-    this.showGameInterface();
+
+    const lodding = $("#maker-window-lodding");
+
+    lodding.style.display = "block";
+    const kef = [
+      {opacity: '0'}, 
+      {opacity: '1'}
+    ]
+
+    lodding.animate(
+      kef,
+      {duration: 400}
+    );
+    setTimeout(() => {
+      this.showGameInterface();
+      lodding.animate(
+        kef,
+        {duration: 400, direction: "reverse"}
+      ).onfinish = () => {
+        lodding.style.display = "none";
+      };
+    }, 800)
   }
 }
 GameManager.makeRepairPaper = function() {
   if(this.makeWithRecipe(this.repair_paper_recipe)) {
     this.repair_paper += 1;
-    this.renderMaking();
+
+    const lodding = $("#maker-window-lodding");
+
+    lodding.style.display = "block";
+    const kef = [
+      {opacity: '0'}, 
+      {opacity: '1'}
+    ]
+
+    lodding.animate(
+      kef,
+      {duration: 400}
+    );
+    setTimeout(() => {
+      this.renderMaking();
+      lodding.animate(
+        kef,
+        {duration: 400, direction: "reverse"}
+      ).onfinish = () => {
+        lodding.style.display = "none";
+      };
+    }, 800)
+
+    
+
+
   }
 }
 GameManager.init = function(start) {
