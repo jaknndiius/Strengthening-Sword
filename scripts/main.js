@@ -10,9 +10,9 @@ Node.prototype.appendChildren = function(...nodes) {
 
 const GameManager = {
   swords: [],
-  max_upgradable_count: 30,
+  max_upgradable_index: 30,
   sword_index: 0,
-  max_sword_index: 0,
+  found_swords: [],
   money: 100000,
   repair_paper: 0,
   inventory: {
@@ -56,10 +56,15 @@ const GameManager = {
   }
 }
 GameManager.resetSword = function() {
-  this.sword_index = 0;
+  this.jumpTo(0);
 }
 GameManager.upgradeSword = function() {
-  if(++this.sword_index > this.max_sword_index) this.max_sword_index = this.sword_index;
+  this.jumpTo(this.sword_index +1)
+}
+GameManager.jumpTo = function(index) {
+  if(index < 0 || index > this.max_upgradable_index) throw new RangeError("sword can be upgrade in 0 ~ " + this.max_upgradable_index);
+  if(!this.found_swords.includes(index)) this.found_swords.push(index);
+  this.sword_index = index;
 }
 GameManager.canBeRepaired = function() {
   return this.repair_paper >= this.getCurrentSword().requiredRepairs;
@@ -101,15 +106,21 @@ GameManager.makeSwordIcon = function(src, alt, type) {
   return div;
 }
 GameManager.renderGameInformation = function() {
-  const found = this.swords.slice(0, this.max_sword_index +1)
-    .map(value => this.makeSwordIcon(value.image, value.name, "sword"));
-  $("#found-sword-count").textContent = found.length;
 
-  const unknown = this.max_upgradable_count - found.length;
-  for(let i = 0; i<unknown; i++) {
-    found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown", "unknown"));
+  const found = []
+
+  for(let i=0; i<=this.max_upgradable_index;i++) {
+    const value = this.swords[i];
+    if(this.found_swords.includes(i)) {
+      found.push(this.makeSwordIcon(value.image, value.name, "sword"))
+    } else {
+      found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown", "unknown"))
+    }
   }
+
   $("#found-swords").replaceChildren(...found);
+  $("#found-sword-count").textContent = this.found_swords.length;
+
 }
 GameManager.makeInventoryArticle = function(src, name, count) {
   const article = $createElementWithClasses("article", "group");
@@ -230,7 +241,11 @@ GameManager.renderMaking = function() {
   const material = this.makeMaterialSection(this.repair_paper_recipe);
 
   const result = this.makeResultSection("images/repair_paper/복구권.png", "복구권", this.repair_paper)
-  const article = this.makeGroupArticle(material, result, !this.canMake(this.repair_paper_recipe), () => this.makeRepairPaper());
+  const article = this.makeGroupArticle(
+    material, 
+    result, 
+    !this.canMake(this.repair_paper_recipe), 
+    () => this.makeRepairPaper());
 
   inner.push(article);
 
@@ -239,9 +254,12 @@ GameManager.renderMaking = function() {
 
     const material = this.makeMaterialSection(recipe);
     const result = this.makeResultSection(`images/swords/${sword_name}.png`, sword_name)
-    const article = this.makeGroupArticle(material, result, !this.canMake(recipe), () => GameManager.makeSword(sword_name))
-
-    inner.push(article)
+    const article = this.makeGroupArticle(
+      material, 
+      result, 
+      !(this.canMake(recipe) && this.sword_index == 0), // 워프권은 0강이 아닐시 구매 불가
+      () => GameManager.makeSword(sword_name));
+    inner.push(article);
   }
 
   $("#recipes").replaceChildren(...inner);
@@ -385,9 +403,12 @@ GameManager.makeWithRecipe = function(recipe) {
 }
 GameManager.makeSword = function(sword_name) {
   if(this.makeWithRecipe(this.recipes[sword_name])) {
-    // toDo("검으로 이동하기")
-    console.log(this.swords.find(value => value.name == sword_name))
-    this.renderMaking();
+    const sword = this.swords.find(value => value.name == sword_name);
+
+    const index = this.swords.indexOf(sword);
+
+    this.jumpTo(index);
+    this.showGameInterface();
   }
 }
 GameManager.makeRepairPaper = function() {
@@ -398,7 +419,7 @@ GameManager.makeRepairPaper = function() {
 }
 GameManager.init = function(start) {
   if(start != undefined) {
-    this.sword_index = start;
+    this.jumpTo(start);
   } else this.resetSword();
   this.showGameInterface();
   this.renderGold();

@@ -924,3 +924,8 @@ body {
 .maker_window main .group button:active {
   transform: scale(0.9);
 }
+
+.maker_window p {
+  font-size: 1rem;
+  color: var(--color-dark-gray);
+}
