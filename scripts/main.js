@@ -401,6 +401,43 @@ GameManager.makeWithRecipe = function(recipe) {
   }
   return true;
 }
+
+GameManager.lodding_kef = [
+  {opacity: '0'}, 
+  {opacity: '1'}
+]
+GameManager.hammer_kef = [
+  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },
+  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },
+  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}
+]
+GameManager.animateLodding = function(duration, onfinish) {
+  const lodding = $("#maker-window-lodding");
+    const hammer = $("#maker-window-lodding div");
+
+    lodding.style.display = "block";
+
+    
+    lodding.animate(
+      this.lodding_kef,
+      {duration: duration/2}
+    );
+
+    hammer.animate(
+      this.hammer_kef,
+      {duration: duration, iterations: 2}
+    )
+    
+    setTimeout(() => {
+      onfinish();
+      lodding.animate(
+        this.lodding_kef,
+        {duration: duration/2, direction: "reverse"}
+      ).onfinish = () => {
+        lodding.style.display = "none";
+      };
+    }, duration);
+}
 GameManager.makeSword = function(sword_name) {
   if(this.makeWithRecipe(this.recipes[sword_name])) {
     const sword = this.swords.find(value => value.name == sword_name);
@@ -409,58 +446,13 @@ GameManager.makeSword = function(sword_name) {
 
     this.jumpTo(index);
 
-    const lodding = $("#maker-window-lodding");
-
-    lodding.style.display = "block";
-    const kef = [
-      {opacity: '0'}, 
-      {opacity: '1'}
-    ]
-
-    lodding.animate(
-      kef,
-      {duration: 400}
-    );
-    setTimeout(() => {
-      this.showGameInterface();
-      lodding.animate(
-        kef,
-        {duration: 400, direction: "reverse"}
-      ).onfinish = () => {
-        lodding.style.display = "none";
-      };
-    }, 800)
+    this.animateLodding(800, () => this.showGameInterface());
   }
 }
 GameManager.makeRepairPaper = function() {
   if(this.makeWithRecipe(this.repair_paper_recipe)) {
     this.repair_paper += 1;
-
-    const lodding = $("#maker-window-lodding");
-
-    lodding.style.display = "block";
-    const kef = [
-      {opacity: '0'}, 
-      {opacity: '1'}
-    ]
-
-    lodding.animate(
-      kef,
-      {duration: 400}
-    );
-    setTimeout(() => {
-      this.renderMaking();
-      lodding.animate(
-        kef,
-        {duration: 400, direction: "reverse"}
-      ).onfinish = () => {
-        lodding.style.display = "none";
-      };
-    }, 800)
-
-    
-
-
+    this.animateLodding(600, () => this.renderMaking());
   }
 }
 GameManager.init = function(start) {

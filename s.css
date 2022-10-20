@@ -957,7 +957,7 @@ body {
   transform: translate(calc(-50% - 38.4765625px), -50%);
   transform-origin: 76.953125px 100px;
 
-  animation: hammer .8s ease infinite;
+  /* animation: hammer .8s ease infinite; */
 }
 
 .lodding div img {
