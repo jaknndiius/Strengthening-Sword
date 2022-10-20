@@ -452,7 +452,7 @@ GameManager.makeSword = function(sword_name) {
 GameManager.makeRepairPaper = function() {
   if(this.makeWithRecipe(this.repair_paper_recipe)) {
     this.repair_paper += 1;
-    this.animateLodding(600, () => this.renderMaking());
+    this.animateLodding(450, () => this.renderMaking());
   }
 }
 GameManager.init = function(start) {
