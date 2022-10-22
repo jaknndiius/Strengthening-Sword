@@ -15,44 +15,52 @@ const GameManager = {
   found_swords: [],
   money: 100000,
   repair_paper: 0,
-  inventory: {
-    "여신의 눈물": 30,
-    "도란의 반지": 230,
-    "심연의 가면": 30,
-    "얼음 방패": 40,
-    "역병의 보석": 100,
-    "삼위일체": 2000,
-    "바미의 불씨": 2500
-  },
+  inventory: [
+    {type: "piece", name: "여신의 눈물", count: 33},
+    {type: "piece", name: "도란의 반지", count: 30},
+    {type: "piece", name: "저녁 갑주", count: 30},
+    {type: "piece", name: "암흑의 인장", count: 30},
+    {type: "piece", name: "삼위일체", count: 30},
+    {type: "piece", name: "신록의 장벽", count: 30},
+    {type: "piece", name: "에테르 환영", count: 30},
+    {type: "sword", name: "단검", count: 30},
+    {type: "sword", name: "그림자 검", count: 30},
+    {type: "sword", name: "제국의 명령", count: 30},
+    {type: "sword", name: "수호 천사", count: 30},
+    {type: "sword", name: "무한의 대검", count: 30},
+    {type: "sword", name: "드락사르의 황혼검", count: 30},
+    {type: "sword", name: "독사의 송곳니", count: 30},
+  ],
   records: [],
   max_recordable_count: 10,
-  repair_paper_recipe: {
-    "돈": 2000
-  },
+  repair_paper_recipe: [
+    {type: "money", name: "돈", count: 2000}
+  ],
   recipes: {
-    "BF 대검": {
-      "여신의 눈물": 10,
-      "도란의 반지": 13
-    },
-    "수호자의 검": {
-      "심연의 가면": 10,
-      "얼음 방패": 10,
-      "역병의 보석": 10
-    },
-    "요우무의 유령검": {
-      "도란의 반지": 12,
-      "여신의 눈물": 7
-    },
-    "헤르메스의 시미터": {
-      "도란의 반지": 24,
-      "바미의 불씨": 30,
-    },
-    "제국의 명령": {
-      "도란의 반지": 24,
-      "바미의 불씨": 30,
-      "역병의 보석": 10,
-      "돈": 1002
-    }
+    "BF 대검": [
+      {type: "piece", name: "여신의 눈물", count: 30},
+      {type: "piece", name: "도란의 반지", count: 30},
+      {type: "money", name: "돈", count: 200}
+    ],
+    "수호자의 검": [
+      {type: "piece", name: "여신의 눈물", count: 30},
+      {type: "money", name: "돈", count: 200000000000}
+    ],
+    "요우무의 유령검": [
+      {type: "piece", name: "여신의 눈물", count: 30},
+      {type: "piece", name: "도란의 반지", count: 30},
+      {type: "sword", name: "무라마나", count: 1}
+    ],
+    "헤르메스의 시미터": [
+      {type: "piece", name: "여신의 눈물", count: 30},
+      {type: "piece", name: "도란의 반지", count: 30},
+      {type: "sword", name: "구인수의 격노검", count: 200}
+    ],
+    "제국의 명령": [
+      {type: "piece", name: "여신의 눈물", count: 30},
+      {type: "piece", name: "도란의 반지", count: 30},
+      {type: "money", name: "돈", count: 200}
+    ]
   }
 }
 GameManager.resetSword = function() {
@@ -60,6 +68,9 @@ GameManager.resetSword = function() {
 }
 GameManager.upgradeSword = function() {
   this.jumpTo(this.sword_index +1)
+}
+GameManager.getSword = function(name) {
+  return this.swords.find(value => value.name == name);
 }
 GameManager.jumpTo = function(index) {
   if(index < 0 || index > this.max_upgradable_index) throw new RangeError("sword can be upgrade in 0 ~ " + this.max_upgradable_index);
@@ -79,9 +90,42 @@ GameManager.calculateLoss = function(index) {
   return this.swords.filter((value, idx) => idx <= index)
       .reduce((pre, cur) => pre += cur.cost, 0);
 }
+GameManager.saveItem = function(type, name, count) {
+  const item = this.findItem(name, type);
+  if(item == undefined) {
+    GameManager.inventory.push(
+      {type:type, name:name, count:count}
+    )
+  } else {
+    item.count += count;
+  }
+}
+GameManager.subtractItem = function(type, name, count) {
+  const item = this.findItem(name, type);
+  if(item == undefined) return new Error("There is no sword");
+  if(item.count < count) return false;
+  item.count -= count
+  return true;
+  
+}
+GameManager.findItem = function(name, type) {
+  if(type == undefined) return GameManager.inventory.find(value => value.name == name);
+  return GameManager.inventory.find(value => value.type == type && value.name == name);
+}
+GameManager.sellSword = function(name) {
+  const sword = this.findItem(name, "sword");
+  
+  if(this.subtractItem("sword", name, 1)) {
+    this.renderInventory();
+    this.changeGold(this.getSword(name).price);
+  }
+}
 GameManager.renderGameInterFace = function() {
 
+  const buttons = $("#buttons-main");
+
   const sell_button = $("#sell-button");
+  const save_button = $("#save-button");
 
   const current_sword = this.getCurrentSword();
 
@@ -94,6 +138,7 @@ GameManager.renderGameInterFace = function() {
   $("#sword-price").textContent = "판매 가격: " + current_sword.price + "원";
   
   sell_button.style.display = (this.sword_index === 0) ? "none" : "block";
+  save_button.style.display = (this.getCurrentSword().canSave) ? "block" : "none";
 
 }
 GameManager.makeSwordIcon = function(src, alt, type) {
@@ -122,7 +167,16 @@ GameManager.renderGameInformation = function() {
   $("#found-sword-count").textContent = this.found_swords.length;
 
 }
-GameManager.makeInventoryArticle = function(src, name, count) {
+GameManager.makeHoverSellDiv = function(onclick) {
+  const div = $createElementWithClasses("div", "hover_sell");
+  const span = document.createElement("span");
+  span.textContent = "판매 하기";
+  div.appendChild(span);
+
+  div.onclick = onclick;
+  return div;
+}
+GameManager.makeInventoryArticle = function(src, name, count, sellFnc) {
   const article = $createElementWithClasses("article", "group");
 
   if(src == undefined) return article;
@@ -130,9 +184,13 @@ GameManager.makeInventoryArticle = function(src, name, count) {
   const div = $createElementWithClasses("div", "item");
   const img = new Image();
   img.src = src;
-  
+
+  if(sellFnc != undefined) {
+    div.appendChild(this.makeHoverSellDiv(sellFnc));
+  }
+
   div.appendChild(img);
-  
+
   const pname = $createElementWithClasses("p", "item_name");
   pname.textContent = name;
   const pcount = $createElementWithClasses("p", "item_count");
@@ -145,14 +203,17 @@ GameManager.renderInventory = function() {
 
   const inner = [
     this.makeInventoryArticle("images/repair_paper/복구권.png", "복구권", this.repair_paper), //복구권
-    this.makeInventoryArticle() //한칸 채우기
+    this.makeInventoryArticle()
   ];
 
-  for(const [item, count] of Object.entries(this.inventory)) {
-    inner.push(
-      this.makeInventoryArticle(`images/item/${item}.png`, item, count)
-    )
-  } 
+  const pieces = this.inventory.filter(value => value.type == "piece" && value.count != 0);
+  const swords = this.inventory.filter(value => value.type == "sword" && value.count != 0);
+  pieces.sort((a, b) => a.count - b.count); // 조각은 갯수 순으로 정렬
+  swords.sort((a, b) => this.getSword(a.name).index - this.getSword(b.name).index ) //검은 강화 순대로 정렬
+
+  pieces.forEach(value => inner.push(this.makeInventoryArticle(`images/item/${value.name}.png`, value.name, value.count)))
+  if(pieces.length%2 == 1) inner.push(this.makeInventoryArticle());
+  swords.forEach(value => inner.push(this.makeInventoryArticle(`images/swords/${value.name}.png`, value.name, value.count, () => this.sellSword(value.name))))
 
   $("#inventory-items").replaceChildren(...inner);
 }
@@ -160,31 +221,50 @@ GameManager.makeMaterialSection = function(recipes) {
 
   const material = $createElementWithClasses("section", "material")
 
-  const picount = Object.entries(recipes);
 
-  if(picount.length == 1) material.classList.add("one");
+  if(recipes.length == 1) material.classList.add("one");
 
-  for(const [piece_name, count] of picount) {
-    material.appendChild(this.makeMaterialDiv(piece_name, this.inventory[piece_name], count));
+  for(const item of recipes) {
+
+    const myitem = this.findItem(item.name, item.type);
+
+    let mcount;
+    if(item.type == "money") mcount = this.money;
+    else if(myitem == undefined) mcount = 0;
+    else mcount = myitem.count;
+
+    material.appendChild(
+      this.makeMaterialDiv(
+        item.name,
+        item.type,
+        mcount,
+        (item == undefined) ? 0 : item.count
+      )
+    );
   }
 
   return material;
 }
-GameManager.makeMaterialDiv = function(piece_name, curc, count) {
-
-  if(piece_name == "돈") curc = this.money;
-  curc = (curc) ? curc :0;
+GameManager.makeMaterialDiv = function(item_name, item_type, curc, count) {
 
   const div = $createElementWithClasses("div", "item");
 
   const img = new Image();
-  img.src = `images/item/${piece_name}.png`;
+  switch(item_type) {
+    case "money":
+    case "piece":
+      img.src = `images/item/${item_name}.png`;
+      break;
+    case "sword":
+      img.src = `images/swords/${item_name}.png`;
+      break;
+  }
 
   const span = $createElementWithClasses("span", "count");
   if(curc < count) span.classList.add("unable");
 
   /* 돈이면 "필요수량" 아니면 "가진갯수/필요수량" */
-  span.textContent = (piece_name == "돈") ? count : curc + "/" + count;
+  span.textContent = (item_name == "돈") ? count : curc + "/" + count;
 
   div.appendChildren(img, span);
 
@@ -380,24 +460,26 @@ GameManager.popupFallMessage = function(...pieces) {
   );
 }
 GameManager.canMake = function(recipe) {
-  for(const [key, value] of Object.entries(recipe)) {
-    if(key == "돈") {
-      if(this.money >= value) continue;
+  for(const rec of recipe) {
+    if(rec.type == "money") {
+      if(this.money >= rec.count) continue;
       return false;
     }
 
-    if(this.inventory[key] == null ||
-      this.inventory[key] == undefined ||
-      this.inventory[key] < value) //재료부족
+    const item = this.findItem(rec.name, rec.type)
+
+    if(item == undefined ||
+      item.count < rec.count) //재료부족
       return false;
   }
   return true;
 }
 GameManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
-  for(const [key, value] of Object.entries(recipe)) {
-    if(key == "돈") this.changeGold(-value);
-    else this.inventory[key] -= value;
+
+  for(const item of recipe) {
+    if(item.type == "money") this.changeGold(-item.count);
+    else this.findItem(item.name, item.type).count -= item.count;
   }
   return true;
 }
@@ -440,9 +522,10 @@ GameManager.animateLodding = function(duration, onfinish) {
 }
 GameManager.makeSword = function(sword_name) {
   if(this.makeWithRecipe(this.recipes[sword_name])) {
+
     const sword = this.swords.find(value => value.name == sword_name);
 
-    const index = this.swords.indexOf(sword);
+    const index = sword.index;
 
     this.jumpTo(index);
 
@@ -465,13 +548,15 @@ GameManager.init = function(start) {
 
 // sword class
 class Sword {
-  constructor(name, prob, cost, price, requiredRepairs, ...pieces) {
+  constructor(index, name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
+      this.index = index;
       this.name = name;
       this.image = "images/swords/" + name + ".png";
       this.prob = prob;
       this.cost = cost;
       this.price = price;
       this.requiredRepairs = requiredRepairs;
+      this.canSave = canSave
       this.pieces = pieces;
   }
 }
@@ -492,26 +577,26 @@ class Piece {
 }
 
 const asdf = [
-  new Sword("단검", 1.0, 300, 0, 1),
-  new Sword("롱소드", 0.95, 300, 100, 1),
-  new Sword("처형인의 대검", 0.9, 400, 300, 1),
-  new Sword("BF 대검", 0.85, 500, 600, 1),
-  new Sword("마나무네", 0.8, 600, 1000, 1),
-  new Sword("무라마나", 0.75, 700, 1200, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword("드락사르의 황혼검", 0.7, 1000, 1500, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword("무한의 대검", 0.65, 1500, 3000, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword("수호 천사", 0.6, 5000, 12000, 1, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword("제국의 명령", 0.55, 10000, 30000, 1),
-  new Sword("요우무의 유령검", 0.5, 300, 0, 1),
-  new Sword("톱날 단검", 0.45, 300, 100, 1),
-  new Sword("독사의 송곳니", 0.4, 400, 300, 1),
-  new Sword("리치베인", 0.35, 500, 600, 1),
-  new Sword("마법사의 최후", 0.3, 600, 1000, 1),
-  new Sword("죽음의 무도", 0.25, 700, 1200, 1),
-  new Sword("열정의 검", 0.2, 1000, 1500, 1),
-  new Sword("몰락한 왕의 검", 0.15, 1500, 3000, 1),
-  new Sword("그림자 검", 0.1, 5000, 12000, 1),
-  new Sword("구인수의 격노검", 0.5, 10000, 30000, 1)
+  new Sword(0, "단검", 1.0, 300, 0, 1, false),
+  new Sword(1, "롱소드", 0.95, 300, 100, 1, false),
+  new Sword(2, "처형인의 대검", 0.9, 400, 300, 1, false),
+  new Sword(3, "BF 대검", 0.85, 500, 600, 1, false),
+  new Sword(4, "마나무네", 0.8, 600, 1000, 1, false),
+  new Sword(5, "무라마나", 0.75, 700, 1200, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(6, "드락사르의 황혼검", 0.7, 1000, 1500, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(7, "무한의 대검", 0.65, 1500, 3000, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(8, "수호 천사", 0.6, 5000, 12000, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(9, "제국의 명령", 0.55, 10000, 30000, 1, true),
+  new Sword(10, "요우무의 유령검", 0.5, 300, 0, 1, true),
+  new Sword(11, "톱날 단검", 0.45, 300, 100, 1, true),
+  new Sword(12, "독사의 송곳니", 0.4, 400, 300, 1, true),
+  new Sword(13, "리치베인", 0.35, 500, 600, 1, true),
+  new Sword(14, "마법사의 최후", 0.3, 600, 1000, 1, true),
+  new Sword(15, "죽음의 무도", 0.25, 700, 1200, 1, true),
+  new Sword(16, "열정의 검", 0.2, 1000, 1500, 1, true),
+  new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true),
+  new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true),
+  new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true)
 ]
 
 asdf.forEach(value => {
@@ -540,13 +625,7 @@ function upgrade() {
   } else {
       const re = current_sword.pieces.map(value => value.calculate());
 
-      re.forEach(value => {
-          if(value.name in GameManager.inventory) { //인벤토리에 있으면
-            GameManager.inventory[value.name] += value.count
-          } else { //없으면
-            GameManager.inventory[value.name] = value.count
-          }
-      });
+      re.forEach(value => GameManager.saveItem("piece", value.name, value.count));
       GameManager.popupFallMessage(...re);
   }
   GameManager.renderGameInterFace();
@@ -573,6 +652,12 @@ function repair() {
     GameManager.repair_paper -= GameManager.getCurrentSword().requiredRepairs;
     GameManager.init(GameManager.sword_index)
   }
+}
+
+function save() {
+  const item = GameManager.getCurrentSword();
+  GameManager.saveItem("sword", item.name, 1);
+  GameManager.init();
 }
 
 /* Footer */

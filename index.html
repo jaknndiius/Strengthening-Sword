@@ -15,13 +15,13 @@
   <body ondragstart="return false">
 
     <header class="main_header">
-      <!-- <h1>검 강화하기</h1> -->
-      <input type="checkbox" id="logo-chb" hidden>
+      <h1>검 강화하기</h1>
+      <!-- <input type="checkbox" id="logo-chb" hidden>
       <label for="logo-chb">
         <img class="main_logo" src="images/logo/word.png">
         <img class="sub_logo left_sword" src="images/logo/sword1.png">
         <img class="sub_logo right_sword" src="images/logo/sword2.png">
-      </label>
+      </label> -->
     </header>
     <main class="main_main" id="main-body"><!-- Will be filled with JavaScript --></main>
     <footer class="main_footer">
@@ -74,18 +74,20 @@
         </section>
       </div>
 
-      <div class="buttons">
+      <div id="buttons-main" class="buttons">
+        <div class="brown_button tobottom decrease" id="save-button" onclick="save()">
+          <img src="images/ui/보관하기.png" alt="none">
+          <span>보관하기</span>
+        </div>
         <div class="blue_button toleft rotate" id="upgrade-button" onclick="upgrade()">
           <img src="images/ui/강화하기.png" alt="none">
           <span>강화하기</span>
         </div>
-        <div class="red_button scale" id="sell-button" onclick="sell()">
+        <div class="red_button increase" id="sell-button" onclick="sell()">
           <img src="images/ui/판매하기.png" alt="none">
           <span>판매하기</span>
         </div>
-
       </div>
-
       <div class="message" id="message-box">
         <div class="message_main">
           <div class="text">
@@ -95,7 +97,7 @@
             <p class="required_count" id="required-count"><!-- 필요한 복구권 갯수 --></p>
           </div>
           <div class="buttons">
-            <div class="green_button scale" id="fix-button" onclick="repair()">
+            <div class="green_button increase" id="fix-button" onclick="repair()">
               <img src="images/repair_paper/복구권.png" alt="none">
               <span>복구하기</span>
             </div>
@@ -132,18 +134,16 @@
       <div class="window maker_window">
         <header>제작소</header>
         <main id="recipes"><!-- Will be filled with JavaScript --></main>
-        <p>검 워프권은 게임 시작 전(0강)에만 구매할 수 있습니다.</p>
+        <p class="tip">검 워프권은 게임 시작 전(0강)에만 구매할 수 있습니다.</p>
       </div>
     </template>
 
-    <div class="lodding" id="maker-window-lodding">
-      <div>
+    <div class="loading" id="maker-window-lodding">
+      <div class="lodding_img">
         <img src="images/ui/제작하기.png" alt="none">
       </div>
     </div>
 
-    
     <div id="img-lodder" hidden></div>
-    <!-- /* 300px 269px */ -->
   </body>
 </html>
