@@ -8,6 +8,57 @@ Node.prototype.appendChildren = function(...nodes) {
   for(const node of nodes) this.appendChild(node);
 }
 
+// item class
+class Item {constructor(type, name, count) {this.type = type; this.name = name; this.count = count;}}
+
+class PieceItem extends Item {
+  constructor(name, count) {
+    super("piece", name, count);
+  }
+}
+
+class SwordItem extends Item {
+  constructor(name, count) {
+    super("sword", name, count);
+  }
+}
+
+class MoneyItem extends Item {
+  constructor(count) {
+    super("money", "돈", count);
+  }
+}
+
+// sword class
+class Sword {
+  constructor(index, name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
+      this.index = index;
+      this.name = name;
+      this.image = "images/swords/" + name + ".png";
+      this.prob = prob;
+      this.cost = cost;
+      this.price = price;
+      this.requiredRepairs = requiredRepairs;
+      this.canSave = canSave
+      this.pieces = pieces;
+  }
+}
+// piece class
+class Piece {
+  constructor(name, prob, max_drop) {
+      this.name = name;
+      this.prob = prob;
+      this.max_drop = max_drop;
+  }
+
+  calculate() {
+      if(Math.random() < this.prob) {
+          const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
+          return GameManager.returnDroppedPieces(this.name, result);
+      } return null;
+  }
+}
+
 const GameManager = {
   swords: [],
   max_upgradable_index: 30,
@@ -16,50 +67,50 @@ const GameManager = {
   money: 100000,
   repair_paper: 0,
   inventory: [
-    {type: "piece", name: "여신의 눈물", count: 33},
-    {type: "piece", name: "도란의 반지", count: 30},
-    {type: "piece", name: "저녁 갑주", count: 30},
-    {type: "piece", name: "암흑의 인장", count: 30},
-    {type: "piece", name: "삼위일체", count: 30},
-    {type: "piece", name: "신록의 장벽", count: 30},
-    {type: "piece", name: "에테르 환영", count: 30},
-    {type: "sword", name: "단검", count: 30},
-    {type: "sword", name: "그림자 검", count: 30},
-    {type: "sword", name: "제국의 명령", count: 30},
-    {type: "sword", name: "수호 천사", count: 30},
-    {type: "sword", name: "무한의 대검", count: 30},
-    {type: "sword", name: "드락사르의 황혼검", count: 30},
-    {type: "sword", name: "독사의 송곳니", count: 30},
+    new PieceItem("여신의 눈물", 33),
+    new PieceItem("도란의 반지", 30),
+    new PieceItem("저녁 갑주", 30),
+    new PieceItem("암흑의 인장", 30),
+    new PieceItem("삼위일체", 30),
+    new PieceItem("신록의 장벽", 30),
+    new PieceItem("에테르 환영", 30),
+    new SwordItem("단검", 30),
+    new SwordItem("그림자 검", 30),
+    new SwordItem("제국의 명령", 30),
+    new SwordItem("수호 천사", 300),
+    new SwordItem("무한의 대검", 30),
+    new SwordItem("드락사르의 황혼검", 30),
+    new SwordItem("독사의 송곳니", 30),
   ],
   records: [],
   max_recordable_count: 10,
   repair_paper_recipe: [
-    {type: "money", name: "돈", count: 2000}
+    new MoneyItem(300)
   ],
   recipes: {
     "BF 대검": [
-      {type: "piece", name: "여신의 눈물", count: 30},
-      {type: "piece", name: "도란의 반지", count: 30},
-      {type: "money", name: "돈", count: 200}
+      new PieceItem("여신의 눈물", 30),
+      new PieceItem("도란의 반지", 30),
+      new MoneyItem(3300)
     ],
     "수호자의 검": [
-      {type: "piece", name: "여신의 눈물", count: 30},
-      {type: "money", name: "돈", count: 200000000000}
+      new PieceItem("여신의 눈물", 30),
+      new MoneyItem(300)
     ],
     "요우무의 유령검": [
-      {type: "piece", name: "여신의 눈물", count: 30},
-      {type: "piece", name: "도란의 반지", count: 30},
-      {type: "sword", name: "무라마나", count: 1}
+      new PieceItem("여신의 눈물", 30),
+      new PieceItem("도란의 반지", 30),
+      new SwordItem("무라마나", 1)
     ],
     "헤르메스의 시미터": [
-      {type: "piece", name: "여신의 눈물", count: 30},
-      {type: "piece", name: "도란의 반지", count: 30},
-      {type: "sword", name: "구인수의 격노검", count: 200}
+      new PieceItem("여신의 눈물", 30),
+      new PieceItem("도란의 반지", 30),
+      new SwordItem("구인수의 격노검", 1)
     ],
     "제국의 명령": [
-      {type: "piece", name: "여신의 눈물", count: 30},
-      {type: "piece", name: "도란의 반지", count: 30},
-      {type: "money", name: "돈", count: 200}
+      new PieceItem("여신의 눈물", 30),
+      new PieceItem("도란의 반지", 30),
+      new MoneyItem(300)
     ]
   }
 }
@@ -80,11 +131,19 @@ GameManager.jumpTo = function(index) {
 GameManager.canBeRepaired = function() {
   return this.repair_paper >= this.getCurrentSword().requiredRepairs;
 }
+GameManager.useRepairPair = function(count) {
+  if(this.canBeRepaired()) {
+    GameManager.repair_paper -= count;
+    return true;
+  }
+  return false;
+}
 GameManager.getCurrentSword = function() {
   return this.swords[this.sword_index];
 }
 GameManager.appendSword = function(sword) {
-  this.swords.push(sword);
+  if(sword instanceof Sword) this.swords.push(sword);
+  else throw new TypeError("Type of arg-1 should be Sword");
 }
 GameManager.calculateLoss = function(index) {
   return this.swords.filter((value, idx) => idx <= index)
@@ -94,11 +153,17 @@ GameManager.saveItem = function(type, name, count) {
   const item = this.findItem(name, type);
   if(item == undefined) {
     GameManager.inventory.push(
-      {type:type, name:name, count:count}
-    )
+      new Item(type, name, count)
+    );
   } else {
     item.count += count;
   }
+}
+GameManager.savePiece = function(name, count) {
+  this.saveItem("piece", name, count);
+}
+GameManager.saveSword = function(name, count) {
+  this.saveItem("sword", name, count);
 }
 GameManager.subtractItem = function(type, name, count) {
   const item = this.findItem(name, type);
@@ -483,7 +548,6 @@ GameManager.makeWithRecipe = function(recipe) {
   }
   return true;
 }
-
 GameManager.lodding_kef = [
   {opacity: '0'}, 
   {opacity: '1'}
@@ -546,46 +610,16 @@ GameManager.init = function(start) {
   this.renderGold();
 }
 
-// sword class
-class Sword {
-  constructor(index, name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
-      this.index = index;
-      this.name = name;
-      this.image = "images/swords/" + name + ".png";
-      this.prob = prob;
-      this.cost = cost;
-      this.price = price;
-      this.requiredRepairs = requiredRepairs;
-      this.canSave = canSave
-      this.pieces = pieces;
-  }
-}
-// piece class
-class Piece {
-  constructor(name, prob, max_drop) {
-      this.name = name;
-      this.prob = prob;
-      this.max_drop = max_drop;
-  }
-
-  calculate() {
-      if(Math.random() < this.prob) {
-          const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
-          return GameManager.returnDroppedPieces(this.name, result);
-      } return null;
-  }
-}
-
 const asdf = [
-  new Sword(0, "단검", 1.0, 300, 0, 1, false),
-  new Sword(1, "롱소드", 0.95, 300, 100, 1, false),
-  new Sword(2, "처형인의 대검", 0.9, 400, 300, 1, false),
-  new Sword(3, "BF 대검", 0.85, 500, 600, 1, false),
-  new Sword(4, "마나무네", 0.8, 600, 1000, 1, false),
-  new Sword(5, "무라마나", 0.75, 700, 1200, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(6, "드락사르의 황혼검", 0.7, 1000, 1500, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(7, "무한의 대검", 0.65, 1500, 3000, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(8, "수호 천사", 0.6, 5000, 12000, 1, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(0, "단검", 1.0, 300, 0, 3, false),
+  new Sword(1, "롱소드", 0.95, 300, 100, 3, false),
+  new Sword(2, "처형인의 대검", 0.9, 400, 300, 3, false),
+  new Sword(3, "BF 대검", 0.85, 500, 600, 3, false),
+  new Sword(4, "마나무네", 0.8, 600, 1000, 3, false),
+  new Sword(5, "무라마나", 0.75, 700, 1200, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(6, "드락사르의 황혼검", 0.7, 1000, 1500, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(7, "무한의 대검", 0.65, 1500, 3000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
+  new Sword(8, "수호 천사", 0.6, 5000, 12000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
   new Sword(9, "제국의 명령", 0.55, 10000, 30000, 1, true),
   new Sword(10, "요우무의 유령검", 0.5, 300, 0, 1, true),
   new Sword(11, "톱날 단검", 0.45, 300, 100, 1, true),
@@ -625,7 +659,7 @@ function upgrade() {
   } else {
       const re = current_sword.pieces.map(value => value.calculate());
 
-      re.forEach(value => GameManager.saveItem("piece", value.name, value.count));
+      re.forEach(value => GameManager.savePiece(value.name, value.count));
       GameManager.popupFallMessage(...re);
   }
   GameManager.renderGameInterFace();
@@ -648,15 +682,14 @@ function initButton() {
 
 // onClick: fix button
 function repair() {
-  if(GameManager.canBeRepaired()) {
-    GameManager.repair_paper -= GameManager.getCurrentSword().requiredRepairs;
+  if(GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs)) {
     GameManager.init(GameManager.sword_index)
   }
 }
 
 function save() {
   const item = GameManager.getCurrentSword();
-  GameManager.saveItem("sword", item.name, 1);
+  GameManager.saveSword(item.name, 1);
   GameManager.init();
 }
 
