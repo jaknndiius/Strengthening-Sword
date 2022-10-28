@@ -66,11 +66,20 @@ GameManager.upgradeSword = function() {
   this.jumpTo(this.sword_index +1)
 }
 GameManager.getSword = function(name) {
-  return this.swords.find(value => value.name == name);
+  const res = this.swords.find(value => value.name == name);
+  if(res === undefined) throw new Error("There is no sword named arg-1.") 
+  return res;
+}
+GameManager.isFound = function(sword_value) {
+  switch (typeof sword_value) {
+    case "number": return this.found_swords.includes(sword_value);
+    case "string": return this.found_swords.includes(this.getSword(sword_value).index);
+    default: throw new TypeError("Arg-1 must be sword_index: Number or sword_name: String.");
+  }
 }
 GameManager.jumpTo = function(index) {
-  if(index < 0 || index > this.max_upgradable_index) throw new RangeError("sword can be upgrade in 0 ~ " + this.max_upgradable_index);
-  if(!this.found_swords.includes(index)) this.found_swords.push(index);
+  if(index < 0 || index > this.max_upgradable_index) throw new RangeError("Sword can be upgrade in 0 ~ " + this.max_upgradable_index) + ".";
+  if(!this.isFound(index)) this.found_swords.push(index);
   this.sword_index = index;
 }
 GameManager.canBeRepaired = function() {
@@ -91,12 +100,11 @@ GameManager.appendSword = function(sword) {
   else throw new TypeError("Arg-1 must be Sword");
 }
 GameManager.calculateLoss = function(index) {
-  return this.swords.filter((value, idx) => idx <= index)
-      .reduce((pre, cur) => pre += cur.cost, 0);
+  return this.swords.filter((v, idx) => idx <= index).reduce((pre, cur) => pre += cur.cost, 0);
 }
 GameManager.saveItem = function(type, name, count) {
   const item = this.findItem(name, type);
-  if(item == undefined) {
+  if(item === undefined) {
     switch (type) {
       case "piece":
         GameManager.inventory.push(new PieceItem(name, count));
@@ -119,19 +127,17 @@ GameManager.saveSword = function(name, count) {
 }
 GameManager.subtractItem = function(type, name, count) {
   const item = this.findItem(name, type);
-  if(item == undefined) return new Error("There is no sword");
+  if(item === undefined) return new Error("There is no such sword.");
   if(item.count < count) return false;
   item.count -= count
   return true;
   
 }
 GameManager.findItem = function(name, type) {
-  if(type == undefined) return GameManager.inventory.find(value => value.name == name);
+  if(type === undefined) return GameManager.inventory.find(value => value.name == name);
   return GameManager.inventory.find(value => value.type == type && value.name == name);
 }
 GameManager.sellSword = function(name) {
-  const sword = this.findItem(name, "sword");
-  
   if(this.subtractItem("sword", name, 1)) {
     this.renderInventory();
     this.changeGold(this.getSword(name).price);
@@ -149,26 +155,27 @@ GameManager.renderGameInterFace = function() {
   $("#sword-cost").textContent = "강화 비용: " + current_sword.cost + "원";
   $("#sword-price").textContent = "판매 가격: " + current_sword.price + "원";
 
-  $("#sell-button").style.display = (this.sword_index === 0) ? "none" : "block";
+  $("#sell-button").style.display = (this.sword_index == 0) ? "none" : "block";
   $("#save-button").style.display = (this.getCurrentSword().canSave) ? "block" : "none";
-
 }
-GameManager.makeSwordIcon = function(src, alt, type) {
+GameManager.makeSwordIcon = function(src, alt, type, name) {
   const div = $createElementWithClasses("div", "sword_icon", type);
-
   const img = new Image();
   img.src = src;
   img.alt = alt;
   div.appendChild(img);
+  if(type == "sword") {
+    const name_span = $createElementWithClasses("span", "sword_name");
+    name_span.textContent = alt;
+    div.appendChild(name_span)
+  }
   return div;
 }
 GameManager.renderGameInformation = function() {
-
   const found = []
-
   for(let i=0; i<=this.max_upgradable_index;i++) {
     const value = this.swords[i];
-    if(this.found_swords.includes(i)) {
+    if(this.isFound(i)) {
       found.push(this.makeSwordIcon(value.image, value.name, "sword"))
     } else {
       found.push(this.makeSwordIcon("images/swords/unknown.png", "unknown", "unknown"))
@@ -184,20 +191,19 @@ GameManager.makeHoverSellDiv = function(onclick) {
   const span = document.createElement("span");
   span.textContent = "판매 하기";
   div.appendChild(span);
-
   div.onclick = onclick;
   return div;
 }
 GameManager.makeInventoryArticle = function(src, name, count, sellFnc) {
   const article = $createElementWithClasses("article", "group");
 
-  if(src == undefined) return article;
+  if(src === undefined) return article;
 
   const div = $createElementWithClasses("div", "item");
   const img = new Image();
   img.src = src;
 
-  if(sellFnc != undefined) {
+  if(sellFnc !== undefined) {
     div.appendChild(this.makeHoverSellDiv(sellFnc));
   }
 
@@ -213,6 +219,7 @@ GameManager.makeInventoryArticle = function(src, name, count, sellFnc) {
 }
 GameManager.renderInventory = function() {
   const inner = [
+    $createElementWithClasses("div", "underline", "bok"),
     this.makeInventoryArticle("images/repair_paper/복구권.png", "복구권", this.repair_paper), //복구권
     this.makeInventoryArticle()
   ];
@@ -222,11 +229,14 @@ GameManager.renderInventory = function() {
   pieces.sort((a, b) => a.count - b.count); // 조각은 갯수 순으로 정렬
   swords.sort((a, b) => this.getSword(a.name).index - this.getSword(b.name).index ) //검은 강화 순대로 정렬
 
+  if(pieces.length != 0) inner.push($createElementWithClasses("div", "underline", "pie"))
   pieces.forEach(value => inner.push(this.makeInventoryArticle(`images/item/${value.name}.png`, value.name, value.count)))
   if(pieces.length%2 == 1) inner.push(this.makeInventoryArticle());
+  if(swords.length != 0)inner.push($createElementWithClasses("div", "underline", "swo"))
   swords.forEach(value => inner.push(this.makeInventoryArticle(`images/swords/${value.name}.png`, value.name, value.count, () => this.sellSword(value.name))))
-
+  if(swords.length%2 == 1) inner.push(this.makeInventoryArticle());
   $("#inventory-items").replaceChildren(...inner);
+  
 }
 GameManager.makeMaterialSection = function(recipes) {
   const material = $createElementWithClasses("section", "material")
@@ -234,24 +244,26 @@ GameManager.makeMaterialSection = function(recipes) {
   if(recipes.length == 1) material.classList.add("one");
 
   for(const item of recipes) {
-
     const myitem = this.findItem(item.name, item.type);
 
     let mcount;
     if(item.type == "money") mcount = this.money;
-    else if(myitem == undefined) mcount = 0;
+    else if(myitem === undefined) mcount = 0;
     else mcount = myitem.count;
 
-    material.appendChild(
-      this.makeMaterialDiv(
-        item.name,
-        item.type,
-        mcount,
-        (item == undefined) ? 0 : item.count
-      )
-    );
+    if(item.type == "sword" && !this.isFound(item.name)) {
+      material.appendChild(this.makeMaterialDiv("발견 안됨","unknown"));
+    } else {
+      material.appendChild(
+        this.makeMaterialDiv(
+          item.name,
+          item.type,
+          mcount,
+          (item === undefined) ? 0 : item.count
+        )
+      );
+    }
   }
-
   return material;
 }
 GameManager.makeMaterialDiv = function(item_name, item_type, curc, count) {
@@ -267,21 +279,25 @@ GameManager.makeMaterialDiv = function(item_name, item_type, curc, count) {
     case "sword":
       img.src = `images/swords/${item_name}.png`;
       break;
+    case "unknown":
+      img.src = "images/swords/unknown.png";
+      break;
   }
+  div.appendChild(img)
+  if(item_type == "sword" || item_type == "unknown") {
+    const name_span = $createElementWithClasses("span", "name");
+    name_span.textContent = item_name;
+    div.appendChild(name_span);
+  }
+
+  if(curc === undefined) return div;
 
   const count_span = $createElementWithClasses("span", "count");
   if(curc < count) count_span.classList.add("unable");
 
   /* 돈이면 "필요수량" 아니면 "가진갯수/필요수량" */
   count_span.textContent = (item_name == "돈") ? count : curc + "/" + count;
-
-  div.appendChildren(img, count_span);
-
-  if(item_type == "sword") {
-    const name_span = $createElementWithClasses("span", "name");
-    name_span.textContent = item_name;
-    div.appendChild(name_span);
-  }
+  div.appendChild(count_span);
 
   return div;
 }
@@ -344,11 +360,14 @@ GameManager.renderMaking = function() {
 
   inner.push(article);
 
-  /* 조각 */
+  /* 워프권 */
   for(const [sword_name, recipe] of Object.entries(this.recipes)) {
-
     const material = this.makeMaterialSection(recipe);
-    const result = this.makeResultSection(`images/swords/${sword_name}.png`, sword_name)
+    let result;
+    if(this.isFound(sword_name))
+      result = this.makeResultSection(`images/swords/${sword_name}.png`, sword_name)
+    else
+      result = this.makeResultSection(`images/swords/unknown.png`, "발견 안됨")
     const article = this.makeGroupArticle(
       material, 
       result, 
@@ -435,8 +454,6 @@ GameManager.addRecord = function(sword, type) {
   this.renderRecords();
 }
 GameManager.renderRecords = function () {
-  const records_div = $("#records");
-
   const ret = this.records.map(rec => {
     const p = document.createElement("p");
     if(rec.type == "upgrade")
@@ -448,7 +465,7 @@ GameManager.renderRecords = function () {
     return p;
   });
 
-  records_div.replaceChildren(...ret);
+  $("#records").replaceChildren(...ret);
 }
 GameManager.changeBody = function(id) {
   $("#main-body").replaceChildren(document.importNode($("#" + id).content, true))
@@ -490,7 +507,7 @@ GameManager.canMake = function(recipe) {
 
     const item = this.findItem(rec.name, rec.type)
 
-    if(item == undefined ||
+    if(item === undefined ||
       item.count < rec.count) //재료부족
       return false;
   }
@@ -536,13 +553,9 @@ GameManager.animateLodding = function(duration, onfinish) {
 }
 GameManager.makeSword = function(sword_name) {
   if(this.makeWithRecipe(this.recipes[sword_name])) {
-
     const sword = this.swords.find(value => value.name == sword_name);
-
     const index = sword.index;
-
     this.jumpTo(index);
-
     this.animateLodding(800, () => this.showGameInterface());
   }
 }
@@ -553,7 +566,7 @@ GameManager.makeRepairPaper = function() {
   }
 }
 GameManager.init = function(start) {
-  if(start != undefined) {
+  if(start !== undefined) {
     this.jumpTo(start);
   } else this.resetSword();
   this.showGameInterface();

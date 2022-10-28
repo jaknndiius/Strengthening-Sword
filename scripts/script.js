@@ -100,11 +100,11 @@ function gameStart() {
   GameManager.repair_paper_recipe = [new MoneyItem(300)];
   GameManager.recipes = {
     "BF 대검": [
-      new PieceItem("여신의 눈물", 30),
+      new PieceItem("바미의 불씨", 30),
       new PieceItem("도란의 반지", 30),
       new MoneyItem(3300)
     ],
-    "수호자의 검": [
+    "몰락한 왕의 검": [
       new PieceItem("여신의 눈물", 30),
       new MoneyItem(300)
     ],
@@ -113,12 +113,12 @@ function gameStart() {
       new PieceItem("도란의 반지", 30),
       new SwordItem("무라마나", 1)
     ],
-    "헤르메스의 시미터": [
+    "독사의 송곳니": [
       new PieceItem("여신의 눈물", 30),
       new PieceItem("도란의 반지", 30),
       new SwordItem("구인수의 격노검", 1)
     ],
-    "제국의 명령": [
+    "롱소드": [
       new PieceItem("여신의 눈물", 30),
       new PieceItem("도란의 반지", 30),
       new MoneyItem(300)
@@ -146,7 +146,6 @@ function gameStart() {
   GameManager.appendSword(new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
   GameManager.appendSword(new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true));
   GameManager.appendSword(new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true));
-
 
   /* Init game */
   GameManager.init();
@@ -179,21 +178,23 @@ function onClickUpgradeButton() {
 function onClickSellButton() {
   GameManager.addRecord(GameManager.getCurrentSword(), "sell");
   GameManager.changeGold(GameManager.getCurrentSword().price);
-  
   GameManager.init();
 }
+
 /* 보관하기 버튼을 눌렀을 때 */
 function onClickSaveButton() {
   const item = GameManager.getCurrentSword();
   GameManager.saveSword(item.name, 1);
   GameManager.init();
 }
+
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
   if(GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs)) {
     GameManager.init(GameManager.sword_index)
   }
 }
+
 /* 다시하기 버튼을 눌렀을 때 */
 function onClickInitButton() {
   GameManager.init();

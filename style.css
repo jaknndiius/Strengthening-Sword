@@ -96,11 +96,11 @@ body {
 }
 .swordbox img:hover {transform: scale(1.2);border-radius: 0;transition: all .3s;}
 .swordbox .infomation {display: flex;flex-direction: column;align-items: center;}
-#sword-number {font-size: 1.75rem;}
-#sword-name {font-size: 2.25rem;}
-#sword-prob{font-size: 1.25rem;}
+#sword-number {font-size: 1.75rem; color: var(--color-dark-gray);}
+#sword-name {font-size: 2.25rem; color: var(--color-gold);}
+#sword-prob{font-size: 1.25rem; color: var(--color-dark-gray);}
 #sword-cost,
-#sword-price {font-size: 1rem;}
+#sword-price {font-size: 1rem; color: var(--color-dark-gray);}
 .buttons {display: flex;justify-content: space-evenly;margin-top: 0.5rem;}
 .buttons > div {
   width: 70px;
@@ -184,39 +184,22 @@ body {
 .message .message_main .text .pieces div span.count::before {content: "x";margin: 0.3rem;color: var(--color-black);font-size: 1.4rem;}
 .message .message_main .text .required_count {margin: 1rem 0 0 0;font-size: 1.5rem;color: var(--color-blue);}
 .message .message_main .text .required_count.red-text {color: var(--color-red);}
-.icon {
-  width: 35px;
-  height: 35px;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-}
-.icon > img {width: 500%;height: 100%;position: absolute;}
-.icon.information > img {left: 0;}
-.icon.inventory > img {left: -100%;}
-.icon.making > img {left: -200%;}
-.icon.store > img {left: -300%;}
-.icon.sword > img {left: -400%;}
-.main_footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100vw;
-  padding: 0.5rem;
-}
+.main_footer {display: flex;justify-content: space-between;align-items: flex-end;width: 100vw;padding: 0.5rem;}
 .main_footer ul {width: 180px;display: flex;justify-content: space-around;}
 .main_footer ul li {list-style: none;}
 .main_footer ul li a {display: flex;flex-direction: column;align-items: center;cursor: pointer;}
 .main_footer ul li a:hover {transform: scale(1.1);}
 .main_footer ul li a:active {transform: scale(0.9);}
+.main_footer li a .icon {width: 35px;height: 35px;display: inline-block;position: relative;overflow: hidden;}
+.main_footer li a .icon > img {width: 500%;height: 100%;position: absolute;}
+.main_footer li a .icon.information > img {left: 0;}
+.main_footer li a .icon.inventory > img {left: -100%;}
+.main_footer li a .icon.making > img {left: -200%;}
+.main_footer li a .icon.store > img {left: -300%;}
+.main_footer li a .icon.sword > img {left: -400%;}
 .main_footer .coinbox {text-align: end;word-break: keep-all;font-size: 1.5rem;position: relative;}
 .main_footer .coinbox #gold-number {color: var(--color-gold);}
-.main_footer .coinbox #gold-change {
-  position: absolute;
-  top: 0; right: 0;
-  color: var(--color-dark-gold);
-  opacity: 0;
-}
+.main_footer .coinbox #gold-change {position: absolute;top: 0;right: 0;color: var(--color-dark-gold);opacity: 0;}
 .main_footer .coinbox:hover > #gold-record {transform: translateY(-100%);opacity: 0.8;transition: all .5s;}
 .main_footer .coinbox #gold-record {
   position: absolute;
@@ -231,6 +214,7 @@ body {
   font-size: 1rem;
   transition: all .3s;
 }
+.main_footer .coinbox:hover > #gold-record .record_title {margin-bottom: 1rem;}
 .window {
   width: 100vw;
   height: 100%;
@@ -243,9 +227,9 @@ body {
 .inventory_window main {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   width: 90%;
-  max-width: 515px;
+  max-width: 540px;
   min-height: 70%;
   max-height: 90%;
   overflow: hidden scroll;
@@ -260,6 +244,7 @@ body {
   width: 230px;
   height: 54px;
   align-items: center;
+  margin: 0 1rem;
 }
 .inventory_window main .group .item {
   width: 50px;
@@ -309,7 +294,30 @@ body {
   color: var(--color-white);
 }
 .inventory_window main .group .item_name {font-size: 1.25rem;}
-.inventory_window main .group .item_count {font-size: 1.2rem;text-align: start;}
+.inventory_window main .group .item_count {font-size: 1.2rem;text-align: end;}
+.inventory_window main .underline {
+  width: 95%;
+  height:1.75rem;
+  border: solid 3px var(--color-dark-gray);
+  font-size: 1.1rem;
+}
+.inventory_window main .underline.bok::after {
+  content: "복구권";
+  color: var(--color-gold);
+}
+.inventory_window main .underline.pie::after {
+  content: "조각";
+  color: var(--color-green);
+}
+.inventory_window main .underline.swo::before {
+  content: "검";
+  color: var(--color-blue);
+}
+.inventory_window main .underline.swo::after {
+  content: " (아이콘 좌클릭: 판매)";
+  font-size: 0.9rem;
+  color: var(--color-dark-gray);
+}
 .sword_book_window main {
   display: flex;
   flex-direction: column;
@@ -330,7 +338,7 @@ body {
   width: 100%;
   max-width: 400px;
 }
-.sword_icon {
+.sword_book_window main .swords .sword_icon {
   width: 15%;
   padding-bottom: 15%;
   display: flex;
@@ -340,9 +348,9 @@ body {
   cursor: pointer;
   transition: all .1s;
 }
-.sword_icon.sword {background: center / contain url("images/ui/item_frame.png");}
-.sword_icon.unknown {background: center / contain url("images/ui/sword_frame.png");}
-.sword_icon > img {
+.sword_book_window main .swords .sword_icon.sword {background: center / contain url("images/ui/item_frame.png");}
+.sword_book_window main .swords .sword_icon.unknown {background: center / contain url("images/ui/sword_frame.png");}
+.sword_book_window main .swords .sword_icon img {
   width: 90%;
   position: absolute;
   top: 50%;
@@ -350,10 +358,29 @@ body {
   transform: translate(-50%, -50%);
   transition: all .3s;
 }
-.sword_icon.sword:hover {transform: scale(1.2);transition: all .5s;z-index: 1;}
-.sword_icon.sword:hover > img {transform: translate(-50%, -50%) scale(1.3);transition: all .3s;}
-.sword_icon.unknown:hover {transform: scale(0.8);transition: all .5s;z-index: 1;}
-.sword_icon.unknown:hover > img {transform: translate(-50%, -50%) scale(0.7);transition: all .3s;}
+.sword_book_window main .swords .sword_icon .sword_name {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  text-shadow: -1px -1px 0px var(--color-black),
+  -1px 1px 0px var(--color-black),
+  1px 1px 0px var(--color-black),
+  1px -1px 0px var(--color-black),
+  -1px 0px 0px var(--color-black),
+  1px 0px 0px var(--color-black),
+  0px 1px 0px var(--color-black),
+  0px -1px 0px var(--color-black);
+  color: white;
+  font-size: 1rem;
+  opacity: 0;
+  line-height: 90%;
+}
+.sword_book_window main .swords .sword_icon.sword:hover {transform: scale(1.2);transition: all .5s;z-index: 1;}
+.sword_book_window main .swords .sword_icon.sword:hover img {transform: translate(-50%, -50%) scale(1.3);transition: all .3s;}
+.sword_book_window main .swords .sword_icon.sword:hover .sword_name {opacity: 1;transition: all .3s;}
+.sword_book_window main .swords .sword_icon.unknown:hover {transform: scale(0.8);transition: all .5s;z-index: 1;}
+.sword_book_window main .swords .sword_icon.unknown:hover img {transform: translate(-50%, -50%) scale(0.7);transition: all .3s;}
 .maker_window main {
   display: flex;
   justify-content: center;
