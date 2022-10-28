@@ -54,7 +54,7 @@ class Piece {
   calculate() {
       if(Math.random() < this.prob) {
           const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
-          return GameManager.returnDroppedPieces(this.name, result);
+          return new PieceItem(this.name, result);
       } return null;
   }
 }
@@ -143,7 +143,7 @@ GameManager.getCurrentSword = function() {
 }
 GameManager.appendSword = function(sword) {
   if(sword instanceof Sword) this.swords.push(sword);
-  else throw new TypeError("Type of arg-1 should be Sword");
+  else throw new TypeError("Arg-1 must be Sword");
 }
 GameManager.calculateLoss = function(index) {
   return this.swords.filter((value, idx) => idx <= index)
@@ -152,9 +152,16 @@ GameManager.calculateLoss = function(index) {
 GameManager.saveItem = function(type, name, count) {
   const item = this.findItem(name, type);
   if(item == undefined) {
-    GameManager.inventory.push(
-      new Item(type, name, count)
-    );
+    switch (type) {
+      case "piece":
+        GameManager.inventory.push(new PieceItem(name, count));
+        break;
+      case "sword":
+        GameManager.inventory.push(new SwordItem(name, count));
+        break;
+      default:
+        throw new Error("Arg-1 must be 'piece' or 'sword'.");
+    }
   } else {
     item.count += count;
   }
@@ -286,7 +293,6 @@ GameManager.makeMaterialSection = function(recipes) {
 
   const material = $createElementWithClasses("section", "material")
 
-
   if(recipes.length == 1) material.classList.add("one");
 
   for(const item of recipes) {
@@ -356,7 +362,7 @@ GameManager.makeResultSection = function(src, name, count)  {
   const result = $createElementWithClasses("section", "result");
 
   const img_div = $createElementWithClasses("div", "item");
-;
+
   const img = new Image();
   img.src = src;
 
@@ -409,9 +415,6 @@ GameManager.renderMaking = function() {
 
   $("#recipes").replaceChildren(...inner);
 }
-GameManager.returnDroppedPieces = function(name, count) {
-  return {name: name, count: count};
-}
 GameManager.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
 
@@ -427,6 +430,9 @@ GameManager.makeDroppedPieceDiv = function(name, count) {
   return div;
 }
 GameManager.renderFallMessage = function(...pieces) {
+
+  if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem)) throw new TypeError("Args must be PieceItem")
+
   const pieces_box = $("#pieces");
 
   $("#loss").textContent = "손실: " + this.calculateLoss(this.sword_index) + "원";
@@ -437,14 +443,18 @@ GameManager.renderFallMessage = function(...pieces) {
 
   if(this.canBeRepaired()) {
     $("#fix-button").style.display = "block";
-    $("#required-count").textContent = `복구권 ${this.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다.`;
+    $("#required-count").textContent = `복구권 ${this.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${this.repair_paper}/${this.getCurrentSword().requiredRepairs})`;
     $("#required-count").classList.remove("red-text");
   } else {
     $("#fix-button").style.display = "none";
-    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다.`;
+    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${this.repair_paper}/${this.getCurrentSword().requiredRepairs})`;
     $("#required-count").classList.add("red-text");
   }
 }
+GameManager.gold_change_kef = [
+  {opacity: '1', transform: 'translate(-30%, 0%)'}, 
+  {opacity: '0', transform: 'translate(-30%, -70%)'}
+];
 GameManager.changeGold = function(number) {
 
   const gold_change_span = $("#gold-change");
@@ -458,10 +468,7 @@ GameManager.changeGold = function(number) {
   gold_change_span.textContent = ((number >= 0) ? "+" + number : number) + "원";
 
   gold_change_span.animate(
-    [
-      {opacity: '1', transform: 'translate(-30%, 0%)'}, 
-      {opacity: '0', transform: 'translate(-30%, -70%)'}
-    ],
+    this.gold_change_kef,
     {duration: 300, fill: "both"}
   );
 
@@ -473,6 +480,9 @@ GameManager.renderGold = function() {
   $("#gold-number").textContent = this.money;
 }
 GameManager.addRecord = function(sword, type) {
+  if(sword instanceof Sword) this.swords.push(sword);
+  else throw new TypeError("Arg-1 should be Sword");
+
   this.records.push({sword: sword, type: type});
   let idx = this.records.length - this.max_recordable_count;
   if(idx < 0) idx = 0;
@@ -489,6 +499,8 @@ GameManager.renderRecords = function () {
       p.textContent = `${rec.sword.name} 강화 -${rec.sword.cost}`;
     else if(rec.type == "sell")
       p.textContent =  `${rec.sword.name} 판매 +${rec.sword.price}`;
+    else
+    p.textContent =  "<알수없음>";
     return p;
   });
 
@@ -513,6 +525,7 @@ GameManager.showMaking = function() {
   this.changeBody("making");
   this.renderMaking();
 }
+GameManager.popup_kef = [{opacity: '0'}, {opacity: '1'}];
 GameManager.popupFallMessage = function(...pieces) {
 
   this.renderFallMessage(...pieces);
@@ -520,7 +533,7 @@ GameManager.popupFallMessage = function(...pieces) {
   const message_box = $("#message-box");
   message_box.style.display = "block";
   message_box.animate(
-      [{opacity: '0'}, {opacity: '1'}],
+      this.popup_kef,
       {duration: 300, fill: "both"}
   );
 }
@@ -548,15 +561,8 @@ GameManager.makeWithRecipe = function(recipe) {
   }
   return true;
 }
-GameManager.lodding_kef = [
-  {opacity: '0'}, 
-  {opacity: '1'}
-]
-GameManager.hammer_kef = [
-  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },
-  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },
-  { transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}
-]
+GameManager.lodding_kef = [{opacity: '0'}, {opacity: '1'}]
+GameManager.hammer_kef = [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}];
 GameManager.animateLodding = function(duration, onfinish) {
   const lodding = $("#maker-window-lodding");
     const hammer = $("#maker-window-lodding div");
@@ -610,7 +616,7 @@ GameManager.init = function(start) {
   this.renderGold();
 }
 
-const asdf = [
+const testswords = [
   new Sword(0, "단검", 1.0, 300, 0, 3, false),
   new Sword(1, "롱소드", 0.95, 300, 100, 3, false),
   new Sword(2, "처형인의 대검", 0.9, 400, 300, 3, false),
@@ -633,7 +639,7 @@ const asdf = [
   new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true)
 ]
 
-asdf.forEach(value => {
+testswords.forEach(value => {
   GameManager.appendSword(value);
 
   const img = new Image();
