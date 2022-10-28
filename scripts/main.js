@@ -1,64 +1,36 @@
 const $ = (selector) => document.querySelector(selector)
-const $createElementWithClasses = function(tagName, ...classes) {
-  const tag = document.createElement(tagName);
-  tag.classList.add(...classes);
-  return tag;
-}
-Node.prototype.appendChildren = function(...nodes) {
-  for(const node of nodes) this.appendChild(node);
-}
-
-// item class
-class Item {constructor(type, name, count) {this.type = type; this.name = name; this.count = count;}}
-
-class PieceItem extends Item {
-  constructor(name, count) {
-    super("piece", name, count);
-  }
-}
-
-class SwordItem extends Item {
-  constructor(name, count) {
-    super("sword", name, count);
-  }
-}
-
-class MoneyItem extends Item {
-  constructor(count) {
-    super("money", "돈", count);
-  }
-}
-
-// sword class
+const $createElementWithClasses = function(tagName, ...classes) {const tag = document.createElement(tagName);tag.classList.add(...classes);return tag;}
+Node.prototype.appendChildren = function(...nodes) {for(const node of nodes) this.appendChild(node);}
+class Item {constructor(type, name, count){this.type = type; this.name = name; this.count = count;}}
+class PieceItem extends Item {constructor(name, count){super("piece", name, count);}}
+class SwordItem extends Item {constructor(name, count){super("sword", name, count);}}
+class MoneyItem extends Item {constructor(count){super("money", "돈", count);}}
 class Sword {
   constructor(index, name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
-      this.index = index;
-      this.name = name;
-      this.image = "images/swords/" + name + ".png";
-      this.prob = prob;
-      this.cost = cost;
-      this.price = price;
-      this.requiredRepairs = requiredRepairs;
-      this.canSave = canSave
-      this.pieces = pieces;
+    this.index = index;
+    this.name = name;
+    this.image = "images/swords/" + name + ".png";
+    this.prob = prob;
+    this.cost = cost;
+    this.price = price;
+    this.requiredRepairs = requiredRepairs;
+    this.canSave = canSave
+    this.pieces = pieces;
   }
 }
-// piece class
 class Piece {
   constructor(name, prob, max_drop) {
-      this.name = name;
-      this.prob = prob;
-      this.max_drop = max_drop;
+    this.name = name;
+    this.prob = prob;
+    this.max_drop = max_drop;
   }
-
   calculate() {
-      if(Math.random() < this.prob) {
-          const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
-          return new PieceItem(this.name, result);
-      } return null;
+    if(Math.random() < this.prob) {
+      const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
+      return new PieceItem(this.name, result);
+    } return null;
   }
 }
-
 const GameManager = {
   swords: [],
   max_upgradable_index: 30,
@@ -272,7 +244,6 @@ GameManager.makeInventoryArticle = function(src, name, count, sellFnc) {
   return article;
 }
 GameManager.renderInventory = function() {
-
   const inner = [
     this.makeInventoryArticle("images/repair_paper/복구권.png", "복구권", this.repair_paper), //복구권
     this.makeInventoryArticle()
