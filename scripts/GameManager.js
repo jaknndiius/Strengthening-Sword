@@ -414,10 +414,7 @@ GameManager.renderFallMessage = function(...pieces) {
     $("#required-count").classList.add("red-text");
   }
 }
-GameManager.gold_change_kef = [
-  {opacity: '1', transform: 'translate(-30%, 0%)'}, 
-  {opacity: '0', transform: 'translate(-30%, -70%)'}
-];
+GameManager.gold_change_kef = [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}];
 GameManager.changeGold = function(number) {
 
   const gold_change_span = $("#gold-change");
@@ -522,7 +519,7 @@ GameManager.makeWithRecipe = function(recipe) {
   }
   return true;
 }
-GameManager.lodding_kef = [{opacity: '0'}, {opacity: '1'}]
+GameManager.lodding_kef = [{opacity: '0'}, {opacity: '1'}];
 GameManager.hammer_kef = [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}];
 GameManager.animateLodding = function(duration, onfinish) {
   const lodding = $("#maker-window-lodding");
@@ -574,15 +571,7 @@ GameManager.init = function(start) {
 }
 
 /* Footer button */
-$("#main-game-button").addEventListener("click", () => {
-  GameManager.showGameInterface();
-})
-$("#information-button").addEventListener("click", () => {
-  GameManager.showGameInformation();
-})
-$("#inventory-button").addEventListener("click", () => {
-  GameManager.showInventory();
-})
-$("#making-button").addEventListener("click", () => {
-  GameManager.showMaking();
-})
+$("#main-game-button").addEventListener("click", () => {GameManager.showGameInterface();});
+$("#information-button").addEventListener("click", () => {GameManager.showGameInformation();});
+$("#inventory-button").addEventListener("click", () => {GameManager.showInventory();});
+$("#making-button").addEventListener("click", () => {GameManager.showMaking();});

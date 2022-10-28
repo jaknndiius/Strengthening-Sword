@@ -90,9 +90,7 @@ GameManager.recipes = [
   new MoneyItem(100)
 ] -> 조각X 1개 + 조각Y 2개 + 검Z 3개 + 100원이 재료로 필요함
 */
-
 function gameStart() {
-
   /* Game Setting */
   GameManager.max_upgradable_index = 30;
   GameManager.money = 100000;
@@ -124,7 +122,6 @@ function gameStart() {
       new MoneyItem(300)
     ]
   };
-
   /* Sword Setting */
   GameManager.appendSword(new Sword(0, "단검", 1.0, 300, 0, 3, false));
   GameManager.appendSword(new Sword(1, "롱소드", 0.95, 300, 100, 3, false));
@@ -146,55 +143,44 @@ function gameStart() {
   GameManager.appendSword(new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
   GameManager.appendSword(new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true));
   GameManager.appendSword(new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true));
-
   /* Init game */
   GameManager.init();
 }
-
 /* 강화하기 버튼을 눌렀을 때 */
 function onClickUpgradeButton() {
   const current_sword = GameManager.getCurrentSword();
   if(GameManager.money - current_sword.cost <= 0) return;
-
   GameManager.addRecord(current_sword, "upgrade");
   GameManager.changeGold(-current_sword.cost);
-
   const num = Math.random();
   console.log(num, current_sword.prob);
-
   if(num < current_sword.prob) {
       GameManager.upgradeSword();
       GameManager.renderGameInterFace();
   } else {
       const re = current_sword.pieces.map(value => value.calculate());
-
       re.forEach(value => GameManager.savePiece(value.name, value.count));
       GameManager.popupFallMessage(...re);
   }
-  
 }
-
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
   GameManager.addRecord(GameManager.getCurrentSword(), "sell");
   GameManager.changeGold(GameManager.getCurrentSword().price);
   GameManager.init();
 }
-
 /* 보관하기 버튼을 눌렀을 때 */
 function onClickSaveButton() {
   const item = GameManager.getCurrentSword();
   GameManager.saveSword(item.name, 1);
   GameManager.init();
 }
-
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
   if(GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs)) {
     GameManager.init(GameManager.sword_index)
   }
 }
-
 /* 다시하기 버튼을 눌렀을 때 */
 function onClickInitButton() {
   GameManager.init();
