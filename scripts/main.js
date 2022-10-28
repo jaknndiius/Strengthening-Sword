@@ -52,39 +52,12 @@ const GameManager = {
     new SwordItem("수호 천사", 300),
     new SwordItem("무한의 대검", 30),
     new SwordItem("드락사르의 황혼검", 30),
-    new SwordItem("독사의 송곳니", 30),
+    new SwordItem("독사의 송곳니", 30)
   ],
   records: [],
   max_recordable_count: 10,
-  repair_paper_recipe: [
-    new MoneyItem(300)
-  ],
-  recipes: {
-    "BF 대검": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new MoneyItem(3300)
-    ],
-    "수호자의 검": [
-      new PieceItem("여신의 눈물", 30),
-      new MoneyItem(300)
-    ],
-    "요우무의 유령검": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new SwordItem("무라마나", 1)
-    ],
-    "헤르메스의 시미터": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new SwordItem("구인수의 격노검", 1)
-    ],
-    "제국의 명령": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new MoneyItem(300)
-    ]
-  }
+  repair_paper_recipe: [],
+  recipes: {}
 }
 GameManager.resetSword = function() {
   this.jumpTo(0);
@@ -166,23 +139,18 @@ GameManager.sellSword = function(name) {
 }
 GameManager.renderGameInterFace = function() {
 
-  const buttons = $("#buttons-main");
-
-  const sell_button = $("#sell-button");
-  const save_button = $("#save-button");
+  $("#message-box").style.display = "none";
 
   const current_sword = this.getCurrentSword();
-
   $("#sword-image").src = current_sword.image;
-
   $("#sword-number").textContent = this.sword_index + "강";
   $("#sword-name").textContent = current_sword.name;
   $("#sword-prob").textContent = "강화 성공 확률: " + Math.floor(current_sword.prob *100) + "%";
   $("#sword-cost").textContent = "강화 비용: " + current_sword.cost + "원";
   $("#sword-price").textContent = "판매 가격: " + current_sword.price + "원";
-  
-  sell_button.style.display = (this.sword_index === 0) ? "none" : "block";
-  save_button.style.display = (this.getCurrentSword().canSave) ? "block" : "none";
+
+  $("#sell-button").style.display = (this.sword_index === 0) ? "none" : "block";
+  $("#save-button").style.display = (this.getCurrentSword().canSave) ? "block" : "none";
 
 }
 GameManager.makeSwordIcon = function(src, alt, type) {
@@ -261,7 +229,6 @@ GameManager.renderInventory = function() {
   $("#inventory-items").replaceChildren(...inner);
 }
 GameManager.makeMaterialSection = function(recipes) {
-
   const material = $createElementWithClasses("section", "material")
 
   if(recipes.length == 1) material.classList.add("one");
@@ -302,13 +269,19 @@ GameManager.makeMaterialDiv = function(item_name, item_type, curc, count) {
       break;
   }
 
-  const span = $createElementWithClasses("span", "count");
-  if(curc < count) span.classList.add("unable");
+  const count_span = $createElementWithClasses("span", "count");
+  if(curc < count) count_span.classList.add("unable");
 
   /* 돈이면 "필요수량" 아니면 "가진갯수/필요수량" */
-  span.textContent = (item_name == "돈") ? count : curc + "/" + count;
+  count_span.textContent = (item_name == "돈") ? count : curc + "/" + count;
 
-  div.appendChildren(img, span);
+  div.appendChildren(img, count_span);
+
+  if(item_type == "sword") {
+    const name_span = $createElementWithClasses("span", "name");
+    name_span.textContent = item_name;
+    div.appendChild(name_span);
+  }
 
   return div;
 }
@@ -587,91 +560,7 @@ GameManager.init = function(start) {
   this.renderGold();
 }
 
-const testswords = [
-  new Sword(0, "단검", 1.0, 300, 0, 3, false),
-  new Sword(1, "롱소드", 0.95, 300, 100, 3, false),
-  new Sword(2, "처형인의 대검", 0.9, 400, 300, 3, false),
-  new Sword(3, "BF 대검", 0.85, 500, 600, 3, false),
-  new Sword(4, "마나무네", 0.8, 600, 1000, 3, false),
-  new Sword(5, "무라마나", 0.75, 700, 1200, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(6, "드락사르의 황혼검", 0.7, 1000, 1500, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(7, "무한의 대검", 0.65, 1500, 3000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(8, "수호 천사", 0.6, 5000, 12000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)),
-  new Sword(9, "제국의 명령", 0.55, 10000, 30000, 1, true),
-  new Sword(10, "요우무의 유령검", 0.5, 300, 0, 1, true),
-  new Sword(11, "톱날 단검", 0.45, 300, 100, 1, true),
-  new Sword(12, "독사의 송곳니", 0.4, 400, 300, 1, true),
-  new Sword(13, "리치베인", 0.35, 500, 600, 1, true),
-  new Sword(14, "마법사의 최후", 0.3, 600, 1000, 1, true),
-  new Sword(15, "죽음의 무도", 0.25, 700, 1200, 1, true),
-  new Sword(16, "열정의 검", 0.2, 1000, 1500, 1, true),
-  new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true),
-  new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true),
-  new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true)
-]
-
-testswords.forEach(value => {
-  GameManager.appendSword(value);
-
-  const img = new Image();
-  img.src = "images/swords/" + value.name + ".png";
-  $("#img-lodder").appendChild(img);
-
-});
-
-// onClick: upgrade button
-function upgrade() {
-
-  const current_sword = GameManager.getCurrentSword();
-  if(GameManager.money - current_sword.cost <= 0) return;
-
-  GameManager.addRecord(current_sword, "upgrade");
-  GameManager.changeGold(-current_sword.cost);
-
-  const num = Math.random();
-  console.log(num, current_sword.prob);
-
-  if(num < current_sword.prob) {
-      GameManager.upgradeSword();
-  } else {
-      const re = current_sword.pieces.map(value => value.calculate());
-
-      re.forEach(value => GameManager.savePiece(value.name, value.count));
-      GameManager.popupFallMessage(...re);
-  }
-  GameManager.renderGameInterFace();
-}
-
-// onClick: sell button
-function sell() {
-
-  GameManager.addRecord(GameManager.getCurrentSword(), "sell");
-  GameManager.changeGold(GameManager.getCurrentSword().price);
-  
-  GameManager.init();
-}
-
-// onClick: init button
-function initButton() {
-  $("#message-box").style.display = "none";
-  GameManager.init();
-}
-
-// onClick: fix button
-function repair() {
-  if(GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs)) {
-    GameManager.init(GameManager.sword_index)
-  }
-}
-
-function save() {
-  const item = GameManager.getCurrentSword();
-  GameManager.saveSword(item.name, 1);
-  GameManager.init();
-}
-
-/* Footer */
-
+/* Footer button */
 $("#main-game-button").addEventListener("click", () => {
   GameManager.showGameInterface();
 })
@@ -684,4 +573,3 @@ $("#inventory-button").addEventListener("click", () => {
 $("#making-button").addEventListener("click", () => {
   GameManager.showMaking();
 })
-GameManager.init();

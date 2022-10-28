@@ -205,33 +205,19 @@ body {
   padding: 0.5rem;
 }
 .main_footer ul {width: 180px;display: flex;justify-content: space-around;}
-.main_footer ul li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-.main_footer ul li:hover {transform: scale(1.1);}
-.main_footer ul li:active {transform: scale(0.9);}
-.main_footer .coinbox {
-  text-align: end;
-  word-break: keep-all;
-  font-size: 1.5rem;
-  position: relative;
-}
+.main_footer ul li {list-style: none;}
+.main_footer ul li a {display: flex;flex-direction: column;align-items: center;cursor: pointer;}
+.main_footer ul li a:hover {transform: scale(1.1);}
+.main_footer ul li a:active {transform: scale(0.9);}
+.main_footer .coinbox {text-align: end;word-break: keep-all;font-size: 1.5rem;position: relative;}
 .main_footer .coinbox #gold-number {color: var(--color-gold);}
 .main_footer .coinbox #gold-change {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0; right: 0;
   color: var(--color-dark-gold);
   opacity: 0;
 }
-.main_footer .coinbox:hover > #gold-record {
-  transform: translateY(-100%);
-  opacity: 0.8;
-  transition: all .5s;
-}
+.main_footer .coinbox:hover > #gold-record {transform: translateY(-100%);opacity: 0.8;transition: all .5s;}
 .main_footer .coinbox #gold-record {
   position: absolute;
   top: 0;
@@ -265,21 +251,14 @@ body {
   overflow: hidden scroll;
   gap: 8px;
 }
-.inventory_window main::-webkit-scrollbar-track {
-  background-color: var(--color-white);
-  border-radius: 5px;
-}
-.inventory_window main::-webkit-scrollbar {
-  width: 7px;
-}
-.inventory_window main::-webkit-scrollbar-thumb {
-  background-color: var(--color-gray);
-  border-radius: 5px;
-}
+.inventory_window main::-webkit-scrollbar-track {background-color: var(--color-white);border-radius: 5px;}
+.inventory_window main::-webkit-scrollbar {width: 7px;}
+.inventory_window main::-webkit-scrollbar-thumb {background-color: var(--color-gray);border-radius: 5px;}
 .inventory_window main .group {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   width: 230px;
+  height: 54px;
   align-items: center;
 }
 .inventory_window main .group .item {
@@ -476,8 +455,8 @@ body {
   transition: opacity .3s;
 }
 .maker_window main .group .result .item img:hover {filter: brightness(0.7);}
-.maker_window main .group .result .item img:hover ~ .name {opacity: 1;}
-.maker_window main .group .result .item img:hover ~ .count {opacity: 0;}
+.maker_window main .group .item img:hover ~ .name {opacity: 1;}
+.maker_window main .group .item img:hover ~ .count {opacity: 0;}
 .maker_window main .group button {
   width: 50px;
   height: 50px;

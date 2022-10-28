@@ -19,21 +19,29 @@
     <main class="main_main" id="main-body"></main>
     <footer class="main_footer">
       <ul>
-        <li id="main-game-button">
-          <div class="icon sword"><img src="images/icon/icons.png" alt="none" /></div>
-          검강화
+        <li>
+          <a id="main-game-button">
+            <div class="icon sword"><img src="images/icon/icons.png" alt="none" /></div>
+            검강화
+          </a>
         </li>
-        <li id="information-button">
-          <div class="icon information"><img src="images/icon/icons.png" alt="none" /></div>
-          내정보
+        <li>
+          <a id="information-button">
+            <div class="icon information"><img src="images/icon/icons.png" alt="none" /></div>
+            내정보
+          </a>
         </li>
-        <li id="inventory-button">
-          <div class="icon inventory"><img src="images/icon/icons.png" alt="none" /></div>
-          보관함
+        <li>
+          <a id="inventory-button">
+            <div class="icon inventory"><img src="images/icon/icons.png" alt="none" /></div>
+            보관함
+          </a>
         </li>
-        <li id="making-button">
-          <div class="icon making"><img src="images/icon/icons.png" alt="none" /></div>
-          제작소
+        <li>
+          <a id="making-button">
+            <div class="icon making"><img src="images/icon/icons.png" alt="none" /></div>
+            제작소
+          </a>
         </li>
       </ul>
       <div class="coinbox">
@@ -50,9 +58,9 @@
         <section class="infomation"><span id="sword-number"></span> <span id="sword-name"></span> <span id="sword-prob"></span> <span id="sword-cost"></span> <span id="sword-price"></span></section>
       </div>
       <div id="buttons-main" class="buttons">
-        <div class="brown_button tobottom decrease" id="save-button" onclick="save()"><img src="images/ui/보관하기.png" alt="none" /> <span>보관하기</span></div>
-        <div class="blue_button toleft rotate" id="upgrade-button" onclick="upgrade()"><img src="images/ui/강화하기.png" alt="none" /> <span>강화하기</span></div>
-        <div class="red_button increase" id="sell-button" onclick="sell()"><img src="images/ui/판매하기.png" alt="none" /> <span>판매하기</span></div>
+        <div class="brown_button tobottom decrease" id="save-button" onclick="onClickSaveButton()"><img src="images/ui/보관하기.png" alt="none" /> <span>보관하기</span></div>
+        <div class="blue_button toleft rotate" id="upgrade-button" onclick="onClickUpgradeButton()"><img src="images/ui/강화하기.png" alt="none" /> <span>강화하기</span></div>
+        <div class="red_button increase" id="sell-button" onclick="onClickSellButton()"><img src="images/ui/판매하기.png" alt="none" /> <span>판매하기</span></div>
       </div>
       <div class="message" id="message-box">
         <div class="message_main">
@@ -63,8 +71,8 @@
             <p class="required_count" id="required-count"></p>
           </div>
           <div class="buttons">
-            <div class="green_button increase" id="fix-button" onclick="repair()"><img src="images/repair_paper/복구권.png" alt="none" /> <span>복구하기</span></div>
-            <div class="dark_blue_button turning" id="init-button" onclick="initButton()"><img src="images/ui/다시하기.png" alt="none" /> <span>다시하기</span></div>
+            <div class="green_button increase" id="fix-button" onclick="onClickRepairButton()"><img src="images/repair_paper/복구권.png" alt="none" /> <span>복구하기</span></div>
+            <div class="dark_blue_button turning" id="init-button" onclick="onClickInitButton()"><img src="images/ui/다시하기.png" alt="none" /> <span>다시하기</span></div>
           </div>
         </div>
       </div>
