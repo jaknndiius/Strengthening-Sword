@@ -21,7 +21,7 @@ new Sword(
   cost:Number,            : 다음 단계 강화비용
   price:Number,           : 판매시 가격
   requiredRepairs:Number, : 필요한 복구권 갯수
-  canSave:Boolean,        : 인벤토리에 저장 가능 여부
+  canSave:Boolean,        : 보관함에 저장 가능 여부
   pieces: ...Piece        : 드랍되는 조각들
 )
 new Piece(
@@ -61,7 +61,11 @@ GameManager.savePiece(name: String, count: Number)
   name인 조각을 count만큼 보관함에 저장합니다.
 GameManager.saveSword(name: String, count: Number)
   name인 검을 count만큼 보관함에 저장합니다.
-GameManager.popupFallMessage(pieces: ...Piece)
+GameManager.setRepairPaperRecipe(...materials: ...Item)
+  복구권 조합법을 materials로 정합니다.
+GameManager.addRecipe(resultItem: String, ...materials: ...Item)
+  이름이 resultItem인 검으로 워프권의 조합법을 materials로 정합니다.
+GameManager.popupFallMessage(...pieces: ...Piece)
   검 파괴 알림을 떨어진 조각 정보와 함께 보여줍니다.
 GameManager.renderGameInterFace()
   메인 게임 화면을 새로고침합니다.
@@ -70,58 +74,13 @@ GameManager.init(start: Number)
   GameManager.init(start) : 검을 start강으로 초기화 후 메인 게임 화면을 보여줍니다.
 GameManager.useRepairPair(count: Number) : Boolean
   복구권을 count만큼 차감 후 true 반환하고, 사용 불가시(갯수 부족) false 반환합니다.
-
-*조합법 작성 방법
-
-GameManager.repair_paper_recipe = *material_list0 -> material_list0으로 복구권을 만드는 조합법
-
-GameManager.recipes = [
-{"A": *material_list1} -> material_list1으로 A를 만드는 조합법
-{"B": *material_list2} -> material_list2으로 B를 만드는 조합법
-{"C": *material_list3} -> material_list3으로 C를 만드는 조합법
-{"D": *material_list4} -> material_list4으로 D를 만드는 조합법
-]
-
-*material_list 작성 방법
-[
-  new PieceItem("X", 1),
-  new PieceItem("Y", 2),
-  new SwordItem("Z", 3),
-  new MoneyItem(100)
-] -> 조각X 1개 + 조각Y 2개 + 검Z 3개 + 100원이 재료로 필요함
 */
 function gameStart() {
   /* Game Setting */
   GameManager.max_upgradable_index = 30;
   GameManager.money = 100000;
   GameManager.repair_paper = 0;
-  GameManager.repair_paper_recipe = [new MoneyItem(300)];
-  GameManager.recipes = {
-    "BF 대검": [
-      new PieceItem("바미의 불씨", 30),
-      new PieceItem("도란의 반지", 30),
-      new MoneyItem(3300)
-    ],
-    "몰락한 왕의 검": [
-      new PieceItem("여신의 눈물", 30),
-      new MoneyItem(300)
-    ],
-    "요우무의 유령검": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new SwordItem("무라마나", 1)
-    ],
-    "독사의 송곳니": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new SwordItem("구인수의 격노검", 1)
-    ],
-    "롱소드": [
-      new PieceItem("여신의 눈물", 30),
-      new PieceItem("도란의 반지", 30),
-      new MoneyItem(300)
-    ]
-  };
+
   /* Sword Setting */
   GameManager.appendSword(new Sword(0, "단검", 1.0, 300, 0, 3, false));
   GameManager.appendSword(new Sword(1, "롱소드", 0.95, 300, 100, 3, false));
@@ -143,7 +102,15 @@ function gameStart() {
   GameManager.appendSword(new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
   GameManager.appendSword(new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true));
   GameManager.appendSword(new Sword(19, "구인수의 격노검", 0.5, 10000, 30000, 1, true));
-  /* Init game */
+
+  /* Recipes Setting */
+  GameManager.setRepairPaperRecipe(new MoneyItem(300));
+  GameManager.setRecipe("BF 대검", new PieceItem("바미의 불씨", 30), new PieceItem("도란의 반지", 30), new MoneyItem(3300));
+  GameManager.setRecipe("몰락한 왕의 검", new PieceItem("여신의 눈물", 30), new MoneyItem(300));
+  GameManager.setRecipe("요우무의 유령검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("무라마나", 1));
+  GameManager.setRecipe("독사의 송곳니", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("구인수의 격노검", 1));
+
+  /* Init Game */
   GameManager.init();
 }
 /* 강화하기 버튼을 눌렀을 때 */
