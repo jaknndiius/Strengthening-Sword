@@ -2,17 +2,19 @@
 
 ---Class---------------------------------
 
-new PieceItem(
-  name:String,  : 조각의 이름
-  count:Number  : 조각의 갯수
-)
-new SwordItem(
-  name:String,  : 검의 이름
-  count:Number  : 검의 갯수
-)
-new MoneyItem(
-  count:Number  : 돈의 수량
-)
+Item {
+  new PieceItem(
+    name:String,  : 조각의 이름
+    count:Number  : 조각의 갯수
+  )
+  new SwordItem(
+    name:String,  : 검의 이름
+    count:Number  : 검의 갯수
+  )
+  new MoneyItem(
+    count:Number  : 돈의 수량
+  )
+}
 
 new Sword(
   index:Number,           : 검의 강화 번호
@@ -47,6 +49,9 @@ GameManager.repair_paper        | 현재 가진 복구권 갯수
 GameManager.repair_paper_recipe | 복구권 조합법 배열
 GameManager.recipes             | 아이템 조합법 객체
 
+GameManager.canUseRepairPaper(count: Number) : Boolean
+  GameManager.canUseRepairPaper() : 현재 가진 복구권으로 현재 검을 복구할 수 있으면 true, 없으면 false 반환합니다.
+  GameManager.canUseRepairPaper(count) : 현재 가진 복구권이 count보다 크거나 같으면 true, 작으면 false 반환합니다.
 GameManager.getCurrentSword() : Sword
   현재 가지고 있는 검을 반환합니다.
 GameManager.appendSword(sword: Sword)
@@ -144,8 +149,9 @@ function onClickSaveButton() {
 }
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
-  if(GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs)) {
-    GameManager.init(GameManager.sword_index)
+  if(GameManager.canUseRepairPaper()) {
+    GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs);
+    GameManager.init(GameManager.sword_index);
   }
 }
 /* 다시하기 버튼을 눌렀을 때 */
