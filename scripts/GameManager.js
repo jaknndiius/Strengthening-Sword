@@ -89,7 +89,6 @@ GameManager.calculateLoss = function(index) {
   return this.swords.filter((v, idx) => idx <= index).reduce((pre, cur) => pre += cur.cost, 0);
 }
 GameManager.saveItem = function(type, name, count) {
-
   if(typeof count != "number") throw new TypeError(`${count} is not a number`);
   if(count < 0) throw new RangeError(`${count} is not more than 0. To subtract the item, use GameManager.subtractItem`);
 
