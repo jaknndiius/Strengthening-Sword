@@ -230,14 +230,23 @@ body {
   justify-content: center;
   width: 90%;
   max-width: 540px;
-  min-height: 70%;
   max-height: 90%;
   overflow: hidden scroll;
   gap: 8px;
 }
+.inventory_window main.empty_inventory {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 300px;
+  row-gap: 20px;
+  height: 70%;
+  overflow: unset;
+}
 .inventory_window main::-webkit-scrollbar-track {background-color: var(--color-white);border-radius: 5px;}
 .inventory_window main::-webkit-scrollbar {width: 7px;}
 .inventory_window main::-webkit-scrollbar-thumb {background-color: var(--color-gray);border-radius: 5px;}
+.inventory_window main .no_item {color: var(--color-dark-gray);font-size: 1.05rem;}
 .inventory_window main .group {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -287,7 +296,7 @@ body {
   color: var(--color-white);
 }
 .inventory_window main .group .item_name {font-size: 1.25rem;}
-.inventory_window main .group .item_count {font-size: 1.2rem;text-align: end;}
+.inventory_window main .group .item_count {font-size: 1.2rem;text-align: center;}
 .inventory_window main .underline {width: 95%;height:1.75rem;border: solid 3px var(--color-dark-gray);font-size: 1.1rem;}
 .inventory_window main .underline.bok::after {content: "복구권";color: var(--color-gold);}
 .inventory_window main .underline.pie::after {content: "조각";color: var(--color-green);}

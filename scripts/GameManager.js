@@ -208,11 +208,15 @@ GameManager.makeInventoryArticle = function(src, name, count, sellFnc) {
   return article;
 }
 GameManager.renderInventory = function() {
-  const inner = [
-    $createElementWithClasses("div", "underline", "bok"),
-    this.makeInventoryArticle(this.repairPath, "복구권", this.repair_paper),
-    this.makeInventoryArticle()
-  ];
+  const inner = [];
+
+  if(this.repair_paper > 0) {
+    inner.push(
+      $createElementWithClasses("div", "underline", "bok"),
+      this.makeInventoryArticle(this.repairPath, "복구권", this.repair_paper),
+      this.makeInventoryArticle()
+    );
+  }
 
   const pieces = this.inventory.filter(value => value.type == "piece" && value.count != 0);
   const swords = this.inventory.filter(value => value.type == "sword" && value.count != 0);
@@ -222,9 +226,20 @@ GameManager.renderInventory = function() {
   if(pieces.length != 0) inner.push($createElementWithClasses("div", "underline", "pie"));
   pieces.forEach(value => inner.push(this.makeInventoryArticle(this.piecePath(value.name), value.name, value.count)));
   if(pieces.length%2 == 1) inner.push(this.makeInventoryArticle());
+
   if(swords.length != 0)inner.push($createElementWithClasses("div", "underline", "swo"));
   swords.forEach(value => inner.push(this.makeInventoryArticle(this.swordPath(value.name), value.name, value.count, () => this.sellSword(value.name))));
   if(swords.length%2 == 1) inner.push(this.makeInventoryArticle());
+
+  if(pieces.length == 0 && swords.length == 0) {
+    $(".inventory_window main").classList.add("empty_inventory");
+    if(this.repair_paper <= 0) {
+      const p = $createElementWithClasses("p", "no_item");
+      p.textContent = "보관된 아이템이 없습니다.";
+      inner.push(p);
+    }
+  } else $(".inventory_window main").classList.remove("empty_inventory");
+
   $("#inventory-items").replaceChildren(...inner);
 }
 GameManager.makeMaterialSection = function(recipes) {
