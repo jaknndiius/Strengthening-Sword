@@ -570,6 +570,4 @@ $("#information-button").addEventListener("click", () => {GameManager.showGameIn
 $("#inventory-button").addEventListener("click", () => {GameManager.showInventory();});
 $("#making-button").addEventListener("click", () => {GameManager.showMaking();});
 
-function onClickCloseButton(id) {
-  $("#" + id).hide();
-}
+const onClickCloseButton = id => $("#" + id).hide();
