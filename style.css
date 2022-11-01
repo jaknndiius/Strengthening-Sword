@@ -97,6 +97,7 @@ body {
 .swordbox img:hover {transform: scale(1.2);border-radius: 0;transition: all 0.3s;}
 .swordbox .infomation {display: flex;flex-direction: column;align-items: center;}
 #sword-number {font-size: 1.75rem; color: var(--color-dark-gray);}
+#sword-number.hightlight::after {content: " (MAX)"; color: var(--color-red);}
 #sword-name {font-size: 2.25rem; color: var(--color-gold);}
 #sword-prob{font-size: 1.25rem; color: var(--color-dark-gray);}
 #sword-cost,
@@ -174,14 +175,15 @@ body {
   align-items: center;
 }
 .message .message_main .text {display: flex;flex-direction: column;align-items: center;}
-.message .message_main .text .fall {color: var(--color-red);}
-.message .message_main .text .loss {font-size: 1.75rem;}
-.message .message_main .text .pieces div {display: flex;align-items: flex-end;justify-content: center;}
-.message .message_main .text .pieces div img {width: 2rem;height: 2rem;margin-right: 0.25rem;}
-.message .message_main .text .pieces div {display: flex;align-items: flex-end;}
-.message .message_main .text .pieces div span.name {font-size: 1.4rem;color: var(--color-black);}
-.message .message_main .text .pieces div span.count {font-size: 1.5rem;color: var(--color-gold);}
-.message .message_main .text .pieces div span.count::before {content: "x";margin: 0.3rem;color: var(--color-black);font-size: 1.4rem;}
+.message .message_main .text .title {color: var(--color-red);}
+.message .message_main .text .subtitle {font-size: 1.75rem;}
+.message .message_main .text .paragraph p {margin-top:0.5rem; font-size: 1.4rem; color: var(--color-dark-gray);}
+.message .message_main .text .paragraph div {display: flex;align-items: flex-end;justify-content: center;}
+.message .message_main .text .paragraph div img {width: 2rem;height: 2rem;margin-right: 0.25rem;}
+.message .message_main .text .paragraph div {display: flex;align-items: flex-end;}
+.message .message_main .text .paragraph div span.name {font-size: 1.4rem;color: var(--color-black);}
+.message .message_main .text .paragraph div span.count {font-size: 1.5rem;color: var(--color-gold);}
+.message .message_main .text .paragraph div span.count::before {content: "x";margin: 0.3rem;color: var(--color-black);font-size: 1.4rem;}
 .message .message_main .text .required_count {margin: 1rem 0 0 0;font-size: 1.5rem;color: var(--color-blue);}
 .message .message_main .text .required_count.red-text {color: var(--color-red);}
 .main_footer {display: flex;justify-content: space-between;align-items: flex-end;width: 100vw;padding: 0.5rem;}

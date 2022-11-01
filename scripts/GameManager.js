@@ -5,6 +5,8 @@ class Item {constructor(type, name, count){this.type = type; this.name = name; t
 class PieceItem extends Item {constructor(name, count){super("piece", name, count);}}
 class SwordItem extends Item {constructor(name, count){super("sword", name, count);}}
 class MoneyItem extends Item {constructor(count){super("money", "돈", count);}}
+HTMLElement.prototype.display = function() {this.style.display = "block"};
+HTMLElement.prototype.hide = function() {this.style.display = "none"};
 class Sword {
   constructor(index, name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
     this.index = index;
@@ -14,7 +16,7 @@ class Sword {
     this.cost = cost;
     this.price = price;
     this.requiredRepairs = requiredRepairs;
-    this.canSave = canSave
+    this.canSave = canSave;
     this.pieces = pieces;
   }
 }
@@ -42,7 +44,12 @@ const GameManager = {
   records: [],
   max_recordable_count: 10,
   repair_paper_recipe: [],
-  recipes: {}
+  recipes: {},
+  testResult: {
+    MONEY_LACK: "MONEY LACK",
+    MAX_UPGRADE: "MAX UPGRADE",
+    SUCCESS: "SUCCESS"
+  }
 }
 GameManager.unknownPath = "images/swords/unknown.png";
 GameManager.repairPath = "images/repair_paper/복구권.png";
@@ -50,7 +57,12 @@ GameManager.moneyPath = "images/item/돈.png";
 GameManager.piecePath = piece_name => `images/item/${piece_name}.png`;
 GameManager.swordPath = sword_name => `images/swords/${sword_name}.png`;
 GameManager.resetSword = function() { this.jumpTo(0); }
-GameManager.upgradeSword = function() { this.jumpTo(this.sword_index +1) }
+GameManager.upgradeSword = function() { this.jumpTo(this.sword_index +1)}
+GameManager.test = function() {
+  if(this.money - this.getCurrentSword().cost < 0) return this.testResult.MONEY_LACK;
+  else if(this.max_upgradable_index < this.sword_index +1) return this.testResult.MAX_UPGRADE;
+  else return this.testResult.SUCCESS;
+}
 GameManager.getSword = function(name) {
   const res = this.swords.find(value => value.name == name);
   if(res === undefined) throw new Error(`There is no sword named ${name}`);
@@ -65,12 +77,12 @@ GameManager.isFound = function(swordValue) {
 }
 GameManager.jumpTo = function(index) {
   if(typeof index != "number") throw new TypeError(`${index} is not a number`);
-  if(index < 0 || index > this.max_upgradable_index) throw new RangeError(`${count} is not 0~` + this.max_upgradable_index);
+  if(index < 0 || index > this.max_upgradable_index) throw new RangeError(`${index} is not 0~` + this.max_upgradable_index);
   if(!this.isFound(index)) this.found_swords.push(index);
   this.sword_index = index;
 }
 GameManager.canUseRepairPaper = function(count) {
-  if(count == undefined) return this.repair_paper >= this.getCurrentSword().requiredRepairs;
+  if(count === undefined) return this.repair_paper >= this.getCurrentSword().requiredRepairs;
   else return this.repair_paper >= count;
 }
 GameManager.useRepairPair = function(count) {
@@ -82,7 +94,10 @@ GameManager.getCurrentSword = function() {
   return this.swords[this.sword_index];
 }
 GameManager.appendSword = function(sword) {
-  if(sword instanceof Sword) this.swords.push(sword);
+  if(sword instanceof Sword) {
+    this.swords.push(sword);
+    this.max_upgradable_index = this.swords.length -1;
+  }
   else throw new TypeError(`${sword} is not a sword`);
 }
 GameManager.calculateLoss = function(index) {
@@ -118,7 +133,6 @@ GameManager.subtractItem = function(type, name, count) {
   if(item.count < count) return false;
   item.count -= count
   return true;
-  
 }
 GameManager.findItem = function(name, type) {
   if(type === undefined) return GameManager.inventory.find(value => value.name == name);
@@ -126,6 +140,7 @@ GameManager.findItem = function(name, type) {
 }
 GameManager.sellSword = function(name) {
   if(this.subtractItem("sword", name, 1)) {
+    GameManager.addRecord(this.getSword(name), "sell");
     this.renderInventory();
     this.changeGold(this.getSword(name).price);
   }
@@ -142,18 +157,34 @@ GameManager.setRecipe = function(resultItem, ...materials) {
 }
 GameManager.renderGameInterFace = function() {
 
-  $("#message-box").style.display = "none";
+  $("#fall-message").hide();
+  $("#max-message").hide();
 
   const current_sword = this.getCurrentSword();
+
   $("#sword-image").src = current_sword.image;
-  $("#sword-number").textContent = this.sword_index + "강";
+
+  const number = $("#sword-number");
+  number.textContent = this.sword_index + "강";
+  if(current_sword.index == this.max_upgradable_index) number.classList.add("hightlight");
+  else number.classList.remove("hightlight");
   $("#sword-name").textContent = current_sword.name;
-  $("#sword-prob").textContent = "강화 성공 확률: " + Math.floor(current_sword.prob *100) + "%";
-  $("#sword-cost").textContent = "강화 비용: " + current_sword.cost + "원";
+
+  if(current_sword.index == this.max_upgradable_index) {
+    $("#sword-prob").textContent = "강화 불가";
+    $("#sword-cost").textContent = "";
+  } else {
+    $("#sword-prob").textContent = "강화 성공 확률: " + Math.floor(current_sword.prob *100) + "%";
+    $("#sword-cost").textContent = "강화 비용: " + current_sword.cost + "원";
+  }
+  
   $("#sword-price").textContent = "판매 가격: " + current_sword.price + "원";
 
-  $("#sell-button").style.display = (this.sword_index == 0) ? "none" : "block";
-  $("#save-button").style.display = (this.getCurrentSword().canSave) ? "block" : "none";
+  $("#sell-button")[(this.sword_index == 0) ? "hide" : "display"]();
+  $("#save-button")[(this.getCurrentSword().canSave) ? "display" : "hide"]();
+}
+GameManager.showFall = function(result) {
+  $("#sword-number").classList.add("hightlight");
 }
 GameManager.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
@@ -388,11 +419,11 @@ GameManager.renderFallMessage = function(...pieces) {
   pieces_box.replaceChildren(...ret);
 
   if(this.canUseRepairPaper()) {
-    $("#fix-button").style.display = "block";
+    $("#fix-button").display();
     $("#required-count").textContent = `복구권 ${this.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${this.repair_paper}/${this.getCurrentSword().requiredRepairs})`;
     $("#required-count").classList.remove("red-text");
   } else {
-    $("#fix-button").style.display = "none";
+    $("#fix-button").hide();
     $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${this.repair_paper}/${this.getCurrentSword().requiredRepairs})`;
     $("#required-count").classList.add("red-text");
   }
@@ -459,16 +490,22 @@ GameManager.showMaking = function() {
   this.renderMaking();
 }
 GameManager.popup_kef = [{opacity: '0'}, {opacity: '1'}];
-GameManager.popupFallMessage = function(...pieces) {
-
-  this.renderFallMessage(...pieces);
-
-  const message_box = $("#message-box");
-  message_box.style.display = "block";
+GameManager.popupMessage = function(message_box) {
+  message_box.display();
   message_box.animate(
-      this.popup_kef,
-      {duration: 300, fill: "both"}
+    this.popup_kef,
+    {duration: 300, fill: "both"}
   );
+}
+GameManager.popupMaxMessage = function() {
+  this.popupMessage($("#max-message"));
+}
+GameManager.popupMoneyLackMessage = function() {
+  this.popupMessage($("#money-lack-message"));
+}
+GameManager.popupFallMessage = function(...pieces) {
+  this.renderFallMessage(...pieces);
+  this.popupMessage($("#fall-message"));
 }
 GameManager.canMake = function(recipe) {
   for(const rec of recipe) {
@@ -496,7 +533,7 @@ GameManager.animateLodding = function(duration, onfinish) {
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
 
-  lodding.style.display = "block";    
+  lodding.display();    
   lodding.animate(this.lodding_kef, {duration: duration/2});
   hammer.animate(this.hammer_kef, {duration: duration, iterations: 2});
   setTimeout(() => {
@@ -504,7 +541,7 @@ GameManager.animateLodding = function(duration, onfinish) {
     lodding.animate(
       this.lodding_kef,
       {duration: duration/2, direction: "reverse"}
-    ).onfinish = () => lodding.style.display = "none";
+    ).onfinish = () => lodding.hide();
   }, duration);
 }
 GameManager.makeSword = function(swordName) {
@@ -532,3 +569,7 @@ $("#main-game-button").addEventListener("click", () => {GameManager.showGameInte
 $("#information-button").addEventListener("click", () => {GameManager.showGameInformation();});
 $("#inventory-button").addEventListener("click", () => {GameManager.showInventory();});
 $("#making-button").addEventListener("click", () => {GameManager.showMaking();});
+
+function onClickCloseButton(id) {
+  $("#" + id).hide();
+}

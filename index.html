@@ -62,17 +62,44 @@
         <div class="blue_button toleft rotate" id="upgrade-button" onclick="onClickUpgradeButton()"><img src="images/ui/강화하기.png" alt="none" /> <span>강화하기</span></div>
         <div class="red_button increase" id="sell-button" onclick="onClickSellButton()"><img src="images/ui/판매하기.png" alt="none" /> <span>판매하기</span></div>
       </div>
-      <div class="message" id="message-box">
+      <div class="message" id="fall-message">
         <div class="message_main">
           <div class="text">
-            <p class="fall">실패했습니다.</p>
-            <p class="loss" id="loss"></p>
-            <div class="pieces" id="pieces"></div>
+            <p class="title">실패했습니다.</p>
+            <p class="subtitle" id="loss"></p>
+            <div class="paragraph" id="pieces"></div>
             <p class="required_count" id="required-count"></p>
           </div>
           <div class="buttons">
             <div class="green_button increase" id="fix-button" onclick="onClickRepairButton()"><img src="images/repair_paper/복구권.png" alt="none" /> <span>복구하기</span></div>
             <div class="dark_blue_button turning" id="init-button" onclick="onClickInitButton()"><img src="images/ui/다시하기.png" alt="none" /> <span>다시하기</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="message" id="max-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">축하합니다!</div>
+            <div class="subtitle">최대 강화에 도달했습니다.</div>
+          </div>
+          <div class="buttons">
+            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('max-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="message" id="money-lack-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">돈이 부족합니다.</div>
+            <div class="subtitle">다음을 통해 자금을 조달하세요.</div>
+            <div class="paragraph" id="pieces">
+              <p>현재 검 판매</p>
+              <p>인벤토리에 보관된 검 판매</p>
+              <p>검 워프권 구매 후 판매</p>
+            </div>
+          </div>
+          <div class="buttons">
+            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('money-lack-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
