@@ -1,6 +1,6 @@
 function gameStart() {
   /* Game Setting */
-  GameManager.money = 100000;
+  GameManager.setMoney(100000);
 
   /* Sword Setting */
   GameManager.appendSword(new Sword(0, "단검", 1.0, 300, 0, 3, false));
@@ -42,7 +42,7 @@ function onClickUpgradeButton() {
   if(result == GameManager.testResult.SUCCESS) {
 
     GameManager.addRecord(current_sword, "upgrade");
-    GameManager.changeGold(-current_sword.cost);
+    GameManager.changeMoney(-current_sword.cost);
 
     const num = Math.random();
     if(num < current_sword.prob) {
@@ -63,7 +63,7 @@ function onClickUpgradeButton() {
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
   GameManager.addRecord(GameManager.getCurrentSword(), "sell");
-  GameManager.changeGold(GameManager.getCurrentSword().price);
+  GameManager.changeMoney(GameManager.getCurrentSword().price);
   GameManager.init();
 }
 /* 보관하기 버튼을 눌렀을 때 */

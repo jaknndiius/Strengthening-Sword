@@ -200,10 +200,10 @@ body {
 .main_footer li a .icon.store > img {left: -300%;}
 .main_footer li a .icon.sword > img {left: -400%;}
 .main_footer .coinbox {text-align: end;word-break: keep-all;font-size: 1.5rem;position: relative;}
-.main_footer .coinbox #gold-number {color: var(--color-gold);}
-.main_footer .coinbox #gold-change {position: absolute;top: 0;right: 0;color: var(--color-dark-gold);opacity: 0;}
-.main_footer .coinbox:hover > #gold-record {transform: translateY(-100%);opacity: 0.8;transition: all 0.5s;}
-.main_footer .coinbox #gold-record {
+.main_footer .coinbox #money-number {color: var(--color-gold);}
+.main_footer .coinbox #money-change {position: absolute;top: 0;right: 0;color: var(--color-dark-gold);opacity: 0;}
+.main_footer .coinbox:hover > #money-record {transform: translateY(-100%);opacity: 0.8;transition: all 0.5s;}
+.main_footer .coinbox #money-record {
   position: absolute;
   top: 0;
   opacity: 0;
@@ -216,7 +216,7 @@ body {
   font-size: 1rem;
   transition: all 0.3s;
 }
-.main_footer .coinbox:hover > #gold-record .record_title {margin-bottom: 1rem;}
+.main_footer .coinbox:hover > #money-record .record_title {margin-bottom: 1rem;}
 .window {
   width: 100vw;
   height: 100%;

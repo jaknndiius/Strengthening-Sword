@@ -142,7 +142,7 @@ GameManager.sellSword = function(name) {
   if(this.subtractItem("sword", name, 1)) {
     GameManager.addRecord(this.getSword(name), "sell");
     this.renderInventory();
-    this.changeGold(this.getSword(name).price);
+    this.changeMoney(this.getSword(name).price);
   }
 }
 GameManager.setRepairPaperRecipe = function(...materials) {
@@ -428,23 +428,20 @@ GameManager.renderFallMessage = function(...pieces) {
     $("#required-count").classList.add("red-text");
   }
 }
-GameManager.gold_change_kef = [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}];
-GameManager.changeGold = function(number) {
-  if(typeof number != "number") throw new TypeError(`${number} is not a number`);
-
-  const gold_change_span = $("#gold-change");
-
-  this.money += number;
-
-  if(this.money < 0) this.money = 0;
-
-  gold_change_span.textContent = ((number >= 0) ? "+" + number : number) + "원";
-  gold_change_span.animate(this.gold_change_kef, {duration: 300, fill: "both"});
-
-  this.renderGold();
+GameManager.money_change_kef = [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}];
+GameManager.setMoney = function(num) {
+  if(typeof num != "number") throw new TypeError(`${num} is not a number`);
+  this.money = (num >= 0) ? num : 0;
+  this.renderMoney();
 }
-GameManager.renderGold = function() {
-  $("#gold-number").textContent = this.money;
+GameManager.changeMoney = function(num) {
+  this.setMoney(this.money + num);
+  const money_change_span = $("#money-change");
+  money_change_span.textContent = ((num >= 0) ? "+" + num : num) + "원";
+  money_change_span.animate(this.money_change_kef, {duration: 300, fill: "both"});
+}
+GameManager.renderMoney = function() {
+  $("#money-number").textContent = this.money;
 }
 GameManager.addRecord = function(sword, type) {
   if(sword instanceof Sword) this.swords.push(sword);
@@ -522,7 +519,7 @@ GameManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
 
   for(const item of recipe) {
-    if(item.type == "money") this.changeGold(-item.count);
+    if(item.type == "money") this.changeMoney(-item.count);
     else this.findItem(item.name, item.type).count -= item.count;
   }
   return true;
@@ -562,7 +559,7 @@ GameManager.init = function(start) {
   if(start !== undefined) this.jumpTo(start);
   else this.resetSword();
   this.showGameInterface();
-  this.renderGold();
+  this.renderMoney();
 }
 
 $("#main-game-button").addEventListener("click", () => {GameManager.showGameInterface();});
