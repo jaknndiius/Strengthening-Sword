@@ -40,18 +40,33 @@ function onClickUpgradeButton() {
 
   const result = GameManager.test();
   if(result == GameManager.testResult.SUCCESS) {
-
     GameManager.addRecord(current_sword, "upgrade");
     GameManager.changeMoney(-current_sword.cost);
 
-    const num = Math.random();
-    if(num < current_sword.prob) {
-        GameManager.upgradeSword();
+    if(Math.random() < current_sword.prob) {
+        console.log(GameManager.getGreatSuccessPercent())
+        if(Math.random() < GameManager.getGreatSuccessPercent()) {
+          GameManager.upgradeSword(2);
+          GameManager.popupGreatSuccessMessage();
+        } else {
+          GameManager.upgradeSword();
+        }
+        
         GameManager.renderGameInterFace();
     } else {
         const re = current_sword.pieces.map(value => value.calculate());
         re.forEach(value => GameManager.savePiece(value.name, value.count));
-        GameManager.popupFallMessage(...re);
+
+        const percent = GameManager.getInvalidationPercent();
+
+        if(Math.random() < percent) { //-1강 복구
+          GameManager.downgradeSword();
+          GameManager.renderGameInterFace();
+          GameManager.popupInvalidationMessage();
+        } else {
+          GameManager.popupFallMessage(...re);
+        }
+        
     }
   } else if(result == GameManager.testResult.MONEY_LACK) {
     GameManager.popupMoneyLackMessage();
@@ -82,6 +97,17 @@ function onClickRepairButton() {
 /* 다시하기 버튼을 눌렀을 때 */
 function onClickInitButton() {
   GameManager.init();
+}
+
+function onStatUp(stat) {
+  if(GameManager.stat_point > 0) {
+    if(stat.current != 5) {
+      GameManager.stat_point -= 1;
+      stat.current += 1
+      GameManager.renderStat();
+    }
+
+  }
 }
 
 gameStart();

@@ -1,6 +1,8 @@
 :root {
+  --color-light-blue: rgb(49, 195, 221);
   --color-blue: rgb(45, 119, 240);
   --color-dark-blue: rgb(42, 35, 176);
+  --color-purple: rgb(194, 45, 240);
   --color-red: rgb(255, 57, 57);
   --color-gold: rgb(238, 155, 0);
   --color-dark-gold: rgb(130, 84, 0);
@@ -187,7 +189,7 @@ body {
 .message .message_main .text .required_count {margin: 1rem 0 0 0;font-size: 1.5rem;color: var(--color-blue);}
 .message .message_main .text .required_count.red-text {color: var(--color-red);}
 .main_footer {display: flex;justify-content: space-between;align-items: flex-end;width: 100vw;padding: 0.5rem;}
-.main_footer ul {width: 180px;display: flex;justify-content: space-around;}
+.main_footer ul {width: 210px;display: flex;justify-content: space-around;}
 .main_footer ul li {list-style: none;}
 .main_footer ul li a {display: flex;flex-direction: column;align-items: center;cursor: pointer;}
 .main_footer ul li a:hover {transform: scale(1.1);}
@@ -197,7 +199,7 @@ body {
 .main_footer li a .icon.information > img {left: 0;}
 .main_footer li a .icon.inventory > img {left: -100%;}
 .main_footer li a .icon.making > img {left: -200%;}
-.main_footer li a .icon.store > img {left: -300%;}
+.main_footer li a .icon.stat > img {left: -300%;}
 .main_footer li a .icon.sword > img {left: -400%;}
 .main_footer .coinbox {text-align: end;word-break: keep-all;font-size: 1.5rem;position: relative;}
 .main_footer .coinbox #money-number {color: var(--color-gold);}
@@ -477,3 +479,155 @@ body {
   transform-origin: 76.953125px 100px;
 }
 .loading .lodding_img img {width: 100%;height: 100%;opacity: 0.8;}
+.stat_window main {
+  width: 600px;
+  height: 400px;
+}
+.stat_window main .stat_point {
+  font-size: 1.3rem;
+}
+.stat_window main .stat_point #stat-point-count {
+  font-size: 2rem;
+  color: var(--color-gold);
+}
+.stat_window main .stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+.stat_window main .stats .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  height: 170px;
+}
+.stat_window main .stats .stat .icon {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  cursor: pointer;
+}
+.stat_window main .stats .stat .icon .stat_img {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+  border: solid 5px;
+
+  transition: all .3s;
+}
+.stat_window main .stats .stat.blue .icon .stat_img {
+  border-color: var(--color-blue);
+}
+.stat_window main .stats .stat.red .icon .stat_img {
+  border-color: var(--color-red);
+}
+.stat_window main .stats .stat.purple .icon .stat_img {
+  border-color: var(--color-purple);
+}
+.stat_window main .stats .stat.green .icon .stat_img {
+  border-color: var(--color-green);
+}
+.stat_window main .stats .stat.sky .icon .stat_img {
+  border-color: var(--color-light-blue);
+}
+.stat_window main .stats .stat .icon .stat_up {
+
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  opacity: 0;
+  transition: all .3s;
+}
+.stat_window main .stats .stat .icon .stat_up::before {
+  content: "스탯 강화";
+  color: var(--color-white);
+  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
+  font-size: 1.2rem;
+}
+.stat_window main .stats .stat .icon:hover .stat_img {
+  filter: brightness(0.6);
+}
+.stat_window main .stats .stat .icon:hover .stat_up {
+  opacity: 1;
+}
+.stat_window main .stats .stat .info {
+
+  min-width: 250px;
+
+  border-radius: 5px;
+  padding: 0 1rem;
+
+  pointer-events: none;
+
+}
+.stat_window main .stats .stat .info .name {font-size: 1.2rem;}
+.stat_window main .stats .stat.blue .info .name {
+  color: var(--color-blue);
+}
+.stat_window main .stats .stat.red .info .name {
+  color: var(--color-red);
+}
+.stat_window main .stats .stat.purple .info .name {
+  color: var(--color-purple);
+}
+.stat_window main .stats .stat.green .info .name {
+  color: var(--color-green);
+}
+.stat_window main .stats .stat.sky .info .name {
+  color: var(--color-light-blue);
+}
+.stat_window main .stats .stat .info .description {
+  font-size: 1rem;
+  color: var(--color-dark-gray);
+}
+.stat_window main .stats .stat .info .detail {
+  font-size: 1.1rem;
+  color: var(--color-light-gray);
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stat_window main .stats .stat .info .detail li::before {
+  content: ">";
+  font-size: 1.1rem;
+  color: var(--color-gray);
+  margin: 0 0.2rem;
+}
+.stat_window main .stats .stat .info .detail li:first-child::before {
+  content: "";
+}
+.stat_window main .stats .stat .info .detail li.active {
+  color: var(--color-red);
+}
+.stat_window main .stats .level {
+  width: 90px;
+  margin: 0.4rem 0;
+}
+.stat_window main .stats .level ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+.stat_window main .stats .level ul .point {
+  width: 15px;
+  height: 15px;
+
+  background-color: #194d3d;
+  border: solid 2.5px #3b4312;
+  border-radius: 50%;
+}
+
+.stat_window main .stats .level ul .point.active {
+  background-color: #5FD7B1;
+  border: solid 2.5px #8C9949;
+}
