@@ -8,6 +8,7 @@
   --color-dark-gold: rgb(130, 84, 0);
   --color-green: rgb(0, 140, 33);
   --color-brown: rgb(151, 88, 32);
+  --color-navy: rgb(61, 0, 202);
   --color-white: rgb(243, 243, 243);
   --color-black: rgb(22, 22, 22);
   --color-dark-gray: rgb(61, 61, 61);
@@ -536,6 +537,9 @@ body {
 .stat_window main .stats .stat.sky .icon .stat_img {
   border-color: var(--color-light-blue);
 }
+.stat_window main .stats .stat.navy .icon .stat_img {
+  border-color: var(--color-navy);
+}
 .stat_window main .stats .stat .icon .stat_up {
 
   width: 100%;
@@ -584,6 +588,9 @@ body {
 }
 .stat_window main .stats .stat.sky .info .name {
   color: var(--color-light-blue);
+}
+.stat_window main .stats .stat.navy .info .name {
+  color: var(--color-navy);
 }
 .stat_window main .stats .stat .info .description {
   font-size: 1rem;

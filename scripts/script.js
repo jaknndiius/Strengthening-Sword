@@ -3,64 +3,64 @@ function gameStart() {
   GameManager.setMoney(100000);
 
   /* Sword Setting */
-  GameManager.appendSword(new Sword(0, "단검", 1.0, 300, 0, 3, false));
-  GameManager.appendSword(new Sword(1, "롱소드", 0.95, 300, 100, 3, false));
-  GameManager.appendSword(new Sword(2, "처형인의 대검", 0.9, 400, 300, 3, false));
-  GameManager.appendSword(new Sword(3, "BF 대검", 0.85, 500, 600, 3, false));
-  GameManager.appendSword(new Sword(4, "마나무네", 0.8, 600, 1000, 3, false));
-  GameManager.appendSword(new Sword(5, "무라마나", 0.75, 700, 1200, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
-  GameManager.appendSword(new Sword(6, "드락사르의 황혼검", 0.7, 1000, 1500, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
-  GameManager.appendSword(new Sword(7, "무한의 대검", 0.65, 1500, 3000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
-  GameManager.appendSword(new Sword(8, "수호 천사", 0.6, 5000, 12000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
-  GameManager.appendSword(new Sword(9, "제국의 명령", 0.55, 10000, 30000, 1, true));
-  GameManager.appendSword(new Sword(10, "요우무의 유령검", 0.5, 300, 0, 1, true));
-  GameManager.appendSword(new Sword(11, "톱날 단검", 0.45, 300, 100, 1, true));
-  GameManager.appendSword(new Sword(12, "독사의 송곳니", 0.4, 400, 300, 1, true));
-  GameManager.appendSword(new Sword(13, "리치베인", 0.35, 500, 600, 1, true));
-  GameManager.appendSword(new Sword(14, "마법사의 최후", 0.3, 600, 1000, 1, true));
-  GameManager.appendSword(new Sword(15, "죽음의 무도", 0.25, 700, 1200, 1, true));
-  GameManager.appendSword(new Sword(16, "열정의 검", 0.2, 1000, 1500, 1, true));
-  GameManager.appendSword(new Sword(17, "몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
-  GameManager.appendSword(new Sword(18, "그림자 검", 0.1, 5000, 12000, 1, true));
-  GameManager.appendSword(new Sword(19, "구인수의 격노검", 0, 0, 30000, 0, true));
+  SwordManager.appendSword(new Sword("단검", 1.0, 300, 0, 3, false));
+  SwordManager.appendSword(new Sword("롱소드", 0.95, 300, 100, 3, false));
+  SwordManager.appendSword(new Sword("처형인의 대검", 0.9, 400, 300, 3, false));
+  SwordManager.appendSword(new Sword("BF 대검", 0.85, 500, 600, 3, false));
+  SwordManager.appendSword(new Sword("마나무네", 0.8, 600, 1000, 3, false));
+  SwordManager.appendSword(new Sword("무라마나", 0.75, 700, 1200, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
+  SwordManager.appendSword(new Sword("드락사르의 황혼검", 0.7, 1000, 1500, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
+  SwordManager.appendSword(new Sword("무한의 대검", 0.65, 1500, 3000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
+  SwordManager.appendSword(new Sword("수호 천사", 0.6, 5000, 12000, 3, true, new Piece("바미의 불씨", 1.0, 10), new Piece("도란의 반지", 1.0, 100)));
+  SwordManager.appendSword(new Sword("제국의 명령", 0.55, 10000, 30000, 1, true));
+  SwordManager.appendSword(new Sword("요우무의 유령검", 0.5, 300, 0, 1, true));
+  SwordManager.appendSword(new Sword("톱날 단검", 0.45, 300, 100, 1, true));
+  SwordManager.appendSword(new Sword("독사의 송곳니", 0.4, 400, 300, 1, true));
+  SwordManager.appendSword(new Sword("리치베인", 0.35, 500, 600, 1, true));
+  SwordManager.appendSword(new Sword("마법사의 최후", 0.3, 600, 1000, 1, true));
+  SwordManager.appendSword(new Sword("죽음의 무도", 0.25, 700, 1200, 1, true));
+  SwordManager.appendSword(new Sword("열정의 검", 0.2, 1000, 1500, 1, true));
+  SwordManager.appendSword(new Sword("몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
+  SwordManager.appendSword(new Sword("그림자 검", 0.1, 5000, 12000, 1, true));
+  SwordManager.appendSword(new Sword("구인수의 격노검", 0, 0, 30000, 0, true));
 
   /* Recipes Setting */
-  GameManager.setRepairPaperRecipe(new MoneyItem(300));
-  GameManager.setRecipe("BF 대검", new PieceItem("바미의 불씨", 30), new PieceItem("도란의 반지", 30), new MoneyItem(3300));
-  GameManager.setRecipe("몰락한 왕의 검", new PieceItem("여신의 눈물", 30), new MoneyItem(300));
-  GameManager.setRecipe("요우무의 유령검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("무라마나", 1));
-  GameManager.setRecipe("독사의 송곳니", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("구인수의 격노검", 1));
+  MakingManager.setRepairPaperRecipe(new MoneyItem(300));
+  MakingManager.setRecipe("BF 대검", new PieceItem("바미의 불씨", 30), new PieceItem("도란의 반지", 30), new MoneyItem(3300));
+  MakingManager.setRecipe("몰락한 왕의 검", new PieceItem("여신의 눈물", 30), new MoneyItem(300));
+  MakingManager.setRecipe("요우무의 유령검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("무라마나", 1));
+  MakingManager.setRecipe("독사의 송곳니", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("구인수의 격노검", 1));
 
   /* Init Game */
   GameManager.init();
 }
 /* 강화하기 버튼을 눌렀을 때 */
 function onClickUpgradeButton() {
-  const current_sword = GameManager.getCurrentSword();
+  const current_sword = SwordManager.getCurrentSword();
 
   const result = GameManager.test();
-  if(result == GameManager.testResult.SUCCESS) {
+  if(result == TestResult.SUCCESS) {
     GameManager.addRecord(current_sword, "upgrade");
     GameManager.changeMoney(-current_sword.cost);
 
-    if(Math.random() < current_sword.prob) {
-        console.log(GameManager.getGreatSuccessPercent())
-        if(Math.random() < GameManager.getGreatSuccessPercent()) {
-          GameManager.upgradeSword(2);
+    const prob = current_sword.prob + StatManager.getLuckyBracelet()/100;
+    if(Math.random() < Math.min(prob, 100)) {
+        if(Math.random() < StatManager.getGodHand()/100) {
+          SwordManager.upgradeSword(2);
           GameManager.popupGreatSuccessMessage();
         } else {
-          GameManager.upgradeSword();
+          SwordManager.upgradeSword();
         }
         
         GameManager.renderGameInterFace();
     } else {
         const re = current_sword.pieces.map(value => value.calculate());
-        re.forEach(value => GameManager.savePiece(value.name, value.count));
+        re.forEach(value => InventoryManager.savePiece(value.name, value.count));
 
-        const percent = GameManager.getInvalidationPercent();
+        const percent = StatManager.getInvalidatedSphere()/100;
 
         if(Math.random() < percent) { //-1강 복구
-          GameManager.downgradeSword();
+          SwordManager.downgradeSword();
           GameManager.renderGameInterFace();
           GameManager.popupInvalidationMessage();
         } else {
@@ -68,30 +68,30 @@ function onClickUpgradeButton() {
         }
         
     }
-  } else if(result == GameManager.testResult.MONEY_LACK) {
+  } else if(result == TestResult.MONEY_LACK) {
     GameManager.popupMoneyLackMessage();
-  } else if(result == GameManager.testResult.MAX_UPGRADE) {
+  } else if(result == TestResult.MAX_UPGRADE) {
     GameManager.popupMaxMessage();
   }
 
 }
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
-  GameManager.addRecord(GameManager.getCurrentSword(), "sell");
-  GameManager.changeMoney(GameManager.getCurrentSword().price);
+  GameManager.addRecord(SwordManager.getCurrentSword(), "sell");
+  GameManager.changeMoney(SwordManager.getCurrentSword().price);
   GameManager.init();
 }
 /* 보관하기 버튼을 눌렀을 때 */
 function onClickSaveButton() {
-  const item = GameManager.getCurrentSword();
-  GameManager.saveSword(item.name, 1);
+  const item = SwordManager.getCurrentSword();
+  InventoryManager.saveSword(item.name, 1);
   GameManager.init();
 }
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
-  if(GameManager.canUseRepairPaper()) {
-    GameManager.useRepairPair(GameManager.getCurrentSword().requiredRepairs);
-    GameManager.init(GameManager.sword_index);
+  if(InventoryManager.canUseRepairPaper(SwordManager.getCurrentSword().requiredRepairs)) {
+    InventoryManager.subtractRepairPaper(SwordManager.getCurrentSword().requiredRepairs);
+    GameManager.init(SwordManager.current_sword_index);
   }
 }
 /* 다시하기 버튼을 눌렀을 때 */
@@ -99,11 +99,11 @@ function onClickInitButton() {
   GameManager.init();
 }
 
+/* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(stat) {
-  if(GameManager.stat_point > 0) {
+  if(StatManager.stat_point > 0) {
     if(stat.current != 5) {
-      GameManager.stat_point -= 1;
-      stat.current += 1
+      StatManager.upgradeStat(stat);
       GameManager.renderStat();
     }
   }

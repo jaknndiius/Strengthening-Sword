@@ -1,9 +1,5 @@
-const $createElementWithClasses = function(tagName, ...classes) {const tag = document.createElement(tagName);tag.classList.add(...classes);return tag;}
-Node.prototype.appendChildren = function(...nodes) {for(const node of nodes) this.appendChild(node);}
-
-
-const Information = {}
-Information.makeSwordIcon = function(src, alt, type) {
+const InformationScreen = {}
+InformationScreen.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
   const img = new Image();
   img.src = src;
@@ -16,8 +12,8 @@ Information.makeSwordIcon = function(src, alt, type) {
   }
   return div;
 }
-const Inventory = {}
-Inventory.makeHoverSellDiv = function(onclick) {
+const InventoryScreen = {}
+InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
   const span = document.createElement("span");
   span.textContent = "판매 하기";
@@ -25,7 +21,7 @@ Inventory.makeHoverSellDiv = function(onclick) {
   div.addEventListener("click", onclick);
   return div;
 }
-Inventory.makeInventoryArticle = function(src, name, count, sellFnc) {
+InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
   const article = $createElementWithClasses("article", "group");
 
   if(src === undefined) return article;
@@ -46,39 +42,39 @@ Inventory.makeInventoryArticle = function(src, name, count, sellFnc) {
 
   return article;
 }
-const Making = {}
-Making.makeMaterialSection = function(recipes, sale) {
+const MakingScreen = {}
+MakingScreen.makeMaterialSection = function(recipes, sale) {
   const material = $createElementWithClasses("section", "material");
   if(recipes.length == 1) material.classList.add("one");
   for(const item of recipes) {
-    const myitem = this.findItem(item.name, item.type);
+    const myitem = InventoryManager.findItem(item.name, item.type);
 
     let mcount;
-    if(item.type == "money") mcount = this.money;
+    if(item.type == "money") mcount = InventoryManager.money;
     else if(myitem === undefined) mcount = 0;
     else mcount = myitem.count;
 
-    if(item.type == "sword" && !this.isFound(item.name)) material.appendChild(this.makeMaterialDiv("발견 안됨","unknown", mcount, item.count));
+    if(item.type == "sword" && !SwordManager.isFound(item.name)) material.appendChild(this.makeMaterialDiv("발견 안됨","unknown", mcount, item.count));
     else material.appendChild(this.makeMaterialDiv(item.name, item.type, mcount, item.count, sale));
   }
   return material;
 }
-Making.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
+MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
 
   const div = $createElementWithClasses("div", "item");
   const img = new Image();
   switch(itemType) {
     case "money":
-      img.src = this.moneyPath;
+      img.src = Path.moneyPath;
       break;
     case "piece":
-      img.src = this.piecePath(itemName);
+      img.src = Path.piecePath(itemName);
       break;
     case "sword":
-      img.src = this.swordPath(itemName);
+      img.src = Path.swordPath(itemName);
       break;
     case "unknown":
-      img.src = this.unknownPath;
+      img.src = Path.unknownPath;
       break;
   }
   div.appendChild(img)
@@ -93,12 +89,12 @@ Making.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
   const count_span = $createElementWithClasses("span", "count");
   if(curc < count) count_span.classList.add("unable");
 
-  count_span.textContent = (itemName == "돈") ? count : curc + "/" + count;
+  count_span.textContent = (itemType == "money") ? count : curc + "/" + count;
   div.appendChild(count_span);
 
   return div;
 }
-Making.makeGroupArticle = function(material, result, disabled, clickFunction) {
+MakingScreen.makeGroupArticle = function(material, result, disabled, clickFunction) {
 
   const article = $createElementWithClasses("article", "group")
 
@@ -112,9 +108,8 @@ Making.makeGroupArticle = function(material, result, disabled, clickFunction) {
   article.appendChild(btn);
 
   return article;
-
 }
-Making.makeResultSection = function(src, name, count)  {
+MakingScreen.makeResultSection = function(src, name, count)  {
 
   const result = $createElementWithClasses("section", "result");
 
@@ -139,8 +134,8 @@ Making.makeResultSection = function(src, name, count)  {
 
   return result;
 }
-const Stat = {}
-Stat.makeIconDiv = function(img_src, onclick) {
+const StatScreen = {}
+StatScreen.makeIconDiv = function(img_src, onclick) {
   const icon_box = $createElementWithClasses("div", "icon");
   icon_box.addEventListener("click", onclick);
 
@@ -151,7 +146,7 @@ Stat.makeIconDiv = function(img_src, onclick) {
 
   return icon_box;
 }
-Stat.makeLevelDiv = function(current_level) {
+StatScreen.makeLevelDiv = function(current_level) {
   const level_box = $createElementWithClasses("div", "level");
   const ul = document.createElement("ul");
   for(let i=0;i<5;i++) {
@@ -162,7 +157,7 @@ Stat.makeLevelDiv = function(current_level) {
   level_box.appendChild(ul);
   return level_box;
 }
-Stat.makeInfoDiv = function(current_level, name, description, stat_per_level) {
+StatScreen.makeInfoDiv = function(current_level, name, description, stat_per_level) {
   const info_box = $createElementWithClasses("div", "info");
   const pname = $createElementWithClasses("p", "name");
   pname.textContent = name;
@@ -181,7 +176,7 @@ Stat.makeInfoDiv = function(current_level, name, description, stat_per_level) {
 
   return info_box;
 }
-Stat.makeStatSection = function(stat) {
+StatScreen.makeStatSection = function(stat) {
   const section = $createElementWithClasses("section", "stat", stat.color);
 
   const icon_box = this.makeIconDiv(stat.image, () => onStatUp(stat));
@@ -191,12 +186,12 @@ Stat.makeStatSection = function(stat) {
   section.appendChildren(icon_box, level_box, info_box);
   return section;
 }
-const FallMessage = {}
-FallMessage.makeDroppedPieceDiv = function(name, count) {
+const FallMessageScreen = {}
+FallMessageScreen.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
 
   const img = new Image();
-  img.src = this.piecePath(name);
+  img.src = Path.piecePath(name);
 
   const span0 = $createElementWithClasses("span", "name");
   const span1 = $createElementWithClasses("span", "count");

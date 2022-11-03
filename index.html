@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="style.css"/>
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon:400" rel="stylesheet" />
     <link type="image/x-icon" rel="shortcut icon" href="images/swords/단검.png" />
+    <script src="scripts/vars.js" defer></script>
+    <script src="scripts/manager/SwordManager.js" defer></script>
+    <script src="scripts/manager/StatManager.js" defer></script>
+    <script src="scripts/manager/InventoryManager.js" defer></script>
+    <script src="scripts/manager/MakingManager.js" defer></script>
     <script src="scripts/makeElement.js" defer></script>
-    <script src="scripts/GameManager.js" defer></script>
+    <script src="scripts/manager/GameManager.js" defer></script>
     <script src="scripts/script.js" defer></script>
   </head>
   <body ondragstart="return false">
@@ -135,6 +140,20 @@
           </div>
           <div class="buttons">
             <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('great-success-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="message" id="game-end-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">게임 종료!</div>
+            <div class="subtitle">목적 달성! 축하합니다</div>
+            <div class="paragraph">
+              <p>창을 닫아도 게임은 계속됩니다.</p>
+            </div>
+          </div>
+          <div class="buttons">
+            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
