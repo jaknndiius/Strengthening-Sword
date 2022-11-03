@@ -46,6 +46,11 @@ new Piece(
   prob:Number,    : 조각 생성 확률
   max_drop:Number : 최대 생성 확률
 )
+new Stat(
+  name:String     : 스탯 이름
+  current:Number  : 현재 스탯 레벨
+
+)
 
 ---Funcion&Variable---------------------------------
 
@@ -114,11 +119,11 @@ StatManager.stat_point : Number
 StatManager.upgradeStat(stat: Stat)
   stat_point를 1 차감하고 stat의 레벨을 1만큼 올립니다.
 StatManager.getLuckyBracelet() : Number
-  [ 행운 팔찌 ]의 현재 스탯을 반환합니다.
+  [ 행운 팔찌 ]의 현재 스탯 레벨을 반환합니다.
 StatManager.getGodHand() : Number
-  [ 신의 손 ]의 현재 스탯을 반환합니다.
+  [ 신의 손 ]의 현재 스탯 레벨을 반환합니다.
 Statmanager.getInvalidatedSphere() : Number
-  [ 무효화 구체 ]의 현재 스탯을 반환합니다.
+  [ 무효화 구체 ]의 현재 스탯 레벨을 반환합니다.
 
 Math.random() : Number
   0~1 사이의 난수를 반환합니다.
