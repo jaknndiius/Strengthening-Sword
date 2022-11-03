@@ -106,7 +106,6 @@ function onStatUp(stat) {
       stat.current += 1
       GameManager.renderStat();
     }
-
   }
 }
 
