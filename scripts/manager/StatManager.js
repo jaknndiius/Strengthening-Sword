@@ -1,3 +1,5 @@
+/* 스탯 제어 */
+
 class Stat {
   constructor(name, description, stat_per_level, color) {
     this.current = 0;

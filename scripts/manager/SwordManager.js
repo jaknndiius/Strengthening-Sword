@@ -1,3 +1,5 @@
+/* 검 제어 */
+
 class Sword {
   constructor(name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
     this.name = name;

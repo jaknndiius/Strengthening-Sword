@@ -1,3 +1,5 @@
+/* 제작법 제어 */
+
 MakingManager = {
   repair_paper_recipe: [],
   recipes: {},

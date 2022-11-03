@@ -1,3 +1,5 @@
+/* 보관함 제어 */
+
 class Item {constructor(type, name, count){this.type = type; this.name = name; this.count = count;}}
 class PieceItem extends Item {constructor(name, count){super("piece", name, count);}}
 class SwordItem extends Item {constructor(name, count){super("sword", name, count);}}

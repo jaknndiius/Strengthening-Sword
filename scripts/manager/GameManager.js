@@ -1,3 +1,4 @@
+/* 화면 제어 */
 const GameManager = {
   records: [],
   max_recordable_count: 10,
