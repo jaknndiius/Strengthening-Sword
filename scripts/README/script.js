@@ -1,6 +1,6 @@
 function gameStart() {
   /* Game Setting */
-  GameManager.setMoney(100000);
+  MoneyDisplay.setMoney(100000);
 
   /* Sword Setting */
   SwordManager.appendSword(new Sword("단검", 1.0, 300, 0, 3, false));
@@ -40,19 +40,19 @@ function onClickUpgradeButton() {
 
   const result = GameManager.test();
   if(result == TestResult.SUCCESS) {
-    GameManager.addRecord(current_sword, "upgrade");
-    GameManager.changeMoney(-current_sword.cost);
+    RecordStorage.addRecord(current_sword, "upgrade");
+    MoneyDisplay.changeMoney(-current_sword.cost);
 
     const prob = current_sword.prob + StatManager.getLuckyBracelet()/100;
     if(Math.random() < Math.min(prob, 100)) {
         if(Math.random() < StatManager.getGodHand()/100) {
           SwordManager.upgradeSword(2);
-          GameManager.popupGreatSuccessMessage();
+          MessageWindow.popupGreatSuccessMessage();
         } else {
           SwordManager.upgradeSword();
         }
         
-        GameManager.renderGameInterFace();
+        MainScreen.render();
     } else {
         const re = current_sword.pieces.map(value => value.calculate());
         re.forEach(value => InventoryManager.savePiece(value.name, value.count));
@@ -61,24 +61,24 @@ function onClickUpgradeButton() {
 
         if(Math.random() < percent) { //-1강 복구
           SwordManager.downgradeSword();
-          GameManager.renderGameInterFace();
-          GameManager.popupInvalidationMessage();
+          MainScreen.render();
+          MessageWindow.popupInvalidationMessage();
         } else {
-          GameManager.popupFallMessage(...re);
+          MessageWindow.popupFallMessage(...re);
         }
         
     }
   } else if(result == TestResult.MONEY_LACK) {
-    GameManager.popupMoneyLackMessage();
+    MessageWindow.popupMoneyLackMessage();
   } else if(result == TestResult.MAX_UPGRADE) {
-    GameManager.popupMaxMessage();
+    MessageWindow.popupMaxMessage();
   }
 
 }
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
-  GameManager.addRecord(SwordManager.getCurrentSword(), "sell");
-  GameManager.changeMoney(SwordManager.getCurrentSword().price);
+  RecordStorage.addRecord(SwordManager.getCurrentSword(), "sell");
+  MoneyDisplay.changeMoney(SwordManager.getCurrentSword().price);
   GameManager.init();
 }
 /* 보관하기 버튼을 눌렀을 때 */
@@ -104,7 +104,7 @@ function onStatUp(stat) {
   if(StatManager.stat_point > 0) {
     if(stat.current != 5) {
       StatManager.upgradeStat(stat);
-      GameManager.renderStat();
+      StatScreen.render();
     }
   }
 }

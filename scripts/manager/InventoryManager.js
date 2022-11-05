@@ -67,9 +67,9 @@ InventoryManager.subtractItem = function(type, name, count) {
 }
 InventoryManager.sellSword = function(name) {
   if(this.subtractItem("sword", name, 1)) {
-    GameManager.addRecord(SwordManager.getSword(name), "sell");
-    GameManager.renderInventory();
-    GameManager.changeMoney(SwordManager.getSword(name).price);
+    RecordStorage.addRecord(SwordManager.getSword(name), "sell");
+    InventoryScreen.render();
+    MoneyDisplay.changeMoney(SwordManager.getSword(name).price);
   }
 }
 InventoryManager.getItems = function(type) {

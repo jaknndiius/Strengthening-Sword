@@ -38,7 +38,7 @@ MakingManager.makeWithRecipe = function(recipe) {
   
   const sale = StatManager.getMagicHat();
   for(const item of recipe) {
-    if(item.type == "money") GameManager.changeMoney(-item.count);
+    if(item.type == "money") MoneyDisplay.changeMoney(-item.count);
     else if(item.type == "piece") InventoryManager.subtractItem(item.type, item.name, item.count - sale);
     else InventoryManager.subtractItem(item.type. item.name, item.count);
   }
@@ -47,13 +47,13 @@ MakingManager.makeWithRecipe = function(recipe) {
 MakingManager.makeRepairPaper = function() {
   if(this.makeWithRecipe(this.repair_paper_recipe)) {
     InventoryManager.addCountToRepairPaper(1);
-    GameManager.animateLodding(450, () => GameManager.renderMaking());
+    MakingScreen.animateLodding(450, () => MakingScreen.render());
   }
 }
 MakingManager.makeSword = function(swordName) {
   const sale = StatManager.getMagicHat();
   if(this.makeWithRecipe(this.recipes[swordName], sale)) {
     SwordManager.jumpTo(SwordManager.getIndex(swordName));
-    GameManager.animateLodding(800, () => GameManager.showGameInterface());
+    MakingScreen.animateLodding(800, () => MainScreen.show());
   }
 }
