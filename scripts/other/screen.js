@@ -1,13 +1,11 @@
 /* 화면 제어 */
 const changeBody = id => $("#main-body").replaceChildren(document.importNode($("#" + id).content, true));
-
 const Path = {}
 Path.unknownPath = "images/swords/unknown.png";
 Path.repairPath = "images/repair_paper/복구권.png";
 Path.moneyPath = "images/item/돈.png";
 Path.piecePath = piece_name => `images/item/${piece_name}.png`;
 Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
-
 const MainScreen = {}
 MainScreen.show = function() {
   changeBody("game-interface");
@@ -45,7 +43,6 @@ MainScreen.render = function() {
   $("#sell-button")[(SwordManager.current_sword_index == 0) ? "hide" : "display"]();
   $("#save-button")[(SwordManager.getCurrentSword().canSave) ? "display" : "hide"]();
 }
-
 const InventoryScreen = {}
 InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
@@ -115,7 +112,6 @@ InventoryScreen.render = function() {
 
   $("#inventory-items").replaceChildren(...inner);
 }
-
 const InformationScreen = {}
 InformationScreen.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
@@ -144,7 +140,6 @@ InformationScreen.render = function() {
   $("#found-swords").replaceChildren(...found);
   $("#found-sword-count").textContent = SwordManager.found_swords.length;
 }
-
 const MakingScreen = {
   lodding_kef: [{opacity: '0'}, {opacity: '1'}],
   hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}]
@@ -287,7 +282,6 @@ MakingScreen.animateLodding = function(duration, onfinish) {
     ).onfinish = () => lodding.hide();
   }, duration);
 }
-
 const StatScreen = {}
 StatScreen.makeIconDiv = function(img_src, onclick) {
   const icon_box = $createElementWithClasses("div", "icon");
@@ -350,7 +344,6 @@ StatScreen.render = function() {
 
   $("#stat-point-count").textContent = StatManager.stat_point;
 }
-
 const MessageWindow = {
   popup_kef: [{opacity: '0'}, {opacity: '1'}]
 }
@@ -425,7 +418,6 @@ MessageWindow.renderGreatSuccessMessage = function() {
 MessageWindow.popupGameEndMessage = function() {
   this.popupMessage($("#game-end-message"))
 }
-
 MoneyDisplay = {
   money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}]
 }
@@ -444,7 +436,6 @@ MoneyDisplay.changeMoney = function(num) {
 MoneyDisplay.render = function() {
   $("#money-number").textContent = InventoryManager.getMoney();
 }
-
 RecordStorage = {
   records: [],
   max_recordable_count: 10
