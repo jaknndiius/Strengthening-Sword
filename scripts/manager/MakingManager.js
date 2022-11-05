@@ -1,10 +1,8 @@
 /* 제작법 제어 */
-
 MakingManager = {
   repair_paper_recipe: [],
   recipes: {},
 }
-
 MakingManager.setRepairPaperRecipe = function(...materials) {
   if(materials.length == 0) throw new Error("Making.setRepairPaperRecipe needs more args.");
   if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item`);

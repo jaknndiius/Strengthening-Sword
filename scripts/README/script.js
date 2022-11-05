@@ -1,7 +1,6 @@
 function gameStart() {
   /* Game Setting */
   MoneyDisplay.setMoney(100000);
-
   /* Sword Setting */
   SwordManager.appendSword(new Sword("단검", 1.0, 300, 0, 3, false));
   SwordManager.appendSword(new Sword("롱소드", 0.95, 300, 100, 3, false));
@@ -23,26 +22,22 @@ function gameStart() {
   SwordManager.appendSword(new Sword("몰락한 왕의 검", 0.15, 1500, 3000, 1, true));
   SwordManager.appendSword(new Sword("그림자 검", 0.1, 5000, 12000, 1, true));
   SwordManager.appendSword(new Sword("구인수의 격노검", 0, 0, 30000, 0, true));
-
   /* Recipes Setting */
   MakingManager.setRepairPaperRecipe(new MoneyItem(300));
   MakingManager.setRecipe("BF 대검", new PieceItem("바미의 불씨", 30), new PieceItem("도란의 반지", 30), new MoneyItem(3300));
   MakingManager.setRecipe("몰락한 왕의 검", new PieceItem("여신의 눈물", 30), new MoneyItem(300));
   MakingManager.setRecipe("요우무의 유령검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("무라마나", 1));
   MakingManager.setRecipe("독사의 송곳니", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("구인수의 격노검", 1));
-
   /* Init Game */
   GameManager.init();
 }
 /* 강화하기 버튼을 눌렀을 때 */
 function onClickUpgradeButton() {
   const current_sword = SwordManager.getCurrentSword();
-
   const result = GameManager.test();
   if(result == TestResult.SUCCESS) {
     RecordStorage.addRecord(current_sword, "upgrade");
     MoneyDisplay.changeMoney(-current_sword.cost);
-
     const prob = current_sword.prob + StatManager.getLuckyBracelet()/100;
     if(Math.random() < Math.min(prob, 100)) {
         if(Math.random() < StatManager.getGodHand()/100) {
@@ -51,14 +46,11 @@ function onClickUpgradeButton() {
         } else {
           SwordManager.upgradeSword();
         }
-        
         MainScreen.render();
     } else {
         const re = current_sword.pieces.map(value => value.calculate());
         re.forEach(value => InventoryManager.savePiece(value.name, value.count));
-
         const percent = StatManager.getInvalidatedSphere()/100;
-
         if(Math.random() < percent) { //-1강 복구
           SwordManager.downgradeSword();
           MainScreen.render();
@@ -66,14 +58,12 @@ function onClickUpgradeButton() {
         } else {
           MessageWindow.popupFallMessage(...re);
         }
-        
     }
   } else if(result == TestResult.MONEY_LACK) {
     MessageWindow.popupMoneyLackMessage();
   } else if(result == TestResult.MAX_UPGRADE) {
     MessageWindow.popupMaxMessage();
   }
-
 }
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
@@ -98,7 +88,6 @@ function onClickRepairButton() {
 function onClickInitButton() {
   GameManager.init();
 }
-
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(stat) {
   if(StatManager.stat_point > 0) {
@@ -108,5 +97,4 @@ function onStatUp(stat) {
     }
   }
 }
-
 gameStart();

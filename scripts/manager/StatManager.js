@@ -1,5 +1,4 @@
 /* 스탯 제어 */
-
 class Stat {
   constructor(name, description, stat_per_level, color) {
     this.current = 0;
@@ -14,7 +13,6 @@ class Stat {
     return this.stat_per_level[this.current-1];
   }
 }
-
 StatManager = {
   stat_point: 0,
   LUCKY_BRACELET: 0,

@@ -4,18 +4,15 @@ GameManager.test = function() {
   else if(SwordManager.max_upgradable_index < SwordManager.current_sword_index +1) return TestResult.MAX_UPGRADE;
   else return TestResult.SUCCESS;
 }
-
 GameManager.init = function(start) {
   if(start !== undefined) SwordManager.jumpTo(start);
   else SwordManager.resetSword();
   MainScreen.show();
   MoneyDisplay.render();
 }
-
 $("#main-game-button").addEventListener("click", () => {MainScreen.show();});
 $("#information-button").addEventListener("click", () => {InformationScreen.show();});
 $("#inventory-button").addEventListener("click", () => {InventoryScreen.show();});
 $("#making-button").addEventListener("click", () => {MakingScreen.show();});
 $("#stat-button").addEventListener("click", () => {StatScreen.show();});
-
 const onClickCloseButton = id => $("#" + id).hide();

@@ -1,5 +1,4 @@
 /* 검 제어 */
-
 class Sword {
   constructor(name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
     this.name = name;
@@ -25,7 +24,6 @@ class Piece {
     } return null;
   }
 }
-
 SwordManager = {
   current_sword_index: 0,
   swords: [],
@@ -68,7 +66,6 @@ SwordManager.findSword = function(index) {
   this.found_swords.push(index);
   return true;
 }  
-
 SwordManager.resetSword = function() { this.jumpTo(0); }
 SwordManager.upgradeSword = function(index) {
   if(index === undefined) {
@@ -79,8 +76,6 @@ SwordManager.upgradeSword = function(index) {
   this.jumpTo(this.current_sword_index +2)
 }
 SwordManager.downgradeSword = function() { this.jumpTo(this.current_sword_index -1)}
-
-
 SwordManager.jumpTo = function(index) {
   if(typeof index != "number") throw new TypeError(`${index} is not a number`);
   if(index < 0) index = 0;
@@ -88,7 +83,6 @@ SwordManager.jumpTo = function(index) {
   if(this.findSword(index)) StatManager.addStatPoint();
   this.current_sword_index = index;
 }
-
 SwordManager.getCurrentSword = function() {
   return this.getSword(this.current_sword_index);
 }
