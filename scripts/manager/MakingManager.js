@@ -24,10 +24,9 @@ MakingManager.canMake = function(recipe) {
     }
     const item = InventoryManager.findItem(rec.name, rec.type);
 
-    if(item !== undefined) {
-      if(rec.type == "piece" && item.count < rec.count-sale) return false;
-      if(rec.type == "sword" && item.count < rec.count) return false;      
-    } else return false;
+    if(item === undefined) return false;
+    if(rec.type == "piece" && item.count < rec.count-sale) return false;
+    if(rec.type == "sword" && item.count < rec.count) return false;      
   }
   return true;
 }

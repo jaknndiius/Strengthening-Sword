@@ -10,9 +10,9 @@ GameManager.init = function(start) {
   MainScreen.show();
   MoneyDisplay.render();
 }
-$("#main-game-button").addEventListener("click", () => {MainScreen.show();});
-$("#information-button").addEventListener("click", () => {InformationScreen.show();});
-$("#inventory-button").addEventListener("click", () => {InventoryScreen.show();});
-$("#making-button").addEventListener("click", () => {MakingScreen.show();});
-$("#stat-button").addEventListener("click", () => {StatScreen.show();});
+$("#main-game-button").addEventListener("click", () => MainScreen.show());
+$("#information-button").addEventListener("click", () => InformationScreen.show());
+$("#inventory-button").addEventListener("click", () => InventoryScreen.show());
+$("#making-button").addEventListener("click", () => MakingScreen.show());
+$("#stat-button").addEventListener("click", () => StatScreen.show());
 const onClickCloseButton = id => $("#" + id).hide();

@@ -6,6 +6,14 @@ Path.repairPath = "images/repair_paper/복구권.png";
 Path.moneyPath = "images/item/돈.png";
 Path.piecePath = piece_name => `images/item/${piece_name}.png`;
 Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
+
+const Keyframes = {
+  lodding_kef: [{opacity: '0'}, {opacity: '1'}],
+  hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}],
+  popup_kef: [{opacity: '0'}, {opacity: '1'}],
+  money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}],
+}
+
 const MainScreen = {}
 MainScreen.show = function() {
   changeBody("game-interface");
@@ -140,10 +148,7 @@ InformationScreen.render = function() {
   $("#found-swords").replaceChildren(...found);
   $("#found-sword-count").textContent = SwordManager.found_swords.length;
 }
-const MakingScreen = {
-  lodding_kef: [{opacity: '0'}, {opacity: '1'}],
-  hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}]
-}
+const MakingScreen = {}
 MakingScreen.makeMaterialSection = function(recipes, sale) {
   const material = $createElementWithClasses("section", "material");
   if(recipes.length == 1) material.classList.add("one");
@@ -272,12 +277,12 @@ MakingScreen.animateLodding = function(duration, onfinish) {
   const hammer = $("#maker-window-lodding div");
 
   lodding.display();    
-  lodding.animate(this.lodding_kef, {duration: duration/2});
-  hammer.animate(this.hammer_kef, {duration: duration, iterations: 2});
+  lodding.animate(Keyframes.lodding_kef, {duration: duration/2});
+  hammer.animate(Keyframes.hammer_kef, {duration: duration, iterations: 2});
   setTimeout(() => {
     onfinish();
     lodding.animate(
-      this.lodding_kef,
+      Keyframes.lodding_kef,
       {duration: duration/2, direction: "reverse"}
     ).onfinish = () => lodding.hide();
   }, duration);
@@ -307,10 +312,12 @@ StatScreen.makeLevelDiv = function(current_level) {
 }
 StatScreen.makeInfoDiv = function(current_level, name, description, stat_per_level) {
   const info_box = $createElementWithClasses("div", "info");
+
   const pname = $createElementWithClasses("p", "name");
   pname.textContent = name;
   const pdescription = $createElementWithClasses("p", "description");
   pdescription.textContent = description;
+
   const details = $createElementWithClasses("ul", "detail");
   const lis = stat_per_level.map((value, index) => {
     const stat_li = $createElementWithClasses("li", "stat_per_level");
@@ -344,13 +351,11 @@ StatScreen.render = function() {
 
   $("#stat-point-count").textContent = StatManager.stat_point;
 }
-const MessageWindow = {
-  popup_kef: [{opacity: '0'}, {opacity: '1'}]
-}
+const MessageWindow = {}
 MessageWindow.popupMessage = function(message_box) {
   message_box.display();
   message_box.animate(
-    this.popup_kef,
+    Keyframes.popup_kef,
     {duration: 300, fill: "both"}
   );
 }
@@ -418,9 +423,7 @@ MessageWindow.renderGreatSuccessMessage = function() {
 MessageWindow.popupGameEndMessage = function() {
   this.popupMessage($("#game-end-message"))
 }
-MoneyDisplay = {
-  money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}]
-}
+MoneyDisplay = {}
 MoneyDisplay.setMoney = function(num) {
   InventoryManager.setMoney(num);
   this.render();
@@ -430,7 +433,7 @@ MoneyDisplay.changeMoney = function(num) {
 
   const money_change_span = $("#money-change");
   money_change_span.textContent = ((num >= 0) ? "+" + num : num) + "원";
-  money_change_span.animate(this.money_change_kef, {duration: 300, fill: "both"});
+  money_change_span.animate(Keyframes.money_change_kef, {duration: 300, fill: "both"});
   this.render();
 }
 MoneyDisplay.render = function() {
