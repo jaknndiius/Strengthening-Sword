@@ -10,6 +10,7 @@ Function form
 
 for( var of Array ) { var }
 == for(let i=0;i<Array.length;i++) { Array[i] }
+== Array.forEach((var) => { var })
 == Python's for var in List
 
 *Iterator.forEach(CallBackFunc: (value, index, array) => void)

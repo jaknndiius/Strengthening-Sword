@@ -34,7 +34,8 @@ StatManager.upgradeStat = function(stat) {
   if(!(stat instanceof Stat)) throw new TypeError(`${stat} is not stat.`)
   if(stat.current == 5) throw new Error(`${stat.name} is already full-upgrade.`);
   if(this.stat_point <= 0) throw new Error(`There are no stat points.`);
-  this.stat_point--; stat.current++;
+  this.stat_point--;
+  stat.current++;
 }
 StatManager.getCurrentStat = function(statIndex) { return this.stats[statIndex].getCurrent(); }
 StatManager.getLuckyBracelet = function() { return this.getCurrentStat(this.LUCKY_BRACELET); }

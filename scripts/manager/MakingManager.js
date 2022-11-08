@@ -17,16 +17,16 @@ MakingManager.canMake = function(recipe) {
 
   const sale = StatManager.getMagicHat();
   
-  for(const rec of recipe) {
-    if(rec.type == "money") {
-      if(InventoryManager.getMoney() >= rec.count) continue;
+  for(const rec_item of recipe) {
+    if(rec_item.type == "money") {
+      if(InventoryManager.getMoney() >= rec_item.count) continue;
       return false;
     }
-    const item = InventoryManager.findItem(rec.name, rec.type);
+    const inv_item = InventoryManager.findItem(rec_item.name, rec_item.type);
 
-    if(item === undefined) return false;
-    if(rec.type == "piece" && item.count < rec.count-sale) return false;
-    if(rec.type == "sword" && item.count < rec.count) return false;      
+    if(inv_item === undefined ||
+      (rec_item.type == "piece" && inv_item.count < rec_item.count-sale) ||
+      (rec_item.type == "sword" && inv_item.count < rec_item.count)) return false;
   }
   return true;
 }
@@ -34,10 +34,10 @@ MakingManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
   
   const sale = StatManager.getMagicHat();
-  for(const item of recipe) {
-    if(item.type == "money") MoneyDisplay.changeMoney(-item.count);
-    else if(item.type == "piece") InventoryManager.subtractItem(item.type, item.name, item.count - sale);
-    else InventoryManager.subtractItem(item.type. item.name, item.count);
+  for(const rec_item of recipe) {
+    if(rec_item.type == "money") MoneyDisplay.changeMoney(-rec_item.count);
+    else if(rec_item.type == "piece") InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count - sale);
+    else InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count);
   }
   return true;
 }

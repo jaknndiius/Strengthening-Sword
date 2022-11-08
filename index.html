@@ -27,31 +27,31 @@
       <ul>
         <li>
           <a id="main-game-button">
-            <div class="icon sword"><img src="images/icon/icons.png" alt="none" /></div>
+            <div class="icon sword"><img src="images/icon/icons.png" alt="검강화" /></div>
             검강화
           </a>
         </li>
         <li>
           <a id="information-button">
-            <div class="icon information"><img src="images/icon/icons.png" alt="none" /></div>
+            <div class="icon information"><img src="images/icon/icons.png" alt="내정보" /></div>
             내정보
           </a>
         </li>
         <li>
           <a id="inventory-button">
-            <div class="icon inventory"><img src="images/icon/icons.png" alt="none" /></div>
+            <div class="icon inventory"><img src="images/icon/icons.png" alt="보관함" /></div>
             보관함
           </a>
         </li>
         <li>
           <a id="making-button">
-            <div class="icon making"><img src="images/icon/icons.png" alt="none" /></div>
+            <div class="icon making"><img src="images/icon/icons.png" alt="제작소" /></div>
             제작소
           </a>
         </li>
         <li>
           <a id="stat-button">
-            <div class="icon stat"><img src="images/icon/icons.png" alt="none" /></div>
+            <div class="icon stat"><img src="images/icon/icons.png" alt="마법소" /></div>
             마법소
           </a>
         </li>
@@ -70,9 +70,9 @@
         <section class="infomation"><span id="sword-number"></span> <span id="sword-name"></span> <span id="sword-prob"></span> <span id="sword-cost"></span> <span id="sword-price"></span></section>
       </div>
       <div id="buttons-main" class="buttons">
-        <div class="brown_button tobottom decrease" id="save-button" onclick="onClickSaveButton()"><img src="images/ui/보관하기.png" alt="none" /> <span>보관하기</span></div>
-        <div class="blue_button toleft rotate" id="upgrade-button" onclick="onClickUpgradeButton()"><img src="images/ui/강화하기.png" alt="none" /> <span>강화하기</span></div>
-        <div class="red_button increase" id="sell-button" onclick="onClickSellButton()"><img src="images/ui/판매하기.png" alt="none" /> <span>판매하기</span></div>
+        <div class="brown_button tobottom decrease" id="save-button" onclick="onClickSaveButton()"><img src="images/ui/보관하기.png" alt="보관하기" /> <span>보관하기</span></div>
+        <div class="blue_button toleft rotate" onclick="onClickUpgradeButton()"><img src="images/ui/강화하기.png" alt="강화하기" /> <span>강화하기</span></div>
+        <div class="red_button increase" id="sell-button" onclick="onClickSellButton()"><img src="images/ui/판매하기.png" alt="판매하기" /> <span>판매하기</span></div>
       </div>
       <div class="message" id="fall-message">
         <div class="message_main">
@@ -83,8 +83,8 @@
             <p class="required_count" id="required-count"></p>
           </div>
           <div class="buttons">
-            <div class="green_button increase" id="fix-button" onclick="onClickRepairButton()"><img src="images/repair_paper/복구권.png" alt="none" /> <span>복구하기</span></div>
-            <div class="dark_blue_button turning" id="init-button" onclick="onClickInitButton()"><img src="images/ui/다시하기.png" alt="none" /> <span>다시하기</span></div>
+            <div class="green_button increase" id="fix-button" onclick="onClickRepairButton()"><img src="images/repair_paper/복구권.png" alt="복구하기" /> <span>복구하기</span></div>
+            <div class="dark_blue_button turning" onclick="onClickInitButton()"><img src="images/ui/다시하기.png" alt="다시하기" /> <span>다시하기</span></div>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
             <div class="subtitle">최대 강화에 도달했습니다.</div>
           </div>
           <div class="buttons">
-            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('max-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+            <div class="red_button rotate" onclick="onClickCloseButton('max-message')"><img src="images/ui/창닫기.png" alt="창 닫기" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
@@ -111,7 +111,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('money-lack-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+            <div class="red_button rotate" onclick="onClickCloseButton('money-lack-message')"><img src="images/ui/창닫기.png" alt="창 닫기" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('invalidation-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+            <div class="red_button rotate" onclick="onClickCloseButton('invalidation-message')"><img src="images/ui/창닫기.png" alt="창 닫기" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('great-success-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+            <div class="red_button rotate" onclick="onClickCloseButton('great-success-message')"><img src="images/ui/창닫기.png" alt="창 닫기" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="red_button rotate" id="close-button" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/창닫기.png" alt="none" /><span>창 닫기</span></div>
+            <div class="red_button rotate" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/창닫기.png" alt="창 닫기" /><span>창 닫기</span></div>
           </div>
         </div>
       </div>
@@ -191,7 +191,7 @@
       </div>
     </template>
     <div class="loading" id="maker-window-lodding">
-      <div class="lodding_img"><img src="images/ui/제작하기.png" alt="none" /></div>
+      <div class="lodding_img"><img src="images/ui/제작하기.png" alt="제작하기" /></div>
     </div>
     <div id="img-lodder" hidden></div>
   </body>
