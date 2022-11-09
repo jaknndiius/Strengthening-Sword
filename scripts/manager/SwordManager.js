@@ -58,7 +58,7 @@ SwordManager.isFound = function(swordValue) {
   switch (typeof swordValue) {
     case "number": return this.found_swords.includes(swordValue);
     case "string": return this.found_swords.includes(this.getIndex(swordValue));
-    default: throw new TypeError(`${swordValue} is not sword's name or sword's index`);
+    default: throw new TypeError(`${swordValue} is not a number or a string.`);
   }
 }
 SwordManager.findSword = function(index) {
@@ -78,8 +78,7 @@ SwordManager.upgradeSword = function(index) {
 SwordManager.downgradeSword = function() { this.jumpTo(this.current_sword_index -1)}
 SwordManager.jumpTo = function(index) {
   if(typeof index != "number") throw new TypeError(`${index} is not a number`);
-  if(index < 0) index = 0;
-  if(index > this.max_upgradable_index) index = this.max_upgradable_index;
+  index = Math.min(Math.max(index, 0), this.max_upgradable_index);
   if(this.findSword(index)) StatManager.addStatPoint();
   this.current_sword_index = index;
 }

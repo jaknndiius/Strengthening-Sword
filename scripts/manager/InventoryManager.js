@@ -11,7 +11,7 @@ const InventoryManager = {
 InventoryManager.getMoney = function() { return this.money }
 InventoryManager.setMoney = function(num) {
   if(typeof num != "number") throw new TypeError(`${num} is not a number`);
-  this.money = (num >= 0) ? num : 0;
+  this.money = Math.max(num, 0);
 }
 InventoryManager.changeMoney = function(num) {
   this.setMoney(this.getMoney() + num);
@@ -21,18 +21,18 @@ InventoryManager.canUseRepairPaper = function(count) {
 }
 InventoryManager.addCountToRepairPaper = function(count) {
   if(typeof count != "number") throw new TypeError(`${count} is not a number`);
-  this.repair_paper += (count > 0) ? count : 0;
+  this.repair_paper += Math.max(count, 0);
 }
 InventoryManager.subtractRepairPaper = function(count) {
   if(typeof count != "number") throw new TypeError(`${count} is not a number`);
   if(!this.canUseRepairPaper(count)) throw new Error("There are no enough repair papers.");
-  this.repair_paper -= (count > 0) ? count : 0;
+  this.repair_paper -= Math.max(count, 0);
 }
 InventoryManager.saveItem = function(type, name, count) {
   if(typeof count != "number") throw new TypeError(`${count} is not a number`);
   if(count < 0) throw new RangeError(`${count} is not more than 0.`);
 
-  const item = this.findItem(name, type);
+  const item = this.findItem(type, name);
   if(item === undefined) {
     switch (type) {
       case "piece":
@@ -52,12 +52,12 @@ InventoryManager.savePiece = function(name, count) {
 InventoryManager.saveSword = function(name, count) {
   this.saveItem("sword", name, count);
 }
-InventoryManager.findItem = function(name, type) {
-  if(type === undefined) return this.inventory.find(value => value.name == name);
+InventoryManager.findItem = function(type, name) {
+  if(name === undefined) return this.inventory.find(value => value.name == type);
   return this.inventory.find(value => value.type == type && value.name == name);
 }
 InventoryManager.subtractItem = function(type, name, count) {
-  const item = this.findItem(name, type);
+  const item = this.findItem(type, name);
   if(item === undefined) return new Error("There is no such sword.");
   if(item.count < count) return false;
   item.count -= count

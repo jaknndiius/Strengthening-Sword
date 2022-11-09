@@ -22,7 +22,7 @@ MakingManager.canMake = function(recipe) {
       if(InventoryManager.getMoney() >= rec_item.count) continue;
       return false;
     }
-    const inv_item = InventoryManager.findItem(rec_item.name, rec_item.type);
+    const inv_item = InventoryManager.findItem(rec_item.type, rec_item.name);
 
     if(inv_item === undefined ||
       (rec_item.type == "piece" && inv_item.count < rec_item.count-sale) ||
