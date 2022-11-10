@@ -1,4 +1,4 @@
-/* 제작법 제어 */
+/* 제작법 */
 MakingManager = {
   repair_paper_recipe: [],
   recipes: {},
@@ -48,8 +48,7 @@ MakingManager.makeRepairPaper = function() {
   }
 }
 MakingManager.makeSword = function(swordName) {
-  const sale = StatManager.getMagicHat();
-  if(this.makeWithRecipe(this.recipes[swordName], sale)) {
+  if(this.makeWithRecipe(this.recipes[swordName])) {
     SwordManager.jumpTo(SwordManager.getIndex(swordName));
     MakingScreen.animateLodding(800, () => MainScreen.show());
   }

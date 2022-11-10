@@ -1,4 +1,4 @@
-/* 스탯 제어 */
+/* 스탯  */
 class Stat {
   constructor(name, description, stat_per_level, color) {
     this.current = 0;
@@ -21,7 +21,7 @@ StatManager = {
   INVALIDATED_SPHERE: 4,
   MARGIN_HAT: 5,
   stats: [
-    new Stat("행운 팔찌", "성공 확률 증가(+)", [10, 20, 30, 40, 50], "blue"),
+    new Stat("행운 팔찌", "성공 확률 증가(+)", [1, 2, 3, 4, 5], "blue"),
     new Stat("신의 손", "성공 시 일정 확률로 +2강(%)", [10, 20, 30, 40, 50], "red"),
     new Stat("대상인", "판매 가격 증가(%)", [5, 10, 15, 20, 25], "sky"),
     new Stat("대장장이", "강화 비용 감소(%)", [1, 2, 3, 4, 5], "green"),
@@ -44,3 +44,7 @@ StatManager.getBigMerchant = function() { return this.getCurrentStat(this.BIG_ME
 StatManager.getSmith = function() { return this.getCurrentStat(this.SMITH); }
 StatManager.getInvalidatedSphere = function() { return this.getCurrentStat(this.INVALIDATED_SPHERE); }
 StatManager.getMagicHat = function() { return this.getCurrentStat(this.MARGIN_HAT); }
+
+StatManager.calculateLuckyBraclet = function(initialProb) { return Math.min(initialProb + this.getLuckyBracelet()/100, 1) }
+StatManager.calculateSmith = function(initialCost) { return initialCost*(100 - this.getSmith())/100 }
+StatManager.calculateBigMerchant = function(initialPrice) { return initialPrice*(100 + this.getBigMerchant())/100 }

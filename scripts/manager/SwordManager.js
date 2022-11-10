@@ -1,4 +1,4 @@
-/* 검 제어 */
+/* 검 */
 class Sword {
   constructor(name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
     this.name = name;
@@ -18,10 +18,8 @@ class Piece {
     this.max_drop = max_drop;
   }
   calculate() {
-    if(Math.random() < this.prob) {
-      const result = Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop));
-      return new PieceItem(this.name, result);
-    } return null;
+    if(Math.random() < this.prob) return new PieceItem(this.name, Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop)));
+    return null;
   }
 }
 SwordManager = {
@@ -31,13 +29,13 @@ SwordManager = {
   max_upgradable_index: 0
 }
 SwordManager.getSword = function(value) {
-  let res = undefined;
+  let res;
   if(typeof value == "number")
     res = this.swords[value];
   else if(typeof value == "string")
     res = this.swords.find(sword => sword.name == value);
   else throw new TypeError(`${value} is not a number or string.`)
-  if(res === undefined) throw new Error(`There is no sword named ${value}`);
+  if(res === undefined) throw new Error(`There is no sword named ${value}.`);
   return res;
 }
 SwordManager.getIndex = function(value) {
@@ -45,20 +43,18 @@ SwordManager.getIndex = function(value) {
   return this.swords.indexOf(this.getSword(value));
 }
 SwordManager.calculateLoss = function(index) {
-  return this.swords.filter((v, idx) => idx <= index).reduce((pre, cur) => pre += cur.cost, 0);
+  return this.swords.filter((v, idx) => idx <= index).reduce((pre, cur) => pre += StatManager.calculateSmith(cur.cost), 0);
 }
 SwordManager.appendSword = function(sword) {
-  if(sword instanceof Sword) {
-    this.swords.push(sword);
-    this.max_upgradable_index = this.swords.length -1;
-
-  } else throw new TypeError(`${sword} is not a sword`);
+  if(!(sword instanceof Sword)) throw new TypeError(`${sword} is not a sword.`);
+  this.swords.push(sword);
+  this.max_upgradable_index = this.swords.length -1;
 }
 SwordManager.isFound = function(swordValue) {
   switch (typeof swordValue) {
     case "number": return this.found_swords.includes(swordValue);
     case "string": return this.found_swords.includes(this.getIndex(swordValue));
-    default: throw new TypeError(`${swordValue} is not a number or a string.`);
+    default: throw new TypeError(`${swordValue} is not a number(sword's index) or a string(sword's name).`);
   }
 }
 SwordManager.findSword = function(index) {
@@ -77,7 +73,7 @@ SwordManager.upgradeSword = function(index) {
 }
 SwordManager.downgradeSword = function() { this.jumpTo(this.current_sword_index -1)}
 SwordManager.jumpTo = function(index) {
-  if(typeof index != "number") throw new TypeError(`${index} is not a number`);
+  if(typeof index != "number") throw new TypeError(`${index} is not a number.`);
   index = Math.min(Math.max(index, 0), this.max_upgradable_index);
   if(this.findSword(index)) StatManager.addStatPoint();
   this.current_sword_index = index;
@@ -86,6 +82,5 @@ SwordManager.getCurrentSword = function() {
   return this.getSword(this.current_sword_index);
 }
 SwordManager.getNextSword = function() {
-  if(this.current_sword_index == this.max_upgradable_index) return SwordManager.getSword(this.current_sword_index);
-  return this.getSword(this.current_sword_index +1);
+  return this.getSword(Math.min(this.current_sword_index +1, this.max_upgradable_index));
 }

@@ -38,15 +38,10 @@ MainScreen.render = function() {
     $("#sword-prob").textContent = "강화 불가";
     $("#sword-cost").textContent = "";
   } else {
-    const percent = Math.floor(current_sword.prob *100) + StatManager.getLuckyBracelet();
-    $("#sword-prob").textContent = "강화 성공 확률: " + ((percent > 100) ? 100 : percent) + "%";
-
-    const result = current_sword.cost*(100-StatManager.getSmith())/100
-    $("#sword-cost").textContent = "강화 비용: " + result + "원";
+    $("#sword-prob").textContent = `강화 성공 확률: ${StatManager.calculateLuckyBraclet(current_sword.prob)*100}%`;
+    $("#sword-cost").textContent = `강화 비용: ${StatManager.calculateSmith(current_sword.cost)}원`;
   }
-
-  const res = current_sword.price*(100+StatManager.getBigMerchant())/100;
-  $("#sword-price").textContent = "판매 가격: " + res + "원";
+  $("#sword-price").textContent = `판매 가격: ${StatManager.calculateBigMerchant(current_sword.price)}원`;
 
   $("#sell-button")[(SwordManager.current_sword_index == 0) ? "hide" : "display"]();
   $("#save-button")[(SwordManager.getCurrentSword().canSave) ? "display" : "hide"]();
@@ -66,8 +61,7 @@ InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
   if(src === undefined) return article;
 
   const div = $createElementWithClasses("div", "item");
-  const img = new Image();
-  img.src = src;
+  const img = $createImgWithSrc(src);
 
   if(sellFnc !== undefined) div.appendChild(this.makeHoverSellDiv(sellFnc));
 
@@ -123,9 +117,7 @@ InventoryScreen.render = function() {
 const InformationScreen = {}
 InformationScreen.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
-  const img = new Image();
-  img.src = src;
-  img.alt = alt;
+  const img = $createImgWithSrc(src, alt);
   div.appendChild(img);
   if(type == "sword") {
     const name_span = $createElementWithClasses("span", "sword_name");
@@ -221,8 +213,7 @@ MakingScreen.makeResultSection = function(src, name, count)  {
 
   const img_div = $createElementWithClasses("div", "item");
 
-  const img = new Image();
-  img.src = src;
+  const img = $createImgWithSrc(src);
 
   const span = $createElementWithClasses("span", "name");
   span.textContent = name;
@@ -272,20 +263,20 @@ MakingScreen.render = function() {
   }
   $("#recipes").replaceChildren(...inner);
 }
-MakingScreen.animateLodding = function(duration, onfinish) {
+MakingScreen.animateLodding = function(speed, onfinish) {
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
 
-  lodding.display();    
-  lodding.animate(Keyframes.lodding_kef, {duration: duration/2});
-  hammer.animate(Keyframes.hammer_kef, {duration: duration, iterations: 2});
+  lodding.display();
+  lodding.animate(Keyframes.lodding_kef, {duration: speed/2});
+  hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations: 2});
   setTimeout(() => {
     onfinish();
     lodding.animate(
       Keyframes.lodding_kef,
-      {duration: duration/2, direction: "reverse"}
+      {duration: speed/2, direction: "reverse"}
     ).onfinish = () => lodding.hide();
-  }, duration);
+  }, speed);
 }
 const StatScreen = {}
 StatScreen.makeIconDiv = function(img_src, onclick) {
@@ -368,8 +359,7 @@ MessageWindow.popupMoneyLackMessage = function() {
 MessageWindow.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
 
-  const img = new Image();
-  img.src = Path.piecePath(name);
+  const img = $createImgWithSrc(Path.piecePath(name));
 
   const span0 = $createElementWithClasses("span", "name");
   const span1 = $createElementWithClasses("span", "count");
@@ -396,13 +386,14 @@ MessageWindow.renderFallMessage = function(...pieces) {
 
   pieces_box.replaceChildren(...ret);
 
+  const paper_range = `${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs}`;
   if(InventoryManager.canUseRepairPaper(SwordManager.getCurrentSword().requiredRepairs)) {
     $("#fix-button").display();
-    $("#required-count").textContent = `복구권 ${SwordManager.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs})`;
+    $("#required-count").textContent = `복구권 ${SwordManager.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${paper_range})`;
     $("#required-count").classList.remove("red-text");
   } else {
     $("#fix-button").hide();
-    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs})`;
+    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${paper_range})`;
     $("#required-count").classList.add("red-text");
   }
 }
@@ -448,9 +439,7 @@ RecordStorage.addRecord = function(sword, type) {
   if(type != "upgrade" && type != "sell") throw new Error(`${type} is not 'upgrade' or 'sell'.`);
 
   this.records.push({sword: sword, type: type});
-  let idx = this.records.length - this.max_recordable_count;
-  if(idx < 0) idx = 0;
-
+  let idx = Math.max(this.records.length - this.max_recordable_count, 0);
   this.records = this.records.slice(idx);
   this.render();
 }

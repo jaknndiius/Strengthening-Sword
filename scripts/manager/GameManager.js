@@ -1,3 +1,8 @@
+const TestResult = {
+  MONEY_LACK: "MONEY LACK",
+  MAX_UPGRADE: "MAX UPGRADE",
+  SUCCESS: "SUCCESS"
+}
 const GameManager = {}
 GameManager.test = function() {
   if(InventoryManager.getMoney() - SwordManager.getCurrentSword().cost < 0) return TestResult.MONEY_LACK;

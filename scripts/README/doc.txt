@@ -123,9 +123,9 @@ StatManager.stat_point : Number
   현재 사용 가능한 스탯 갯수가 담긴 변수입니다.
 StatManager.upgradeStat(stat: Stat)
   stat_point를 1 차감하고 stat의 레벨을 1만큼 올립니다.
-StatManager.getLuckyBracelet() : Number
-  [ 행운 팔찌 ]의 현재 스탯 레벨을 반환합니다.
-StatManager.getGodHand() : Number
-  [ 신의 손 ]의 현재 스탯 레벨을 반환합니다.
-Statmanager.getInvalidatedSphere() : Number
-  [ 무효화 구체 ]의 현재 스탯 레벨을 반환합니다.
+StatManager.calculateLuckyBraclet(initialProb: Number)
+  initialProb에 [ 행운 팔찌 ]의 현재 스탯만큼을 더하여 반환합니다.
+StatManager.calculateSmith(initialCost: Number)
+  initialCost을 [ 대장장이 ]의 현재 스탯만큼 감소시켜 반환합니다.
+StatManager.calculateBigMerchant(initialPrice: Number)
+  initialPrice를 [ 대상인 ]의 현재 스탯만큼 증가시켜 반환합니다.
