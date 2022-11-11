@@ -1,6 +1,6 @@
 /* 화면 제어 */
 const changeBody = id => $("#main-body").replaceChildren(document.importNode($("#" + id).content, true));
-const Path = {}
+const Path = {};
 Path.unknownPath = "images/swords/unknown.png";
 Path.repairPath = "images/repair_paper/복구권.png";
 Path.moneyPath = "images/item/돈.png";
@@ -12,13 +12,13 @@ const Keyframes = {
   hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}],
   popup_kef: [{opacity: '0'}, {opacity: '1'}],
   money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}],
-}
+};
 
-const MainScreen = {}
+const MainScreen = {};
 MainScreen.show = function() {
   changeBody("game-interface");
   this.render();
-}
+};
 MainScreen.render = function() {
   $("#fall-message").hide();
   $("#max-message").hide();
@@ -45,8 +45,8 @@ MainScreen.render = function() {
 
   $("#sell-button")[(SwordManager.current_sword_index == 0) ? "hide" : "display"]();
   $("#save-button")[(SwordManager.getCurrentSword().canSave) ? "display" : "hide"]();
-}
-const InventoryScreen = {}
+};
+const InventoryScreen = {};
 InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
   const span = document.createElement("span");
@@ -54,7 +54,7 @@ InventoryScreen.makeHoverSellDiv = function(onclick) {
   div.appendChild(span);
   div.addEventListener("click", onclick);
   return div;
-}
+};
 InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
   const article = $createElementWithClasses("article", "group");
 
@@ -74,11 +74,11 @@ InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
   article.appendChildren(div, pname, pcount);
 
   return article;
-}
+};
 InventoryScreen.show = function() {
   changeBody("inventory");
   this.render();
-}
+};
 InventoryScreen.render = function() {
   const inner = [];
 
@@ -113,8 +113,8 @@ InventoryScreen.render = function() {
   } else $(".inventory_window main").classList.remove("empty_inventory");
 
   $("#inventory-items").replaceChildren(...inner);
-}
-const InformationScreen = {}
+};
+const InformationScreen = {};
 InformationScreen.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
   const img = $createImgWithSrc(src, alt);
@@ -125,11 +125,11 @@ InformationScreen.makeSwordIcon = function(src, alt, type) {
     div.appendChild(name_span);
   }
   return div;
-}
+};
 InformationScreen.show = function() {
   changeBody("game-information");
   this.render();
-}
+};
 InformationScreen.render = function() {
   const found = [];
   for(let i=0; i<=SwordManager.max_upgradable_index;i++) {
@@ -139,8 +139,8 @@ InformationScreen.render = function() {
   }
   $("#found-swords").replaceChildren(...found);
   $("#found-sword-count").textContent = SwordManager.found_swords.length;
-}
-const MakingScreen = {}
+};
+const MakingScreen = {};
 MakingScreen.makeMaterialSection = function(recipes, sale) {
   const material = $createElementWithClasses("section", "material");
   if(recipes.length == 1) material.classList.add("one");
@@ -156,7 +156,7 @@ MakingScreen.makeMaterialSection = function(recipes, sale) {
     else material.appendChild(this.makeMaterialDiv(item.name, item.type, mcount, item.count, sale));
   }
   return material;
-}
+};
 MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
 
   const div = $createElementWithClasses("div", "item");
@@ -191,7 +191,7 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
   div.appendChild(count_span);
 
   return div;
-}
+};
 MakingScreen.makeGroupArticle = function(material, result, disabled, clickFunction) {
 
   const article = $createElementWithClasses("article", "group")
@@ -206,7 +206,7 @@ MakingScreen.makeGroupArticle = function(material, result, disabled, clickFuncti
   article.appendChild(btn);
 
   return article;
-}
+};
 MakingScreen.makeResultSection = function(src, name, count)  {
 
   const result = $createElementWithClasses("section", "result");
@@ -230,11 +230,11 @@ MakingScreen.makeResultSection = function(src, name, count)  {
   result.appendChild(img_div);
 
   return result;
-}
+};
 MakingScreen.show = function() {
   changeBody("making");
   this.render();
-}
+};
 MakingScreen.render = function() {
   const inner = [];
   const sale = StatManager.getMagicHat();
@@ -262,7 +262,7 @@ MakingScreen.render = function() {
     inner.push(article);
   }
   $("#recipes").replaceChildren(...inner);
-}
+};
 MakingScreen.animateLodding = function(speed, onfinish) {
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
@@ -277,8 +277,8 @@ MakingScreen.animateLodding = function(speed, onfinish) {
       {duration: speed/2, direction: "reverse"}
     ).onfinish = () => lodding.hide();
   }, speed);
-}
-const StatScreen = {}
+};
+const StatScreen = {};
 StatScreen.makeIconDiv = function(img_src, onclick) {
   const icon_box = $createElementWithClasses("div", "icon");
   icon_box.addEventListener("click", onclick);
@@ -289,7 +289,7 @@ StatScreen.makeIconDiv = function(img_src, onclick) {
   icon_box.appendChildren(img, stat_up);
 
   return icon_box;
-}
+};
 StatScreen.makeLevelDiv = function(current_level) {
   const level_box = $createElementWithClasses("div", "level");
   const ul = document.createElement("ul");
@@ -300,7 +300,7 @@ StatScreen.makeLevelDiv = function(current_level) {
   }
   level_box.appendChild(ul);
   return level_box;
-}
+};
 StatScreen.makeInfoDiv = function(current_level, name, description, stat_per_level) {
   const info_box = $createElementWithClasses("div", "info");
 
@@ -321,7 +321,7 @@ StatScreen.makeInfoDiv = function(current_level, name, description, stat_per_lev
   info_box.appendChildren(pname, pdescription, details);
 
   return info_box;
-}
+};
 StatScreen.makeStatSection = function(stat) {
   const section = $createElementWithClasses("section", "stat", stat.color);
 
@@ -331,31 +331,31 @@ StatScreen.makeStatSection = function(stat) {
 
   section.appendChildren(icon_box, level_box, info_box);
   return section;
-}
+};
 StatScreen.show = function() {
   changeBody("game-stat");
   this.render();
-}
+};
 StatScreen.render = function() {
   const stb = StatManager.stats.map((value) => this.makeStatSection(value));
   $("#stat_box").replaceChildren(...stb);
 
   $("#stat-point-count").textContent = StatManager.stat_point;
-}
-const MessageWindow = {}
+};
+const MessageWindow = {};
 MessageWindow.popupMessage = function(message_box) {
   message_box.display();
   message_box.animate(
     Keyframes.popup_kef,
     {duration: 300, fill: "both"}
   );
-}
+};
 MessageWindow.popupMaxMessage = function() {
   this.popupMessage($("#max-message"));
-}
+};
 MessageWindow.popupMoneyLackMessage = function() {
   this.popupMessage($("#money-lack-message"));
-}
+};
 MessageWindow.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
 
@@ -368,11 +368,11 @@ MessageWindow.makeDroppedPieceDiv = function(name, count) {
 
   div.appendChildren(img, span0, span1);
   return div;
-}
+};
 MessageWindow.popupFallMessage = function(...pieces) {
   this.renderFallMessage(...pieces);
   this.popupMessage($("#fall-message"));
-}
+};
 MessageWindow.renderFallMessage = function(...pieces) {
 
   if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))
@@ -396,29 +396,29 @@ MessageWindow.renderFallMessage = function(...pieces) {
     $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${paper_range})`;
     $("#required-count").classList.add("red-text");
   }
-}
+};
 MessageWindow.popupInvalidationMessage = function() {
   this.renderInvalidationMessage();
   this.popupMessage($("#invalidation-message"))
-}
+};
 MessageWindow.renderInvalidationMessage = function() {
   $("#downgrade").textContent = SwordManager.current_sword_index + "강으로 떨어졌습니다!";
-}
+};
 MessageWindow.popupGreatSuccessMessage = function() {
   this.renderGreatSuccessMessage();
   this.popupMessage($("#great-success-message"))
-}
+};
 MessageWindow.renderGreatSuccessMessage = function() {
   $("#what_count").textContent = SwordManager.current_sword_index + "강이 되었습니다!";
-}
+};
 MessageWindow.popupGameEndMessage = function() {
   this.popupMessage($("#game-end-message"))
-}
-MoneyDisplay = {}
+};
+MoneyDisplay = {};
 MoneyDisplay.setMoney = function(num) {
   InventoryManager.setMoney(num);
   this.render();
-}
+};
 MoneyDisplay.changeMoney = function(num) {
   InventoryManager.changeMoney(num);
 
@@ -426,14 +426,14 @@ MoneyDisplay.changeMoney = function(num) {
   money_change_span.textContent = ((num >= 0) ? "+" + num : num) + "원";
   money_change_span.animate(Keyframes.money_change_kef, {duration: 300, fill: "both"});
   this.render();
-}
+};
 MoneyDisplay.render = function() {
   $("#money-number").textContent = InventoryManager.getMoney();
-}
+};
 RecordStorage = {
   records: [],
   max_recordable_count: 10
-}
+};
 RecordStorage.addRecord = function(sword, type) {
   if(!(sword instanceof Sword)) throw new TypeError(`${sword} is not a sword.`);
   if(type != "upgrade" && type != "sell") throw new Error(`${type} is not 'upgrade' or 'sell'.`);
@@ -442,7 +442,7 @@ RecordStorage.addRecord = function(sword, type) {
   let idx = Math.max(this.records.length - this.max_recordable_count, 0);
   this.records = this.records.slice(idx);
   this.render();
-}
+};
 RecordStorage.render = function () {
   const ret = this.records.map(rec => {
     const p = document.createElement("p");
@@ -454,4 +454,4 @@ RecordStorage.render = function () {
   });
 
   $("#records").replaceChildren(...ret);
-}
+};
