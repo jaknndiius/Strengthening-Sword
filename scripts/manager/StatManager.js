@@ -29,6 +29,7 @@ StatManager = {
     new Stat("마법 모자", "제작소 재료 조각 갯수 감소", [1, 2, 3, 4, 5], "navy")
   ]
 };
+StatManager.getStatPoint = function() { return this.stat_point; };
 StatManager.addStatPoint = function() { this.stat_point++; };
 StatManager.upgradeStat = function(stat) {
   if(!(stat instanceof Stat)) throw new TypeError(`${stat} is not stat.`)

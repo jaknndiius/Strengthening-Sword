@@ -93,8 +93,8 @@ MessageWindow.popupGreatSuccessMessage()
 MessageWindow.popupGameEndMessage()
   게임의 엔딩 알림을 보여줍니다.
 
-SwordManager.current_sword_index : Number
-  현재 검이 몇강인지 담긴 변수입니다.
+SwordManager.getCurrentSwordIndex() : Number
+  현재 검이 몇강인지 반환합니다.
 SwordManager.getCurrentSword() : Sword
   현재 가지고 있는 검을 반환합니다.
 SwordManager.upgradeSword(index: Number)
@@ -119,8 +119,8 @@ MakingManager.setRepairPaperRecipe(...materials: ...Item)
 MakingManager.setRecipe(resultItem: String, ...materials: ...Item)
   이름이 resultItem인 검으로 이동하는 워프권의 조합법을 materials로 정합니다.
 
-StatManager.stat_point : Number
-  현재 사용 가능한 스탯 갯수가 담긴 변수입니다.
+StatManager.getStatPoint() : Number
+  현재 사용 가능한 스탯 갯수를 반환합니다.
 StatManager.upgradeStat(stat: Stat)
   stat_point를 1 차감하고 stat의 레벨을 1만큼 올립니다.
 StatManager.calculateLuckyBraclet(initialProb: Number)

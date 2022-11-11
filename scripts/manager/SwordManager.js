@@ -28,6 +28,7 @@ SwordManager = {
   found_swords: [],
   max_upgradable_index: 0
 };
+SwordManager.getCurrentSwordIndex = function() { return this.current_sword_index(); };
 SwordManager.getSword = function(value) {
   let res;
   if(typeof value == "number")
