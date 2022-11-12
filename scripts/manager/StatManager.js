@@ -1,12 +1,14 @@
 /* 스탯  */
 class Stat {
-  constructor(name, description, stat_per_level, color) {
+  constructor(name, description, stat_per_level, color, prefix, suffix) {
     this.current = 0;
     this.name = name;
     this.image = "images/stats/" + name + ".png";
     this.description = description;
     this.stat_per_level = stat_per_level;
     this.color = color;
+    this.prefix = prefix;
+    this.suffix = suffix;
   }
   getCurrent() {
     return (this.current == 0) ? 0 : this.stat_per_level[this.current-1];
@@ -21,12 +23,12 @@ StatManager = {
   INVALIDATED_SPHERE: 4,
   MARGIN_HAT: 5,
   stats: [
-    new Stat("행운 팔찌", "성공 확률 증가(+)", [1, 2, 3, 4, 5], "blue"),
-    new Stat("신의 손", "성공 시 일정 확률로 +2강(%)", [10, 20, 30, 40, 50], "red"),
-    new Stat("대상인", "판매 가격 증가(%)", [5, 10, 15, 20, 25], "sky"),
-    new Stat("대장장이", "강화 비용 감소(%)", [1, 2, 3, 4, 5], "green"),
-    new Stat("무효화 구체", "파괴 시 -1강으로 복구 확률(%)", [10, 20, 30, 40, 50], "purple"),
-    new Stat("마법 모자", "제작소 재료 조각 갯수 감소", [1, 2, 3, 4, 5], "navy")
+    new Stat("행운 팔찌", "성공 확률 증가", [1, 2, 3, 4, 5], "blue", "+", ""),
+    new Stat("신의 손", "성공 시 일정 확률로 +2강", [10, 20, 30, 40, 50], "red", "", "%"),
+    new Stat("대상인", "판매 가격 증가", [5, 10, 15, 20, 25], "sky", "+", "%"),
+    new Stat("대장장이", "강화 비용 감소", [1, 2, 3, 4, 5], "green", "-", "%"),
+    new Stat("무효화 구체", "파괴 시 -1강으로 복구", [10, 20, 30, 40, 50], "purple", "", "%"),
+    new Stat("마법 모자", "제작소 재료 조각 갯수 감소", [1, 2, 3, 4, 5], "navy", "-", "개")
   ]
 };
 StatManager.getStatPoint = function() { return this.stat_point; };

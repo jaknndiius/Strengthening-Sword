@@ -301,19 +301,19 @@ StatScreen.makeLevelDiv = function(current_level) {
   level_box.appendChild(ul);
   return level_box;
 };
-StatScreen.makeInfoDiv = function(current_level, name, description, stat_per_level) {
+StatScreen.makeInfoDiv = function(stat) {
   const info_box = $createElementWithClasses("div", "info");
 
   const pname = $createElementWithClasses("p", "name");
-  pname.textContent = name;
+  pname.textContent = stat.name;
   const pdescription = $createElementWithClasses("p", "description");
-  pdescription.textContent = description;
+  pdescription.textContent = stat.description;
 
   const details = $createElementWithClasses("ul", "detail");
-  const lis = stat_per_level.map((value, index) => {
-    const stat_li = $createElementWithClasses("li", "stat_per_level");
-    if(current_level == index +1) stat_li.classList.add("active");
-    stat_li.textContent = value;
+  const lis = stat.stat_per_level.map((value, index) => {
+    const stat_li = document.createElement("li");
+    if(stat.current == index +1) stat_li.classList.add("active");
+    stat_li.textContent = stat.prefix + value + stat.suffix;
     return stat_li;
   });
   details.appendChildren(...lis);
@@ -327,7 +327,7 @@ StatScreen.makeStatSection = function(stat) {
 
   const icon_box = this.makeIconDiv(stat.image, () => onStatUp(stat));
   const level_box = this.makeLevelDiv(stat.current);
-  const info_box = this.makeInfoDiv(stat.current, stat.name, stat.description, stat.stat_per_level)
+  const info_box = this.makeInfoDiv(stat)
 
   section.appendChildren(icon_box, level_box, info_box);
   return section;
@@ -434,22 +434,20 @@ RecordStorage = {
   records: [],
   max_recordable_count: 10
 };
-RecordStorage.addRecord = function(sword, type) {
-  if(!(sword instanceof Sword)) throw new TypeError(`${sword} is not a sword.`);
+RecordStorage.addRecord = function(type, name, change) {
   if(type != "upgrade" && type != "sell") throw new Error(`${type} is not 'upgrade' or 'sell'.`);
-
-  this.records.push({sword: sword, type: type});
-  let idx = Math.max(this.records.length - this.max_recordable_count, 0);
-  this.records = this.records.slice(idx);
+  if(typeof change != "number") throw new TypeError(`${name} is not a number.`);
+  this.records.push({type:type, name: name, change: change});
+  this.records = this.records.slice(Math.max(this.records.length - this.max_recordable_count, 0));
   this.render();
 };
 RecordStorage.render = function () {
   const ret = this.records.map(rec => {
     const p = document.createElement("p");
     if(rec.type == "upgrade")
-      p.textContent = `${rec.sword.name} 강화 -${rec.sword.cost}`;
+      p.textContent = `${rec.name} 강화 -${rec.change}`;
     else if(rec.type == "sell")
-      p.textContent =  `${rec.sword.name} 판매 +${rec.sword.price}`;
+      p.textContent = `${rec.name} 판매 +${rec.change}`;
     return p;
   });
 

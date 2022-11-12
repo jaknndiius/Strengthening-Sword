@@ -36,8 +36,9 @@ function onClickUpgradeButton() {
   const current_sword = SwordManager.getCurrentSword();
   const result = GameManager.test();
   if(result == TestResult.SUCCESS) {
-    RecordStorage.addRecord(current_sword, "upgrade");
-    MoneyDisplay.changeMoney(-1 * StatManager.calculateSmith(current_sword.cost));
+    const cost = StatManager.calculateSmith(current_sword.cost);
+    RecordStorage.addRecord("upgrade", current_sword.name, cost);
+    MoneyDisplay.changeMoney(-cost);
     const prob = StatManager.calculateLuckyBraclet(current_sword.prob);
     if(Math.random() < prob) {
         if(Math.random() < StatManager.getGodHand()/100) {
@@ -68,8 +69,9 @@ function onClickUpgradeButton() {
 /* 판매하기 버튼을 눌렀을 때 */
 function onClickSellButton() {
   const current_sword = SwordManager.getCurrentSword();
-  RecordStorage.addRecord(current_sword, "sell");
-  MoneyDisplay.changeMoney(StatManager.calculateBigMerchant(current_sword.price));
+  const price = StatManager.calculateBigMerchant(current_sword.price);
+  RecordStorage.addRecord("sell", current_sword.name, price);
+  MoneyDisplay.changeMoney(price);
   GameManager.init();
 }
 /* 보관하기 버튼을 눌렀을 때 */

@@ -66,8 +66,8 @@ GameManager.test() : testResult
   : TestResult.MONEY_LACK | 돈 부족으로 불가능
   : TestResult.MAX_UPGRADE | 최대 강화 달성으로 불가능
 
-RecordStroage.addRecord(sword: Sword, type: "upgrade" || "sell") 
-  기록 보관함에 sword를 type한 기록을 합니다.
+RecordStroage.addRecord(type: "upgrade" || "sell", name: String, change: Number) 
+  기록 보관함에 name을 change만큼 type한 기록을 합니다.
 
 MoneyDisplay.setMoney(num: Number)
   가진 자산을 num으로 설정합니다.

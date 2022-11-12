@@ -10,7 +10,7 @@ const InventoryManager = {
 };
 InventoryManager.getMoney = function() { return this.money };
 InventoryManager.setMoney = function(num) {
-  if(typeof num != "number") throw new TypeError(`${num} is not a number`);
+  if(typeof num != "number" || isNaN(num)) throw new TypeError(`${num} is not a valid number`);
   this.money = Math.max(num, 0);
 };
 InventoryManager.changeMoney = function(num) {
@@ -65,9 +65,10 @@ InventoryManager.subtractItem = function(type, name, count) {
 };
 InventoryManager.sellSword = function(name) {
   if(this.subtractItem("sword", name, 1)) {
-    RecordStorage.addRecord(SwordManager.getSword(name), "sell");
+    const price = SwordManager.getSword(name).price;
+    RecordStorage.addRecord("sell", name, price);
     InventoryScreen.render();
-    MoneyDisplay.changeMoney(SwordManager.getSword(name).price);
+    MoneyDisplay.changeMoney(price);
   }
 };
 InventoryManager.getItems = function(type) {
