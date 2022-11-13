@@ -18,8 +18,7 @@ class Piece {
     this.max_drop = max_drop;
   }
   calculate() {
-    if(Math.random() < this.prob) return new PieceItem(this.name, Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop)));
-    return null;
+    return (Math.random() < this.prob) ? new PieceItem(this.name, Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop))) : null;
   }
 }
 SwordManager = {
@@ -31,10 +30,8 @@ SwordManager = {
 SwordManager.getCurrentSwordIndex = function() { return this.current_sword_index(); };
 SwordManager.getSword = function(value) {
   let res;
-  if(typeof value == "number")
-    res = this.swords[value];
-  else if(typeof value == "string")
-    res = this.swords.find(sword => sword.name == value);
+  if(typeof value == "number") res = this.swords[value];
+  else if(typeof value == "string") res = this.swords.find(sword => sword.name == value);
   else throw new TypeError(`${value} is not a number or string.`);
   if(res === undefined) throw new Error(`There is no sword named ${value}.`);
   return res;

@@ -31,15 +31,17 @@ MainScreen.render = function() {
   const number = $("#sword-number");
   number.textContent = SwordManager.current_sword_index + "강";
   if(current_idx == SwordManager.max_upgradable_index) number.classList.add("hightlight");
-  else number.classList.remove("hightlight");
+  
   $("#sword-name").textContent = current_sword.name;
 
+  const prob = $("#sword-prob")
+  const cost = $("#sword-cost")
   if(current_idx == SwordManager.max_upgradable_index) {
-    $("#sword-prob").textContent = "강화 불가";
-    $("#sword-cost").textContent = "";
+    prob.textContent = "강화 불가";
+    cost.textContent = "";
   } else {
-    $("#sword-prob").textContent = `강화 성공 확률: ${StatManager.calculateLuckyBraclet(current_sword.prob)*100}%`;
-    $("#sword-cost").textContent = `강화 비용: ${StatManager.calculateSmith(current_sword.cost)}원`;
+    prob.textContent = `강화 성공 확률: ${Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100)}%`;
+    cost.textContent = `강화 비용: ${StatManager.calculateSmith(current_sword.cost)}원`;
   }
   $("#sword-price").textContent = `판매 가격: ${StatManager.calculateBigMerchant(current_sword.price)}원`;
 

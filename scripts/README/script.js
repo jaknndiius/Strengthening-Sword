@@ -93,11 +93,9 @@ function onClickInitButton() {
 }
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(stat) {
-  if(StatManager.stat_point > 0) {
-    if(stat.current != 5) {
-      StatManager.upgradeStat(stat);
-      StatScreen.render();
-    }
+  if(StatManager.stat_point > 0 && stat.current < StatManager.getMaxStat()) {
+    StatManager.upgradeStat(stat);
+    StatScreen.render();
   }
 }
 gameStart();

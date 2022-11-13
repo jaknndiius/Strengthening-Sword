@@ -30,7 +30,6 @@ InventoryManager.subtractRepairPaper = function(count) {
 };
 InventoryManager.saveItem = function(type, name, count) {
   if(typeof count != "number") throw new TypeError(`${count} is not a number`);
-  if(count < 0) throw new RangeError(`${count} is not more than 0.`);
 
   const item = this.findItem(type, name);
   if(item === undefined) {
@@ -44,7 +43,7 @@ InventoryManager.saveItem = function(type, name, count) {
       default:
         throw new Error(`${type} is not 'piece' or 'sword'`);
     }
-  } else item.count += count;
+  } else item.count += Math.max(count, 0);
 };
 InventoryManager.savePiece = function(name, count) {
   this.saveItem("piece", name, count);
@@ -65,14 +64,14 @@ InventoryManager.subtractItem = function(type, name, count) {
 };
 InventoryManager.sellSword = function(name) {
   if(this.subtractItem("sword", name, 1)) {
-    const price = SwordManager.getSword(name).price;
+    const price = StatManager.calculateBigMerchant(SwordManager.getSword(name).price);
     RecordStorage.addRecord("sell", name, price);
     InventoryScreen.render();
     MoneyDisplay.changeMoney(price);
   }
 };
 InventoryManager.getItems = function(type) {
-  return this.inventory.filter(value => value.type == type && value.count != 0);
+  return this.inventory.filter(value => value.type == type && value.count > 0);
 };
 InventoryManager.getPieces = function() {
   return this.getItems("piece");

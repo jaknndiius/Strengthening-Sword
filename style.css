@@ -103,8 +103,7 @@ body {
 #sword-number.hightlight::after {content: " (MAX)"; color: var(--color-red);}
 #sword-name {font-size: 2.25rem; color: var(--color-gold);}
 #sword-prob{font-size: 1.25rem; color: var(--color-dark-gray);}
-#sword-cost,
-#sword-price {font-size: 1rem; color: var(--color-dark-gray);}
+#sword-cost, #sword-price {font-size: 1rem; color: var(--color-dark-gray);}
 .buttons {display: flex;justify-content: space-evenly;margin-top: 0.5rem;}
 .buttons > div {
   width: 70px;
