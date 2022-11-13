@@ -35,7 +35,7 @@ SwordManager.getSword = function(value) {
     res = this.swords[value];
   else if(typeof value == "string")
     res = this.swords.find(sword => sword.name == value);
-  else throw new TypeError(`${value} is not a number or string.`)
+  else throw new TypeError(`${value} is not a number or string.`);
   if(res === undefined) throw new Error(`There is no sword named ${value}.`);
   return res;
 };
