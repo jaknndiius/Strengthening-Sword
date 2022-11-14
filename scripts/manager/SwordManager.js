@@ -10,7 +10,7 @@ class Sword {
    * @param {number} price 판매 가격 
    * @param {number} requiredRepairs 복구 시 필요한 복구권 갯수
    * @param {boolean} canSave 보관함에 저장 가능 여부
-   * @param  {...Piece} pieces 파괴시 떨어지는 조각들
+   * @param  {...Piece?} pieces 파괴시 떨어지는 조각들
    */
   constructor(name, prob, cost, price, requiredRepairs, canSave, ...pieces) {
     this.name = name;

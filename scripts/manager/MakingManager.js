@@ -35,7 +35,6 @@ MakingManager.canMake = function(recipe) {
       return false;
     }
     const inv_item = InventoryManager.findItem(rec_item.type, rec_item.name);
-
     if(inv_item === undefined ||
       (rec_item.type == "piece" && inv_item.count < rec_item.count-sale) ||
       (rec_item.type == "sword" && inv_item.count < rec_item.count)) return false;

@@ -13,7 +13,9 @@ const Keyframes = {
   popup_kef: [{opacity: '0'}, {opacity: '1'}],
   money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}],
 };
-
+/**
+ * 메인 게임 화면을 제어합니다.
+ */
 const MainScreen = {};
 MainScreen.show = function() {
   changeBody("game-interface");
@@ -51,6 +53,9 @@ MainScreen.render = function() {
   $("#sell-button")[(SwordManager.current_sword_index == 0) ? "hide" : "display"]();
   $("#save-button")[(SwordManager.getCurrentSword().canSave) ? "display" : "hide"]();
 };
+/**
+ * 보관함 화면을 제어합니다.
+ */
 const InventoryScreen = {};
 InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
@@ -119,6 +124,9 @@ InventoryScreen.render = function() {
 
   $("#inventory-items").replaceChildren(...inner);
 };
+/**
+ * 내 정보 화면을 제어합니다.
+ */
 const InformationScreen = {};
 InformationScreen.makeSwordIcon = function(src, alt, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
@@ -145,12 +153,15 @@ InformationScreen.render = function() {
   $("#found-swords").replaceChildren(...found);
   $("#found-sword-count").textContent = SwordManager.found_swords.length;
 };
+/**
+ * 제작소 화면을 제어합니다.
+ */
 const MakingScreen = {};
 MakingScreen.makeMaterialSection = function(recipes, sale) {
   const material = $createElementWithClasses("section", "material");
   if(recipes.length == 1) material.classList.add("one");
   for(const item of recipes) {
-    const myitem = InventoryManager.findItem(item.name, item.type);
+    const myitem = InventoryManager.findItem(item.type, item.name);
 
     let mcount;
     if(item.type == "money") mcount = InventoryManager.money;
@@ -283,6 +294,9 @@ MakingScreen.animateLodding = function(speed, onfinish) {
     ).onfinish = () => lodding.hide();
   }, speed);
 };
+/**
+ * 스탯 화면을 제어합니다.
+ */
 const StatScreen = {};
 StatScreen.makeIconDiv = function(img_src, onclick) {
   const icon_box = $createElementWithClasses("div", "icon");
@@ -356,6 +370,9 @@ StatScreen.render = function() {
 
   $("#stat-point-count").textContent = StatManager.stat_point;
 };
+/**
+ * 메세지 창을 제어합니다.
+ */
 const MessageWindow = {};
 MessageWindow.popupMessage = function(message_box) {
   message_box.display();
@@ -447,6 +464,10 @@ MessageWindow.renderGreatSuccessMessage = function() {
 MessageWindow.popupGameEndMessage = function() {
   this.popupMessage($("#game-end-message"))
 };
+
+/**
+ * 자산 화면을 제어합니다.
+ */
 MoneyDisplay = {};
 /**
  * 가진 자산을 설정합니다.
@@ -471,6 +492,9 @@ MoneyDisplay.changeMoney = function(num) {
 MoneyDisplay.render = function() {
   $("#money-number").textContent = InventoryManager.getMoney();
 };
+/**
+ * 기록 보관소 창을 제어합니다.
+ */
 RecordStorage = {
   records: [],
   max_recordable_count: 10
