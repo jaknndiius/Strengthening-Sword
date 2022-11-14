@@ -1,13 +1,25 @@
 /* 제작법 */
+/**
+ * 제작소 관련 객체
+ */
 MakingManager = {
   repair_paper_recipe: [],
   recipes: {},
 };
+/**
+ * 복구권 조합법을 정합니다.
+ * @param  {...Item} materials 조합에 필요한 아이템들
+ */
 MakingManager.setRepairPaperRecipe = function(...materials) {
   if(materials.length == 0) throw new Error("Making.setRepairPaperRecipe needs more args.");
   if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item`);
   this.repair_paper_recipe = materials;
 };
+/**
+ * 검 워프권의 조합법을 저장합니다.
+ * @param {string} resultItem 검의 이름
+ * @param  {...Item} materials 조합에 필요한 아이템들
+ */
 MakingManager.setRecipe = function(resultItem, ...materials) {
   if(materials.length == 0) throw new Error("Making.setRecipe needs more args.");
   if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item`);

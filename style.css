@@ -518,9 +518,9 @@ body {
 .stat_window main .stats .stat .icon:hover .stat_img {filter: brightness(0.6);transform: scale(1.1);}
 .stat_window main .stats .stat .icon:active .stat_img {transform: scale(0.9);}
 .stat_window main .stats .stat .icon:hover .stat_up {opacity: 1;}
-.stat_window main .stats .stat .level {width: 90px;margin: 0.4rem 0;}
+.stat_window main .stats .stat .level {margin: 0.4rem 0;}
 .stat_window main .stats .stat .level ul {list-style: none;display: flex;justify-content: space-around;}
-.stat_window main .stats .stat .level ul .point {width: 15px;height: 15px;background-color: #194d3d;border: solid 2.5px #3b4312;border-radius: 50%;}
+.stat_window main .stats .stat .level ul .point {width: 15px;height: 15px;background-color: #194d3d;border: solid 2.5px #3b4312;border-radius: 50%;margin: 0 1px;}
 .stat_window main .stats .stat .level ul .point.active {background-color: #5FD7B1;border: solid 2.5px #8C9949;transition: all .3s;}
 .stat_window main .stats .stat .level ul .point.active:hover,
 .stat_window main .stats .stat .level ul .point.active:hover ~ .point.active {transform: scale(1.2);}

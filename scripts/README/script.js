@@ -93,7 +93,7 @@ function onClickInitButton() {
 }
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(stat) {
-  if(StatManager.stat_point > 0 && stat.current < StatManager.getMaxStat()) {
+  if(StatManager.stat_point > 0 && stat.current < StatManager.getMaxStatLevel()) {
     StatManager.upgradeStat(stat);
     StatScreen.render();
   }

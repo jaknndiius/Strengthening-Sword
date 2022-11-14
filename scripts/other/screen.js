@@ -19,6 +19,9 @@ MainScreen.show = function() {
   changeBody("game-interface");
   this.render();
 };
+/**
+ * 메인 게임 화면을 새로고침합니다.
+ */
 MainScreen.render = function() {
   $("#fall-message").hide();
   $("#max-message").hide();
@@ -295,7 +298,7 @@ StatScreen.makeIconDiv = function(img_src, onclick) {
 StatScreen.makeLevelDiv = function(current_level) {
   const level_box = $createElementWithClasses("div", "level");
   const ul = document.createElement("ul");
-  for(let i=0;i<5;i++) {
+  for(let i=0;i<StatManager.getMaxStatLevel();i++) {
     const li_point = $createElementWithClasses("li", "point");
     if(i < current_level) li_point.classList.add("active");
     ul.appendChild(li_point);
@@ -312,13 +315,19 @@ StatScreen.makeInfoDiv = function(stat) {
   pdescription.textContent = stat.description;
 
   const details = $createElementWithClasses("ul", "detail");
-  const lis = stat.stat_per_level.map((value, index) => {
+  for(let i=0;i<StatManager.getMaxStatLevel();i++) {
     const stat_li = document.createElement("li");
-    if(stat.current == index +1) stat_li.classList.add("active");
-    stat_li.textContent = stat.prefix + value + stat.suffix;
-    return stat_li;
-  });
-  details.appendChildren(...lis);
+    if(stat.current == i +1) stat_li.classList.add("active");
+    stat_li.textContent = stat.prefix + stat.stat_per_level[i] + stat.suffix;
+    details.appendChild(stat_li)
+  }
+  // const lis = stat.stat_per_level.map((value, index) => {
+  //   const stat_li = document.createElement("li");
+  //   if(stat.current == index +1) stat_li.classList.add("active");
+    
+  //   return stat_li;
+  // });
+  // details.appendChildren(...lis);
 
   info_box.appendChildren(pname, pdescription, details);
 
@@ -338,6 +347,9 @@ StatScreen.show = function() {
   changeBody("game-stat");
   this.render();
 };
+/**
+ * 스탯 화면을 새로고침합니다.
+ */
 StatScreen.render = function() {
   const stb = StatManager.stats.map((value) => this.makeStatSection(value));
   $("#stat_box").replaceChildren(...stb);
@@ -352,9 +364,15 @@ MessageWindow.popupMessage = function(message_box) {
     {duration: 300, fill: "both"}
   );
 };
+/**
+ * 최대 강화 달성을 축하하는 알림을 보여줍니다.
+ */
 MessageWindow.popupMaxMessage = function() {
   this.popupMessage($("#max-message"));
 };
+/**
+ * 돈 부족 알림을 보여줍니다.
+ */
 MessageWindow.popupMoneyLackMessage = function() {
   this.popupMessage($("#money-lack-message"));
 };
@@ -371,6 +389,10 @@ MessageWindow.makeDroppedPieceDiv = function(name, count) {
   div.appendChildren(img, span0, span1);
   return div;
 };
+/**
+ * 검 파괴 알림을 떨어진 조각 정보와 함께 보여줍니다.
+ * @param  {...Piece} pieces 떨어진 조각들
+ */
 MessageWindow.popupFallMessage = function(...pieces) {
   this.renderFallMessage(...pieces);
   this.popupMessage($("#fall-message"));
@@ -399,6 +421,9 @@ MessageWindow.renderFallMessage = function(...pieces) {
     $("#required-count").classList.add("red-text");
   }
 };
+/**
+ * [ 무효화 구체 ]가 발동했음을 알리는 알림을 보여줍니다.
+ */
 MessageWindow.popupInvalidationMessage = function() {
   this.renderInvalidationMessage();
   this.popupMessage($("#invalidation-message"))
@@ -406,6 +431,9 @@ MessageWindow.popupInvalidationMessage = function() {
 MessageWindow.renderInvalidationMessage = function() {
   $("#downgrade").textContent = SwordManager.current_sword_index + "강으로 떨어졌습니다!";
 };
+/**
+ * [ 신의 손 ]이 발동했음을 알리는 알림을 보여줍니다.
+ */
 MessageWindow.popupGreatSuccessMessage = function() {
   this.renderGreatSuccessMessage();
   this.popupMessage($("#great-success-message"))
@@ -413,14 +441,25 @@ MessageWindow.popupGreatSuccessMessage = function() {
 MessageWindow.renderGreatSuccessMessage = function() {
   $("#what_count").textContent = SwordManager.current_sword_index + "강이 되었습니다!";
 };
+/**
+ * 게임의 엔딩(목적 달성) 알림을 보여줍니다.
+ */
 MessageWindow.popupGameEndMessage = function() {
   this.popupMessage($("#game-end-message"))
 };
 MoneyDisplay = {};
+/**
+ * 가진 자산을 설정합니다.
+ * @param {number} num 
+ */
 MoneyDisplay.setMoney = function(num) {
   InventoryManager.setMoney(num);
   this.render();
 };
+/**
+ * 가진 자산에 추가합니다.
+ * @param {number} num 
+ */
 MoneyDisplay.changeMoney = function(num) {
   InventoryManager.changeMoney(num);
 
@@ -436,6 +475,12 @@ RecordStorage = {
   records: [],
   max_recordable_count: 10
 };
+/**
+ * name을 change만큼 type한 기록을 저장합니다.
+ * @param {"upgrade" | "sell"} type 
+ * @param {string} name 
+ * @param {number} change 
+ */
 RecordStorage.addRecord = function(type, name, change) {
   if(type != "upgrade" && type != "sell") throw new Error(`${type} is not 'upgrade' or 'sell'.`);
   if(typeof change != "number") throw new TypeError(`${name} is not a number.`);
