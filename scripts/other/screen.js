@@ -68,8 +68,6 @@ InventoryScreen.makeHoverSellDiv = function(onclick) {
 InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
   const article = $createElementWithClasses("article", "group");
 
-  if(src === undefined) return article;
-
   const div = $createElementWithClasses("div", "item");
   const img = $createImgWithSrc(src);
 
@@ -85,6 +83,26 @@ InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
 
   return article;
 };
+InventoryScreen.makeRepairGroupSection = function() {
+  const repair_group = $createElementWithClasses("section", "item_group");
+  repair_group.appendChildren(
+    $createElementWithClasses("div", "underline", "bok"),
+    this.makeInventoryArticle(Path.repairPath, "복구권", InventoryManager.repair_paper),
+  )
+  return repair_group;
+}
+InventoryScreen.makePieceGroupSection = function(pieceList) {
+  const piece_group = $createElementWithClasses("section", "item_group");
+  piece_group.appendChild($createElementWithClasses("div", "underline", "pie"));
+  pieceList.forEach(value => piece_group.appendChild(this.makeInventoryArticle(Path.piecePath(value.name), value.name, value.count)));
+  return piece_group;
+}
+InventoryScreen.makeSwordGroupSection = function(swordList) {
+  const sword_group = $createElementWithClasses("section", "item_group");
+  sword_group.appendChild($createElementWithClasses("div", "underline", "swo"));
+  swordList.forEach(value => sword_group.appendChild(this.makeInventoryArticle(Path.swordPath(value.name), value.name, value.count, () => InventoryManager.sellSword(value.name))));
+  return sword_group;
+}
 InventoryScreen.show = function() {
   changeBody("inventory");
   this.render();
@@ -92,26 +110,19 @@ InventoryScreen.show = function() {
 InventoryScreen.render = function() {
   const inner = [];
 
-  if(InventoryManager.repair_paper > 0) {
-    inner.push(
-      $createElementWithClasses("div", "underline", "bok"),
-      this.makeInventoryArticle(Path.repairPath, "복구권", InventoryManager.repair_paper),
-      this.makeInventoryArticle()
-    );
-  }
+  if(InventoryManager.repair_paper > 0) inner.push(this.makeRepairGroupSection());
 
   const pieces = InventoryManager.getPieces();
+  if(pieces.length != 0) {
+    pieces.sort((a, b) => a.count - b.count);
+    inner.push(this.makePieceGroupSection(pieces));
+  }
+
   const swords = InventoryManager.getSwords();
-  pieces.sort((a, b) => a.count - b.count);
-  swords.sort((a, b) => SwordManager.getIndex(a.name) - SwordManager.getIndex(b.name) );
-
-  if(pieces.length != 0) inner.push($createElementWithClasses("div", "underline", "pie"));
-  pieces.forEach(value => inner.push(this.makeInventoryArticle(Path.piecePath(value.name), value.name, value.count)));
-  if(pieces.length%2 == 1) inner.push(this.makeInventoryArticle());
-
-  if(swords.length != 0) inner.push($createElementWithClasses("div", "underline", "swo"));
-  swords.forEach(value => inner.push(this.makeInventoryArticle(Path.swordPath(value.name), value.name, value.count, () => InventoryManager.sellSword(value.name))));
-  if(swords.length%2 == 1) inner.push(this.makeInventoryArticle());
+  if(swords.length != 0) {
+    swords.sort((a, b) => SwordManager.getIndex(a.name) - SwordManager.getIndex(b.name));
+    inner.push(this.makeSwordGroupSection(swords));
+  }
 
   if(pieces.length == 0 && swords.length == 0) {
     $(".inventory_window main").classList.add("empty_inventory");
