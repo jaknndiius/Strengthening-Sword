@@ -283,15 +283,13 @@ MakingScreen.render = function() {
 MakingScreen.animateLodding = function(speed, onfinish) {
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
-  
   lodding.display();
   lodding.animate(Keyframes.lodding_kef, {duration: speed/2});
-  const animation = hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations:1});
+  const animation = hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations:1.5, fill: "both"});
   animation.onfinish = () => {
     onfinish();
     lodding.animate(
-      Keyframes.lodding_kef,
-      {duration: speed/2, direction: "reverse"}
+      Keyframes.lodding_kef, {duration: speed/2, direction: "reverse"}
     ).onfinish = () => lodding.hide();
   }
 };
