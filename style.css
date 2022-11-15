@@ -15,15 +15,7 @@
   --color-gray: rgb(130, 130, 130);
   --color-light-gray: rgb(199, 199, 199);
 }
-* {
-  font-family: 'Do Hyeon';
-  text-align: center;
-  user-select: none;
-  word-break: keep-all;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* {font-family: 'Do Hyeon';text-align: center;user-select: none;word-break: keep-all;margin: 0;padding: 0;box-sizing: border-box;}
 body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: hidden;}
 .main_header {width: 100%;display: flex;justify-content: center;align-items: center;}
 .main_header h1 {width: fit-content;background: linear-gradient(to right, var(--color-red), var(--color-gold));-webkit-background-clip: text;-webkit-text-fill-color: transparent;font-size:2.75rem;}
@@ -50,16 +42,7 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 #sword-prob{font-size: 1.25rem; color: var(--color-dark-gray);}
 #sword-cost, #sword-price {font-size: 1rem; color: var(--color-dark-gray);}
 .buttons {display: flex;justify-content: space-evenly;margin-top: 0.5rem;}
-.buttons > div {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: all .3s;
-  margin: 0 5px;
-}
+.buttons > div {width: 70px;height: 70px;border-radius: 50%;overflow: hidden;position: relative;cursor: pointer;transition: all .3s;margin: 0 5px;}
 .buttons > div:hover  {transform: scale(1.1);transition: all 0.3s;}
 .buttons > div:active {filter: brightness(0.7);transform: scale(1.0);}
 .buttons > div:hover.rotate > img {transform: scale(1.5) rotate(0.2turn);transition: all 0.5s;}
@@ -67,25 +50,10 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .buttons > div:hover.turning > img {animation: turn 2s linear infinite;}
 .buttons > div:hover.decrease > img {transform: scale(0.75);transition: all 0.5s;}
 @keyframes turn {0% {transform: rotate(0);} 100% {transform: rotate(360deg);}}
-.buttons > div > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  transition: all 0.5s;
-}
+.buttons > div > img {position: absolute;top: 0;left: 0;height: 100%;transition: all 0.5s;}
 .buttons > div.toleft > img {transform: translateX(-5%);}
 .buttons > div.tobottom > img {transform: translateY(3%);}
-.buttons > div > span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%); 
-  background-color: rgba(255, 255, 255, 0.607);
-  font-size: 1.25rem;
-  font-weight: bold;
-}
+.buttons > div > span {position: absolute;top: 50%;left: 50%;width: 100%;transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.607);font-size: 1.25rem;font-weight: bold;}
 .blue_button {border: 4px solid var(--color-blue);}
 .blue_button > span {color: var(--color-blue);}
 .red_button {border: 4px solid var(--color-red);}
@@ -96,28 +64,8 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .green_button > span {color: var(--color-green);}
 .brown_button {border: 4px solid var(--color-brown);}
 .brown_button > span {color: var(--color-brown);}
-.message {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(2px);
-  background-color: rgba(255, 255, 255, 0.556);
-  display: none;
-  z-index: 2;
-}
-.message .message_main {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.message {position: fixed;top: 0;left: 0;width: 100vw;height: 100vh;backdrop-filter: blur(2px);background-color: rgba(255, 255, 255, 0.556);display: none;z-index: 2;}
+.message .message_main {position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);font-size: 2rem;width: 100%;display: flex;flex-direction: column;align-items: center;}
 .message .message_main .text {display: flex;flex-direction: column;align-items: center;}
 .message .message_main .text .title {color: var(--color-red);}
 .message .message_main .text .subtitle {font-size: 1.75rem;}
@@ -147,49 +95,12 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .main_footer .coinbox #money-number {color: var(--color-gold);}
 .main_footer .coinbox #money-change {position: absolute;top: 0;right: 0;color: var(--color-dark-gold);opacity: 0;}
 .main_footer .coinbox:hover > #money-record {transform: translateY(-100%);opacity: 0.8;transition: all 0.5s;}
-.main_footer .coinbox #money-record {
-  position: absolute;
-  top: 0;
-  opacity: 0;
-  transform: translateY(100%);
-  background-color: rgb(255, 255, 255);
-  padding: 0 1rem;
-  width: 100%;
-  border: solid 2px black;
-  border-bottom: none;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
+.main_footer .coinbox #money-record {position: absolute;top: 0;opacity: 0;transform: translateY(100%);background-color: rgb(255, 255, 255);padding: 0 1rem;width: 100%;border: solid 2px black;border-bottom: none;font-size: 1rem;transition: all 0.3s;}
 .main_footer .coinbox:hover > #money-record .record_title {margin-bottom: 1rem;}
-.window {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 9fr;
-  place-items: center;
-}
+.window {width: 100%;height: 100%;display: grid;grid-template-columns: 1fr;grid-template-rows: 1fr 9fr;place-items: center;}
 .window > header {font-size: 1.5rem;}
-.inventory_window main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 90%;
-  height: 100%;
-  max-width: 550px;
-  max-height: 450px;
-  overflow: hidden scroll;
-  gap: 8px;
-}
-.inventory_window main.empty_inventory {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 300px;
-  row-gap: 20px;
-  height: 70%;
-  overflow: unset;
-}
+.inventory_window main {display: flex;flex-wrap: wrap;justify-content: flex-start;width: 90%;height: 100%;max-width: 550px;max-height: 450px;overflow: hidden scroll;gap: 8px;}
+.inventory_window main.empty_inventory {flex-direction: column;justify-content: flex-start;align-items: center;width: 300px;row-gap: 20px;height: 70%;overflow: unset;}
 .inventory_window main::-webkit-scrollbar-track {background-color: var(--color-white);border-radius: 5px;}
 .inventory_window main::-webkit-scrollbar {width: 7px;}
 .inventory_window main::-webkit-scrollbar-thumb {background-color: var(--color-gray);border-radius: 5px;}
@@ -206,206 +117,54 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .inventory_window main .item_group .group .item img:hover,
 .inventory_window main .item_group .group .item .hover_sell:hover + img {width: 100%;transition: all 0.1s;}
 .inventory_window main .item_group .group .item_count::before {content: "x ";}
-.inventory_window main .item_group .group .item .hover_sell {
-  position: absolute;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;opacity: 0;transition: opacity 0.3s;}
+.inventory_window main .item_group .group .item .hover_sell {position: absolute;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;opacity: 0;transition: opacity 0.3s;}
 .inventory_window main .item_group .group .item .hover_sell:hover {opacity: 1;background-color: rgba(0, 0, 0, 0.3);}
-.inventory_window main .item_group .group .item .hover_sell span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 17px;
-  text-align: center;
-  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
-  color: var(--color-white);
-}
+.inventory_window main .item_group .group .item .hover_sell span {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);font-size: 17px;text-align: center;color: var(--color-white);text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);}
 .inventory_window main .item_group .group .item_name {font-size: 1.25rem;}
 .inventory_window main .item_group .group .item_count {font-size: 1.2rem;text-align: center;}
-.sword_book_window main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  max-height: 440px;
-}
+.sword_book_window main {display: flex;flex-direction: column;align-items: center;justify-content: center;width: 100%;height: 100%;max-height: 440px;}
 .sword_book_window main header {font-size: 1.5rem;}
 .sword_book_window main header span {color: var(--color-gold);margin: 0.25rem;font-size: 2rem;}
-.sword_book_window main .swords {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 8px;
-  width: 100%;
-  max-width: 400px;
-}
-.sword_book_window main .swords .sword_icon {
-  width: 15%;
-  padding-bottom: 15%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.1s;
-}
+.sword_book_window main .swords {display: flex;justify-content: center;flex-wrap: wrap;gap: 8px;margin: 0 8px;width: 100%;max-width: 400px;}
+.sword_book_window main .swords .sword_icon {width: 15%;padding-bottom: 15%;display: flex;justify-content: center;align-items: center;position: relative;cursor: pointer;transition: all 0.1s;}
 .sword_book_window main .swords .sword_icon.sword {background: center / contain url("images/ui/item_frame.png");}
 .sword_book_window main .swords .sword_icon.unknown {background: center / contain url("images/ui/sword_frame.png");}
-.sword_book_window main .swords .sword_icon img {
-  width: 90%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s;
-}
-.sword_book_window main .swords .sword_icon .sword_name {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
-  color: white;
-  font-size: 1rem;
-  opacity: 0;
-  line-height: 90%;
-}
+.sword_book_window main .swords .sword_icon img {width: 90%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);transition: all 0.3s;}
+.sword_book_window main .swords .sword_icon .sword_name {position: absolute;bottom: 0;left: 50%;transform: translate(-50%, 50%);color: white;font-size: 1rem;opacity: 0;line-height: 90%;text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);}
 .sword_book_window main .swords .sword_icon.sword:hover {transform: scale(1.2);transition: all 0.5s;z-index: 1;}
 .sword_book_window main .swords .sword_icon.sword:hover img {transform: translate(-50%, -50%) scale(1.3);transition: all 0.3s;}
 .sword_book_window main .swords .sword_icon.sword:hover .sword_name {opacity: 1;transition: all 0.3s;}
 .sword_book_window main .swords .sword_icon.unknown:hover {transform: scale(0.8);transition: all 0.5s;z-index: 1;}
 .sword_book_window main .swords .sword_icon.unknown:hover img {transform: translate(-50%, -50%) scale(0.7);transition: all 0.3s;}
-.maker_window main {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 600px;
-  height: 80%;
-  max-height: 400px;
-  overflow: hidden scroll;
-  gap: 8px;
-}
-.maker_window main .group {
-  display: grid;
-  grid-template-columns: 4fr 2fr 1fr;
-  width: 100%;
-  max-width: 400px;
-  align-items: center;
-  position: relative;
-}
-.maker_window main .group .material {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px;
-  border: solid 4px var(--color-gray);
-  border-radius: 4px;
-}
+.maker_window main {display: flex;justify-content: center;flex-wrap: wrap;max-width: 600px;height: 80%;max-height: 400px;overflow: hidden scroll;gap: 8px;}
+.maker_window main .group {display: grid;grid-template-columns: 4fr 2fr 1fr;width: 100%;max-width: 400px;align-items: center;position: relative;}
+.maker_window main .group .material {display: flex;justify-content: space-between;padding: 4px;border: solid 4px var(--color-gray);border-radius: 4px;}
 .maker_window main .group .material.one {justify-content: center;}
 .maker_window main .group .result {display: flex;justify-content: center;}
-.maker_window main .group .material .item {
-  width: 50px;
-  height: 50px;
-  background-image: url("images/ui/item_frame.png");
-  background-size: contain;
-  position: relative;
-}
-.maker_window main .group .result .item {
-  width: 55px;
-  height: 55px;
-  background-image: url("images/ui/result_frame.png");
-  background-size: contain;
-  position: relative;
-}
-.maker_window main .group .item img {
-  width: 90%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s;
-}
+.maker_window main .group .material .item {width: 50px;height: 50px;background-image: url("images/ui/item_frame.png");background-size: contain;position: relative;}
+.maker_window main .group .result .item {width: 55px;height: 55px;background-image: url("images/ui/result_frame.png");background-size: contain;position: relative;}
+.maker_window main .group .item img {width: 90%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);transition: all 0.3s;}
 .maker_window main .group .result .item img {filter: drop-shadow(2px 2px 3px var(--color-light-gray));}
-.maker_window main .group .item .count {
-  position: absolute;
-  bottom: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 16px;
-  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
-  color: var(--color-white);
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
+.maker_window main .group .item .count {position: absolute;bottom: -10%;left: 50%;transform: translateX(-50%);font-size: 16px;color: var(--color-white);pointer-events: none;transition: opacity 0.3s;text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);}
 .maker_window main .group .item .count.unable {color: var(--color-red);text-shadow: -1px -1px 0px var(--color-white),-1px 1px 0px var(--color-white),1px 1px 0px var(--color-white),1px -1px 0px var(--color-white),-1px 0px 0px var(--color-white),1px 0px 0px var(--color-white),0px 1px 0px var(--color-white),0px -1px 0px var(--color-white);}
 .maker_window main .group .material .item img:hover {width: 110%;}
-.maker_window main .group .item .name {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 17px;
-  text-align: center;
-  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
-  color: var(--color-white);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+.maker_window main .group .item .name {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);font-size: 17px;text-align: center;color: var(--color-white);pointer-events: none;opacity: 0;transition: opacity 0.3s;text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);}
 .maker_window main .group .result .item img:hover {filter: brightness(0.7);}
 .maker_window main .group .item img:hover ~ .name {opacity: 1;}
 .maker_window main .group .item img:hover ~ .count {opacity: 0;}
-.maker_window main .group button {
-  width: 50px;
-  height: 50px;
-  border: solid 3px var(--color-gray);
-  border-radius: 5px;
-  background-color: var(--color-white);
-  font-size: 1.25rem;
-  text-align: center;
-  color: var(--color-dark-gray);
-  cursor: pointer;
-  transition: background-color 0.1s;
-}
+.maker_window main .group button {width: 50px;height: 50px;border: solid 3px var(--color-gray);border-radius: 5px;background-color: var(--color-white);font-size: 1.25rem;text-align: center;color: var(--color-dark-gray);cursor: pointer;transition: background-color 0.1s;}
 .maker_window main .group button[disabled] {background-color: var(--color-light-gray);font-size: 1.1rem;transform: scale(0.9);}
 .maker_window main .group button[disabled]::after {content: " 불가";}
 .maker_window main .group button:hover {background-color: var(--color-light-gray);}
 .maker_window main .group button:active {transform: scale(0.9);}
 .tip {font-size: 1rem;color: var(--color-dark-gray);}
-.loading {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background: rgba(243, 243, 243, 0.7);
-}
-.loading .lodding_img {
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  transform: translate(calc(-50% - 38.4765625px), -50%);
-  transform-origin: 76.953125px 100px;
-}
+.loading {display: none;width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;z-index: 1;background: rgba(243, 243, 243, 0.7);}
+.loading .lodding_img {width: 100px;height: 100px;position: fixed;z-index: 3;top: 50%;left: 50%;transform: translate(calc(-50% - 38.4765625px), -50%);transform-origin: 76.953125px 100px;}
 .loading .lodding_img img {width: 100%;height: 100%;opacity: 0.8;}
 .stat_window main {max-width: 750px;height: 480px;display: flex;flex-direction: column;justify-content: space-between;}
 .stat_window main .stat_point {font-size: 1.3rem;}
 .stat_window main .stat_point #stat-point-count {font-size: 2rem;color: var(--color-gold);}
-.stat_window main .stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 80%;
-  overflow: hidden scroll;
-}
+.stat_window main .stats {display: flex;flex-wrap: wrap;justify-content: center;align-items: center;width: 100%;height: 80%;overflow: hidden scroll;}
 .stat_window main .stats .stat {display: flex;flex-direction: column;align-items: center;justify-content: space-between;width: 200px;height: 170px;margin: 10px 20px;}
 .stat_window main .stats .stat .icon {width: 70px;height: 70px;position: relative;cursor: pointer;}
 .stat_window main .stats .stat .icon .stat_img {width: 100%;height: 100%;border-radius: 50%;border: solid 5px;transition: all .3s;}
@@ -415,21 +174,8 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .stat_window main .stats .stat.green .icon .stat_img {border-color: var(--color-green);}
 .stat_window main .stats .stat.sky .icon .stat_img {border-color: var(--color-light-blue);}
 .stat_window main .stats .stat.navy .icon .stat_img {border-color: var(--color-navy);}
-.stat_window main .stats .stat .icon .stat_up {
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: all .3s;
-}
-.stat_window main .stats .stat .icon .stat_up::before {
-  content: "스탯 강화";
-  color: var(--color-white);
-  text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);
-  font-size: 1.2rem;
-}
+.stat_window main .stats .stat .icon .stat_up {width: 100%;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);opacity: 0;transition: all .3s;}
+.stat_window main .stats .stat .icon .stat_up::before {content: "스탯 강화";color: var(--color-white);font-size: 1.2rem;text-shadow: -1px -1px 0px var(--color-black),-1px 1px 0px var(--color-black),1px 1px 0px var(--color-black),1px -1px 0px var(--color-black),-1px 0px 0px var(--color-black),1px 0px 0px var(--color-black),0px 1px 0px var(--color-black),0px -1px 0px var(--color-black);}
 .stat_window main .stats .stat .icon:hover .stat_img {filter: brightness(0.6);transform: scale(1.1);}
 .stat_window main .stats .stat .icon:active .stat_img {transform: scale(0.9);}
 .stat_window main .stats .stat .icon:hover .stat_up {opacity: 1;}
@@ -448,13 +194,6 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow: h
 .stat_window main .stats .stat.sky .info .name {color: var(--color-light-blue);}
 .stat_window main .stats .stat.navy .info .name {color: var(--color-navy);}
 .stat_window main .stats .stat .info .description {font-size: 1rem;color: var(--color-dark-gray);}
-.stat_window main .stats .stat .info .detail {
-  font-size: 1.1rem;
-  color: var(--color-light-gray);
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.stat_window main .stats .stat .info .detail {font-size: 1.1rem;color: var(--color-light-gray);list-style: none;display: flex;justify-content: center;align-items: center;}
 .stat_window main .stats .stat .info .detail li:not(:first-child):before {content: ">";font-size: 1.1rem;color: var(--color-gray);margin: 0 0.2rem;}
 .stat_window main .stats .stat .info .detail li.active {color: var(--color-red);}

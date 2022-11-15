@@ -70,7 +70,7 @@ SwordManager.getIndex = function(value) {
   return this.swords.indexOf(this.getSword(value));
 };
 SwordManager.calculateLoss = function(index) {
-  return this.swords.filter((v, idx) => idx <= index).reduce((pre, cur) => pre += StatManager.calculateSmith(cur.cost), 0);
+  return this.swords.slice(0, index+1).reduce((pre, cur) => pre += StatManager.calculateSmith(cur.cost), 0);
 };
 /**
  * 검을 검 배열에 추가합니다.
