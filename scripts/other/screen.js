@@ -145,7 +145,8 @@ InformationScreen.show = function() {
 };
 InformationScreen.render = function() {
   const found = [];
-  for(let i=0; i<=SwordManager.max_upgradable_index;i++) {
+  const max = SwordManager.max_upgradable_index;
+  for(let i=0; i<=max;i++) {
     const value = SwordManager.getSword(i);
     if(SwordManager.isFound(i)) found.push(this.makeSwordIcon(value.image, value.name, "sword"));
     else found.push(this.makeSwordIcon(Path.unknownPath, "unknown", "unknown"));
@@ -282,17 +283,17 @@ MakingScreen.render = function() {
 MakingScreen.animateLodding = function(speed, onfinish) {
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
-
+  
   lodding.display();
   lodding.animate(Keyframes.lodding_kef, {duration: speed/2});
-  hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations: 2});
-  setTimeout(() => {
+  const animation = hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations:1});
+  animation.onfinish = () => {
     onfinish();
     lodding.animate(
       Keyframes.lodding_kef,
       {duration: speed/2, direction: "reverse"}
     ).onfinish = () => lodding.hide();
-  }, speed);
+  }
 };
 /**
  * 스탯 화면을 제어합니다.
