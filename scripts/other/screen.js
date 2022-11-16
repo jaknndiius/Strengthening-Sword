@@ -1,11 +1,11 @@
 /* 화면 제어 */
 const changeBody = id => $("#main-body").replaceChildren(document.importNode($("#" + id).content, true));
-const Path = {};
-Path.unknownPath = "images/swords/unknown.png";
-Path.repairPath = "images/repair_paper/복구권.png";
-Path.moneyPath = "images/item/돈.png";
-Path.piecePath = piece_name => `images/item/${piece_name}.png`;
-Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
+
+// Path.unknownPath = "images/swords/unknown.png";
+// Path.repairPath = "images/repair_paper/복구권.png";
+// Path.moneyPath = "images/item/돈.png";
+// Path.piecePath = piece_name => `images/item/${piece_name}.png`;
+// Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
 const Keyframes = {
   lodding_kef: [{opacity: '0'}, {opacity: '1'}],
   hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}],
@@ -30,7 +30,7 @@ MainScreen.render = function() {
   const current_sword = SwordManager.getCurrentSword();
   const current_idx = SwordManager.getIndex(current_sword);
 
-  $("#sword-image").src = current_sword.image;
+  $("#sword-image").src = Path[current_sword.name];
 
   const number = $("#sword-number");
   number.textContent = SwordManager.current_sword_index + "강";
@@ -86,20 +86,20 @@ InventoryScreen.makeRepairGroupSection = function() {
   const repair_group = $createElementWithClasses("section", "item_group");
   repair_group.appendChildren(
     $createElementWithClasses("div", "underline", "bok"),
-    this.makeInventoryArticle(Path.repairPath, "복구권", InventoryManager.repair_paper),
+    this.makeInventoryArticle(Path.repair, "복구권", InventoryManager.repair_paper),
   )
   return repair_group;
 }
 InventoryScreen.makePieceGroupSection = function(pieceList) {
   const piece_group = $createElementWithClasses("section", "item_group");
   piece_group.appendChild($createElementWithClasses("div", "underline", "pie"));
-  pieceList.forEach(value => piece_group.appendChild(this.makeInventoryArticle(Path.piecePath(value.name), value.name, value.count)));
+  pieceList.forEach(value => piece_group.appendChild(this.makeInventoryArticle(Path[value.name], value.name, value.count)));
   return piece_group;
 }
 InventoryScreen.makeSwordGroupSection = function(swordList) {
   const sword_group = $createElementWithClasses("section", "item_group");
   sword_group.appendChild($createElementWithClasses("div", "underline", "swo"));
-  swordList.forEach(value => sword_group.appendChild(this.makeInventoryArticle(Path.swordPath(value.name), value.name, value.count, () => InventoryManager.sellSword(value.name))));
+  swordList.forEach(value => sword_group.appendChild(this.makeInventoryArticle(Path[value.name], value.name, value.count, () => InventoryManager.sellSword(value.name))));
   return sword_group;
 }
 InventoryScreen.show = function() {
@@ -158,8 +158,8 @@ InformationScreen.render = function() {
   const max = SwordManager.max_upgradable_index;
   for(let i=0; i<=max;i++) {
     const value = SwordManager.getSword(i);
-    if(SwordManager.isFound(i)) found.push(this.makeSwordIcon(value.image, value.name, "sword"));
-    else found.push(this.makeSwordIcon(Path.unknownPath, "unknown", "unknown"));
+    if(SwordManager.isFound(i)) found.push(this.makeSwordIcon(Path[value.name], value.name, "sword"));
+    else found.push(this.makeSwordIcon(Path.unknown, "unknown", "unknown"));
   }
   $("#found-swords").replaceChildren(...found);
   $("#found-sword-count").textContent = SwordManager.found_swords.length;
@@ -190,19 +190,15 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
   const img = new Image();
   switch(itemType) {
     case "money":
-      img.src = Path.moneyPath;
+    case "unknown":
+      img.src = Path[itemType];
       break;
     case "piece":
-      img.src = Path.piecePath(itemName);
-      break;
     case "sword":
-      img.src = Path.swordPath(itemName);
-      break;
-    case "unknown":
-      img.src = Path.unknownPath;
+      img.src = Path[itemName];
       break;
   }
-  div.appendChild(img)
+  div.appendChild(img);
   if(itemType == "sword" || itemType == "unknown") {
     const name_span = $createElementWithClasses("span", "name");
     name_span.textContent = itemName;
@@ -268,7 +264,7 @@ MakingScreen.render = function() {
 
   const material = this.makeMaterialSection(MakingManager.repair_paper_recipe);
 
-  const result = this.makeResultSection(Path.repairPath, "복구권", InventoryManager.repair_paper);
+  const result = this.makeResultSection(Path.repair, "복구권", InventoryManager.repair_paper);
   const article = this.makeGroupArticle(
     material, 
     result, 
@@ -279,7 +275,7 @@ MakingScreen.render = function() {
 
   for(const [sword_name, recipe] of Object.entries(MakingManager.recipes)) {
     const material = this.makeMaterialSection(recipe, sale);
-    const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path.swordPath(sword_name), sword_name) : this.makeResultSection(Path.unknownPath, "발견 안됨");
+    const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path[sword_name], sword_name) : this.makeResultSection(Path.unknown, "발견 안됨");
     const article = this.makeGroupArticle(
       material, 
       result, 
@@ -359,7 +355,7 @@ StatScreen.makeInfoDiv = function(stat) {
 StatScreen.makeStatSection = function(stat) {
   const section = $createElementWithClasses("section", "stat", stat.color);
 
-  const icon_box = this.makeIconDiv(stat.image, () => onStatUp(stat));
+  const icon_box = this.makeIconDiv(Path[stat.name], () => onStatUp(stat));
   const level_box = this.makeLevelDiv(stat.current);
   const info_box = this.makeInfoDiv(stat)
 
@@ -404,7 +400,7 @@ MessageWindow.popupMoneyLackMessage = function() {
 MessageWindow.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
 
-  const img = $createImgWithSrc(Path.piecePath(name));
+  const img = $createImgWithSrc(Path[name]);
 
   const span0 = $createElementWithClasses("span", "name");
   const span1 = $createElementWithClasses("span", "count");

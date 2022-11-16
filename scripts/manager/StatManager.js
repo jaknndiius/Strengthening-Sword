@@ -3,7 +3,6 @@ class Stat {
   constructor(name, description, stat_per_level, color, affixs) {
     this.current = 0;
     this.name = name;
-    this.image = "images/stats/" + name + ".png";
     this.description = description;
     this.stat_per_level = stat_per_level;
     this.color = color;
@@ -25,7 +24,7 @@ StatManager = {
   BIG_MERCHANT: 2,
   SMITH: 3,
   INVALIDATED_SPHERE: 4,
-  MARGIN_HAT: 5,
+  MAGIC_HAT: 5,
   stats: [
     new Stat("행운 팔찌", "성공 확률 증가", [1, 2, 3, 4, 5], "blue", ["+", ""]),
     new Stat("신의 손", "성공 시 일정 확률로 +2강", [10, 20, 30, 40, 50], "red", ["", "%"]),
@@ -58,7 +57,7 @@ StatManager.getGodHand = function() { return this.getCurrentStat(this.GOD_HAND);
 StatManager.getBigMerchant = function() { return this.getCurrentStat(this.BIG_MERCHANT); };
 StatManager.getSmith = function() { return this.getCurrentStat(this.SMITH); };
 StatManager.getInvalidatedSphere = function() { return this.getCurrentStat(this.INVALIDATED_SPHERE); };
-StatManager.getMagicHat = function() { return this.getCurrentStat(this.MARGIN_HAT); };
+StatManager.getMagicHat = function() { return this.getCurrentStat(this.MAGIC_HAT); };
 
 /**
  * 초기 확률과 [ 행운 팔찌 ]의 현재 스탯을 계산한 확률을 반환합니다.
