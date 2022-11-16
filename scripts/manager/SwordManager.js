@@ -30,7 +30,7 @@ class Piece {
    * @param {string} name 조각 이름
    * @param {number} prob 조각 생성 확률
    * @param {number} min_drop 최소로 생성되는 갯수
-   * @param {number} max_drop 최대로 생성되는 갯수 
+   * @param {number} max_drop 최대로 생성되는 갯수
    */
   constructor(name, prob, min_drop, max_drop) {
     this.name = name;
