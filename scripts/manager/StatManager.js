@@ -66,7 +66,7 @@ StatManager.getMagicHat = function() { return this.getCurrentStat(this.MAGIC_HAT
 StatManager.calculateLuckyBraclet = function(initialProb) { return Math.min(initialProb + this.getLuckyBracelet()/100, 1) };
 /**
  * 초기 비용과 [ 대장장이 ]의 현재 스탯을 계산하여 비용을 반환합니다.
- * @param {*} initialCost 초기 비용
+ * @param {number} initialCost 초기 비용
  */
 StatManager.calculateSmith = function(initialCost) { return initialCost*(100 - this.getSmith())/100 };
 /**
