@@ -6,7 +6,6 @@ Path.repairPath = "images/repair_paper/복구권.png";
 Path.moneyPath = "images/item/돈.png";
 Path.piecePath = piece_name => `images/item/${piece_name}.png`;
 Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
-
 const Keyframes = {
   lodding_kef: [{opacity: '0'}, {opacity: '1'}],
   hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}],
@@ -377,7 +376,6 @@ StatScreen.show = function() {
 StatScreen.render = function() {
   const stb = StatManager.stats.map((value) => this.makeStatSection(value));
   $("#stat_box").replaceChildren(...stb);
-
   $("#stat-point-count").textContent = StatManager.stat_point;
 };
 /**

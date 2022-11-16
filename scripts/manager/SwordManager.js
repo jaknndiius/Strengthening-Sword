@@ -30,19 +30,20 @@ class Piece {
   /**
    * @param {string} name 조각 이름
    * @param {number} prob 조각 생성 확률
+   * @param {number} min_drop 최소로 생성되는 갯수
    * @param {number} max_drop 최대로 생성되는 갯수 
    */
-  constructor(name, prob, max_drop) {
+  constructor(name, prob, min_drop, max_drop) {
     this.name = name;
     this.prob = prob;
+    this.min_drop = min_drop;
     this.max_drop = max_drop;
   }
+  getCount = () => Math.floor(Math.random() * (this.max_drop - this.min_drop + 1)) + this.min_drop;
   /**
    * this.prob 확률에 따라 성공시 1~this.max_drop 사이의 랜덤한 수만큼 PieceItem을, 실패시 null을 반환합니다.
    */
-  calculate() {
-    return (Math.random() < this.prob) ? new PieceItem(this.name, Math.ceil(Math.round(Math.random()*100)/(100/this.max_drop))) : null;
-  }
+  calculate = () => (Math.random() < this.prob) ? new PieceItem(this.name, this.getCount()) : null;
 }
 /**
  * 검 관련 객체
