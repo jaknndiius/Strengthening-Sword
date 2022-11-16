@@ -10,7 +10,7 @@ Node.prototype.appendChildren = function(...nodes) { for(const node of nodes ) t
 HTMLElement.prototype.display = function() { this.style.display = "block" };
 HTMLElement.prototype.hide = function() { this.style.display = "none" };
 Path = {
-  "repair": "images/repair_paper/복구권.png",
+  "repair": "images/repair_paper/repair_paper.png",
   "unknown": "images/swords/unknown.png",
   "money": "images/item/money.png",
   "BF 대검": "images/swords/bf_sword.png",
