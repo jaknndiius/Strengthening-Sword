@@ -49,9 +49,9 @@ class Piece {
  */
 SwordManager = {
   current_sword_index: 0,
+  max_upgradable_index: -1,
   swords: [],
-  found_swords: [],
-  max_upgradable_index: 0
+  found_swords: []
 };
 /**
  * 현재 검이 몇강인지 반환합니다.
@@ -79,7 +79,7 @@ SwordManager.calculateLoss = function(index) {
 SwordManager.appendSword = function(sword) {
   if(!(sword instanceof Sword)) throw new TypeError(`${sword} is not a sword.`);
   this.swords.push(sword);
-  this.max_upgradable_index = this.swords.length -1;
+  this.max_upgradable_index += 1;
 };
 SwordManager.isFound = function(swordValue) {
   switch (typeof swordValue) {

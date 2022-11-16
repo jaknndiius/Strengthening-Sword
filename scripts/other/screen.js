@@ -155,8 +155,7 @@ InformationScreen.show = function() {
 };
 InformationScreen.render = function() {
   const found = [];
-  const max = SwordManager.max_upgradable_index;
-  for(let i=0; i<=max;i++) {
+  for(let i=0; i<=SwordManager.max_upgradable_index;i++) {
     const value = SwordManager.getSword(i);
     if(SwordManager.isFound(i)) found.push(this.makeSwordIcon(Path[value.name], value.name, "sword"));
     else found.push(this.makeSwordIcon(Path.unknown, "unknown", "unknown"));
