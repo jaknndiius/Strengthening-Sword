@@ -28,6 +28,10 @@ function gameStart() {
   MakingManager.setRecipe("몰락한 왕의 검", new PieceItem("여신의 눈물", 30), new MoneyItem(300));
   MakingManager.setRecipe("요우무의 유령검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("무라마나", 1));
   MakingManager.setRecipe("독사의 송곳니", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("구인수의 격노검", 1));
+  MakingManager.setRecipe("구인수의 격노검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("독사의 송곳니", 1));
+  MakingManager.setRecipe("그림자 검", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("그림자 검", 1));
+  MakingManager.setRecipe("리치베인", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("요우무의 유령검", 1));
+  MakingManager.setRecipe("톱날 단검", new PieceItem("거인의 허리띠", 30), new PieceItem("도란의 반지", 30), new SwordItem("리치베인", 1));
   /* Init Game */
   GameManager.init();
 }

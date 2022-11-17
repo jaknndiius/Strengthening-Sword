@@ -277,7 +277,7 @@ MakingScreen.render = function() {
     const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path[sword_name], sword_name) : this.makeResultSection(Path.unknown, "발견 안됨");
     const article = this.makeGroupArticle(
       material, 
-      result, 
+      result,
       !(MakingManager.canMake(recipe) && SwordManager.current_sword_index == 0),
       () => MakingManager.makeSword(sword_name)
     );

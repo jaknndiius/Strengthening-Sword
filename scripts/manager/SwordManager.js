@@ -21,6 +21,12 @@ class Sword {
     this.canSave = canSave;
     this.pieces = pieces;
   }
+
+  // 자동화를 원하면 밑의 함수를 정의하기
+  // getProb = () => {};
+  // getCost = () => {};
+  // getPirce = () => {};
+  // getRequiredRepairs = () => {};
 }
 /**
  * 조각의 정보를 담은 클래스입니다.
@@ -104,7 +110,7 @@ SwordManager.upgradeSword = function(index) {
     return;
   }
   if(typeof index != "number") throw new TypeError(`${index} is not a number.`);
-  this.jumpTo(this.current_sword_index +2)
+  this.jumpTo(this.current_sword_index +2);
 };
 /**
  * 검을 -1강 합니다.
