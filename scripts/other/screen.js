@@ -1,20 +1,15 @@
 /* 화면 제어 */
 const changeBody = id => $("#main-body").replaceChildren(document.importNode($("#" + id).content, true));
-
-// Path.unknownPath = "images/swords/unknown.png";
-// Path.repairPath = "images/repair_paper/복구권.png";
-// Path.moneyPath = "images/item/돈.png";
-// Path.piecePath = piece_name => `images/item/${piece_name}.png`;
-// Path.swordPath = sword_name => `images/swords/${sword_name}.png`;
 const Keyframes = {
   lodding_kef: [{opacity: '0'}, {opacity: '1'}],
-  hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .5, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: 1}],
+  hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .4, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: .7, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: 1, easing: "ease" }],
   popup_kef: [{opacity: '0'}, {opacity: '1'}],
   money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}],
 };
 /**
  * 메인 게임 화면을 제어합니다.
  */
+
 const MainScreen = {};
 MainScreen.show = function() {
   changeBody("game-interface");
@@ -286,16 +281,14 @@ MakingScreen.render = function() {
   $("#recipes").replaceChildren(...inner);
 };
 MakingScreen.animateLodding = function(speed, onfinish) {
+
   const lodding = $("#maker-window-lodding");
   const hammer = $("#maker-window-lodding div");
   lodding.display();
   lodding.animate(Keyframes.lodding_kef, {duration: speed/2});
-  const animation = hammer.animate(Keyframes.hammer_kef, {duration: speed, iterations:1.5, fill: "both"});
-  animation.onfinish = () => {
+  hammer.animate(Keyframes.hammer_kef, {duration: speed, fill: "both"}).onfinish = () => {
     onfinish();
-    lodding.animate(
-      Keyframes.lodding_kef, {duration: speed/2, direction: "reverse"}
-    ).onfinish = () => lodding.hide();
+    lodding.animate(Keyframes.lodding_kef, {duration: speed/2, direction: "reverse"}).onfinish = () => lodding.hide();
   }
 };
 /**

@@ -55,12 +55,12 @@ MakingManager.makeWithRecipe = function(recipe) {
 MakingManager.makeRepairPaper = function() {
   if(this.makeWithRecipe(this.repair_paper_recipe)) {
     InventoryManager.addCountToRepairPaper(1);
-    MakingScreen.animateLodding(450, () => MakingScreen.render());
+    MakingScreen.animateLodding(700, () => MakingScreen.render());
   }
 };
 MakingManager.makeSword = function(swordName) {
   if(this.makeWithRecipe(this.recipes[swordName])) {
     SwordManager.jumpTo(SwordManager.getIndex(swordName));
-    MakingScreen.animateLodding(800, () => MainScreen.show());
+    MakingScreen.animateLodding(1200, () => MainScreen.show());
   }
 };
