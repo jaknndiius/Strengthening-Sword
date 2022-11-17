@@ -9,7 +9,6 @@ const Keyframes = {
 /**
  * 메인 게임 화면을 제어합니다.
  */
-
 const MainScreen = {};
 MainScreen.show = function() {
   changeBody("game-interface");
