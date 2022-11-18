@@ -1,3 +1,8 @@
+/**
+ * 
+ * @param {} selector 
+ * @returns Element 
+ */
 const $ = (selector) => document.querySelector(selector);
 const $createElementWithClasses = (tagName, ...classes) => { const tag = document.createElement(tagName); tag.classList.add(...classes); return tag; };
 const $createImgWithSrc = (src, alt) => { const img = new Image(); img.src = src; img.alt = alt ? '' : alt; return img; };

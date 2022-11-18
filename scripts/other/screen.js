@@ -18,33 +18,29 @@ MainScreen.show = function() {
  * 메인 게임 화면을 새로고침합니다.
  */
 MainScreen.render = function() {
-  $("#fall-message").hide();
-  $("#max-message").hide();
-
   const current_sword = SwordManager.getCurrentSword();
   const current_idx = SwordManager.getIndex(current_sword);
+  const isUpgradable = current_idx != SwordManager.max_upgradable_index;
 
   $("#sword-image").src = Path[current_sword.name];
 
   const number = $("#sword-number");
-  number.textContent = SwordManager.current_sword_index + "강";
-  if(current_idx == SwordManager.max_upgradable_index) number.classList.add("hightlight");
-  
+  number.textContent = SwordManager.current_sword_index;
+  if(!isUpgradable) number.classList.add("hightlight");
+
   $("#sword-name").textContent = current_sword.name;
 
-  const prob = $("#sword-prob")
-  const cost = $("#sword-cost")
-  if(current_idx == SwordManager.max_upgradable_index) {
-    prob.textContent = "강화 불가";
-    cost.textContent = "";
-  } else {
-    prob.textContent = `강화 성공 확률: ${Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100)}%`;
-    cost.textContent = `강화 비용: ${StatManager.calculateSmith(current_sword.cost)}원`;
+  const prob = $("#sword-prob");
+  const cost = $("#sword-cost");
+  prob.setAttribute("enabled", isUpgradable);
+  cost.setAttribute("enabled", isUpgradable);
+  if(isUpgradable) {
+    prob.textContent = Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100);
+    cost.textContent = StatManager.calculateSmith(current_sword.cost);
   }
-  $("#sword-price").textContent = `판매 가격: ${StatManager.calculateBigMerchant(current_sword.price)}원`;
-
-  $("#sell-button")[(SwordManager.current_sword_index == 0) ? "hide" : "display"]();
-  $("#save-button")[(SwordManager.getCurrentSword().canSave) ? "display" : "hide"]();
+  $("#sword-price").textContent = StatManager.calculateBigMerchant(current_sword.price);
+  if(current_sword.price > 0) $("#sell-button").style.visibility = "visible";
+  if(current_sword.canSave) $("#save-button").style.visibility = "visible";
 };
 /**
  * 보관함 화면을 제어합니다.
@@ -103,7 +99,7 @@ InventoryScreen.show = function() {
 InventoryScreen.render = function() {
   const inner = [];
 
-  if(InventoryManager.repair_paper > 0) inner.push(this.makeRepairGroupSection());
+  if(InventoryManager.repair_paper > 0) $("#inventory-items").push(this.makeRepairGroupSection());
 
   const pieces = InventoryManager.getPieces();
   if(pieces.length != 0) {
