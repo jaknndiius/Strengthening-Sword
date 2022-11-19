@@ -99,7 +99,7 @@ InventoryScreen.show = function() {
 InventoryScreen.render = function() {
   const inner = [];
 
-  if(InventoryManager.repair_paper > 0) $("#inventory-items").push(this.makeRepairGroupSection());
+  if(InventoryManager.repair_paper > 0) inner.push(this.makeRepairGroupSection());
 
   const pieces = InventoryManager.getPieces();
   if(pieces.length != 0) {
@@ -506,10 +506,14 @@ RecordStorage.addRecord = function(type, name, change) {
 RecordStorage.render = function () {
   const ret = this.records.map(rec => {
     const p = document.createElement("p");
-    if(rec.type == "upgrade")
-      p.textContent = `${rec.name} 강화 -${rec.change}`;
-    else if(rec.type == "sell")
-      p.textContent = `${rec.name} 판매 +${rec.change}`;
+    switch (rec.type) {
+      case "upgrade":
+        p.textContent = `${rec.name} 강화 -${rec.change}`;
+        break;
+      case "sell":
+        p.textContent = `${rec.name} 판매 +${rec.change}`;
+        break;
+    }
     return p;
   });
 

@@ -9,10 +9,10 @@ const $createImgWithSrc = (src, alt) => { const img = new Image(); img.src = src
 Node.prototype.appendChildren = function(...nodes) { for(const node of nodes ) this.appendChild(node); };
 HTMLElement.prototype.display = function() { this.style.display = "block" };
 HTMLElement.prototype.hide = function() { this.style.display = "none" };
-Path = {
+const Path = {
   "repair": "images/items/repair_paper.png",
   "money": "images/items/money.png",
-  "unknown": "images/swords/unknown.png",
+  "unknown": "images/items/unknown.png",
   "BF 대검": "images/swords/bf_sword.png",
   "광휘의 검": "images/swords/sheen.png",
   "구인수의 격노검": "images/swords/guinsoos_rageblade.png",
