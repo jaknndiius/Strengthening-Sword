@@ -96,13 +96,13 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow:hi
 .main_footer ul li a {display: flex;flex-direction: column;align-items: center;cursor: pointer;}
 .main_footer ul li a:hover {transform: scale(1.1);}
 .main_footer ul li a:active {transform: scale(0.9);}
-.main_footer li a .icon {width: 35px;height: 35px;display: inline-block;position: relative;overflow: hidden;}
-.main_footer li a .icon > img {width: 500%;height: 100%;position: absolute;}
-.main_footer li a .icon.information > img {left: 0;}
-.main_footer li a .icon.inventory > img {left: -100%;}
-.main_footer li a .icon.making > img {left: -200%;}
-.main_footer li a .icon.stat > img {left: -300%;}
-.main_footer li a .icon.sword > img {left: -400%;}
+.main_footer ul li a .icon {width: 35px;height: 35px;display: inline-block;position: relative;overflow: hidden;}
+.main_footer ul li a .icon > img {width: 500%;height: 100%;position: absolute;}
+.main_footer ul li a .icon.information > img {left: 0;}
+.main_footer ul li a .icon.inventory > img {left: -100%;}
+.main_footer ul li a .icon.making > img {left: -200%;}
+.main_footer ul li a .icon.stat > img {left: -300%;}
+.main_footer ul li a .icon.sword > img {left: -400%;}
 .main_footer .coinbox {text-align: end;word-break: keep-all;font-size: 1.5rem;position: relative;}
 .main_footer .coinbox #money-number {color: var(--color-gold);}
 .main_footer .coinbox #money-change {position: absolute;top: 0;right: 0;color: var(--color-dark-gold);opacity: 0;}
