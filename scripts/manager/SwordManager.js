@@ -23,10 +23,10 @@ class Sword {
   }
 
   // 자동화를 원하면 밑의 함수를 정의하기
-  // getProb = () => {};
-  // getCost = () => {};
-  // getPirce = () => {};
-  // getRequiredRepairs = () => {};
+  // getProb = () => ;
+  // getCost = () => ;
+  // getPirce = () => ;
+  // getRequiredRepairs = () => ;
 }
 /**
  * 조각의 정보를 담은 클래스입니다.
@@ -99,7 +99,6 @@ SwordManager.findSword = function(index) {
   this.found_swords.push(index);
   return true;
 };
-SwordManager.resetSword = function() { this.jumpTo(0); };
 /**
  * 검을 강화합니다.
  * @param {number?} index 검을 몇강 강화할지 정합니다. 생략시 +1강으로 설정됩니다.

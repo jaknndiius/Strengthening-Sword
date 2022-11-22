@@ -25,36 +25,11 @@
     <main class="main_main" id="main-body"></main>
     <footer class="main_footer">
       <ul>
-        <li>
-          <a id="main-game-button">
-            <div class="icon sword"><img src="images/ui/icons.png" alt="검강화" /></div>
-            검강화
-          </a>
-        </li>
-        <li>
-          <a id="information-button">
-            <div class="icon information"><img src="images/ui/icons.png" alt="검도감" /></div>
-            검도감
-          </a>
-        </li>
-        <li>
-          <a id="inventory-button">
-            <div class="icon inventory"><img src="images/ui/icons.png" alt="보관함" /></div>
-            보관함
-          </a>
-        </li>
-        <li>
-          <a id="making-button">
-            <div class="icon making"><img src="images/ui/icons.png" alt="제작소" /></div>
-            제작소
-          </a>
-        </li>
-        <li>
-          <a id="stat-button">
-            <div class="icon stat"><img src="images/ui/icons.png" alt="강화소" /></div>
-            강화소
-          </a>
-        </li>
+        <li><a id="main-game-button"><div class="icon sword"><img src="images/ui/icons.png" alt="검강화" /></div>검강화</a></li>
+        <li><a id="information-button"><div class="icon information"><img src="images/ui/icons.png" alt="검도감" /></div>검도감</a></li>
+        <li><a id="inventory-button"><div class="icon inventory"><img src="images/ui/icons.png" alt="보관함" /></div>보관함</a></li>
+        <li><a id="making-button"><div class="icon making"><img src="images/ui/icons.png" alt="제작소" /></div>제작소</a></li>
+        <li><a id="stat-button"><div class="icon stat"><img src="images/ui/icons.png" alt="강화소" /></div>강화소</a></li>
       </ul>
       <div class="coinbox">
         보유자산: <span id="money-number"></span>원 <span id="money-change"></span>
@@ -91,9 +66,7 @@
             <div class="title">축하합니다!</div>
             <div class="subtitle">최대 강화에 도달했습니다.</div>
           </div>
-          <div class="buttons">
-            <a class="red_button rotate" onclick="onClickCloseButton('max-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a>
-          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('max-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
       <div class="message" id="money-lack-message">
@@ -107,9 +80,7 @@
               <p>검 워프권 구매 후 판매</p>
             </div>
           </div>
-          <div class="buttons">
-            <a class="red_button rotate" onclick="onClickCloseButton('money-lack-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a>
-          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('money-lack-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
       <div class="message" id="invalidation-message">
@@ -117,13 +88,9 @@
           <div class="text">
             <div class="title">검이 파괴되었지만 복구되었습니다!</div>
             <div class="subtitle">한단계 떨어지긴 했지만요.</div>
-            <div class="paragraph">
-              <p id="downgrade"></p>
-            </div>
+            <div class="paragraph"><p id="downgrade"></p></div>
           </div>
-          <div class="buttons">
-            <a class="red_button rotate" onclick="onClickCloseButton('invalidation-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a>
-          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('invalidation-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
       <div class="message" id="great-success-message">
@@ -131,13 +98,9 @@
           <div class="text">
             <div class="title">신의 손 발동!</div>
             <div class="subtitle">검이 2단계 상승했습니다.</div>
-            <div class="paragraph">
-              <p id="what_count"></p>
-            </div>
+            <div class="paragraph"><p id="what_count"></p></div>
           </div>
-          <div class="buttons">
-            <a class="red_button rotate" onclick="onClickCloseButton('great-success-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a>
-          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('great-success-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
       <div class="message" id="game-end-message">
@@ -145,29 +108,19 @@
           <div class="text">
             <div class="title">게임 종료!</div>
             <div class="subtitle">목적 달성! 축하합니다</div>
-            <div class="paragraph">
-              <p>창을 닫아도 게임은 계속됩니다.</p>
-            </div>
+            <div class="paragraph"><p>창을 닫아도 게임은 계속됩니다.</p></div>
           </div>
-          <div class="buttons">
-            <a class="red_button rotate" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a>
-          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
     </template>
     <template id="inventory">
-      <div class="window inventory_window">
-        <header>보관함</header>
-        <main id="inventory-items"></main>
-      </div>
+      <div class="window inventory_window"><header>보관함</header><main id="inventory-items"></main></div>
     </template>
     <template id="game-information">
       <div class="window sword_book_window">
         <header>검도감</header>
-        <main>
-          <header>현재 <span id="found-sword-count"></span>개의 검 발견</header>
-          <div class="swords" id="found-swords"></div>
-        </main>
+        <main><header>현재 <span id="found-sword-count"></span>개의 검 발견</header><div class="swords" id="found-swords"></div></main>
       </div>
     </template>
     <template id="making">

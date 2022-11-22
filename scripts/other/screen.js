@@ -391,8 +391,8 @@ MessageWindow.makeDroppedPieceDiv = function(name, count) {
 
   const span0 = $createElementWithClasses("span", "name");
   const span1 = $createElementWithClasses("span", "count");
-  span0.innerHTML = name;
-  span1.innerHTML = count;
+  span0.textContent = name;
+  span1.textContent = count;
 
   div.appendChildren(img, span0, span1);
   return div;
@@ -406,16 +406,11 @@ MessageWindow.popupFallMessage = function(...pieces) {
   this.popupMessage($("#fall-message"));
 };
 MessageWindow.renderFallMessage = function(...pieces) {
-
-  if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))
-    throw new TypeError(`${pieces.filter(value => !(value instanceof Item)).join(", ")} is not pieceItem`);
+  if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))throw new TypeError(`${pieces.filter(value => !(value instanceof Item)).join(", ")} is not pieceItem`);
 
   const pieces_box = $("#pieces");
-
   $("#loss").textContent = "손실: " + SwordManager.calculateLoss(SwordManager.current_sword_index) + "원";
-
   const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
-
   pieces_box.replaceChildren(...ret);
 
   const paper_range = `${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs}`;

@@ -24,15 +24,14 @@ const GameManager = {};
 GameManager.test = function() {
   if(InventoryManager.getMoney() - SwordManager.getCurrentSword().cost < 0) return TestResult.MONEY_LACK;
   else if(SwordManager.max_upgradable_index < SwordManager.current_sword_index +1) return TestResult.MAX_UPGRADE;
-  else return TestResult.SUCCESS;
+  return TestResult.SUCCESS;
 };
 /**
  * 검을 초기화하고 메인 게임 화면을 보여줍니다.
  * @param {number?} start 검을 몇강으로 초기화 할 지 정합니다. 생략시 0강으로 초기화합니다.
  */
-GameManager.init = function(start) {
-  if(start !== undefined) SwordManager.jumpTo(start);
-  else SwordManager.resetSword();
+GameManager.init = function(start=0) {
+  SwordManager.jumpTo(start);
   MainScreen.show();
   MoneyDisplay.render();
 };
