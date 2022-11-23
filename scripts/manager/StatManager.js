@@ -9,9 +9,7 @@ class Stat {
     this.prefix = affixs[0];
     this.suffix = affixs[1];
   }
-  getCurrent() {
-    return (this.current == 0) ? 0 : this.stat_per_level[this.current-1];
-  }
+  getCurrent = () =>  (this.current == 0) ? 0 : this.stat_per_level[this.current-1];
 }
 /**
  * 스탯 관련 객체
@@ -60,7 +58,6 @@ StatManager.getBigMerchant = function() { return this.getCurrentStat(StatName.BI
 StatManager.getSmith = function() { return this.getCurrentStat(StatName.SMITH); };
 StatManager.getInvalidatedSphere = function() { return this.getCurrentStat(StatName.INVALIDATED_SPHERE); };
 StatManager.getMagicHat = function() { return this.getCurrentStat(StatName.MAGIC_HAT); };
-
 /**
  * 초기 확률과 [ 행운 팔찌 ]의 현재 스탯을 계산한 확률을 반환합니다.
  * @param {number} initialProb 초기 확률
@@ -76,3 +73,4 @@ StatManager.calculateSmith = function(initialCost) { return initialCost*(100 - t
  * @param {number} initialPrice 초기 가격
  */
 StatManager.calculateBigMerchant = function(initialPrice) { return initialPrice*(100 + this.getBigMerchant())/100 };
+StatManager.calculateMagicHat = function(initialCount, minCount) { return Math.max(initialCount - this.getMagicHat(), minCount) }

@@ -157,7 +157,7 @@ InformationScreen.render = function() {
  * 제작소 화면을 제어합니다.
  */
 const MakingScreen = {};
-MakingScreen.makeMaterialSection = function(recipes, sale) {
+MakingScreen.makeMaterialSection = function(recipes) {
   const material = $createElementWithClasses("section", "material");
   if(recipes.length == 1) material.classList.add("one");
   for(const item of recipes) {
@@ -169,11 +169,11 @@ MakingScreen.makeMaterialSection = function(recipes, sale) {
     else mcount = myitem.count;
 
     if(item.type == "sword" && !SwordManager.isFound(item.name)) material.appendChild(this.makeMaterialDiv("발견 안됨","unknown", mcount, item.count));
-    else material.appendChild(this.makeMaterialDiv(item.name, item.type, mcount, item.count, sale));
+    else material.appendChild(this.makeMaterialDiv(item.name, item.type, mcount, item.count));
   }
   return material;
 };
-MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
+MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count) {
 
   const div = $createElementWithClasses("div", "item");
   const img = new Image();
@@ -195,7 +195,7 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count, sale) {
   }
 
   if(curc === undefined) return div;
-  if(sale !== undefined && itemType == "piece") count -= sale;
+  if(itemType == "piece") count = MakingManager.salePieceCount(count);
   const count_span = $createElementWithClasses("span", "count");
   if(curc < count) count_span.classList.add("unable");
 
@@ -249,7 +249,6 @@ MakingScreen.show = function() {
 };
 MakingScreen.render = function() {
   const inner = [];
-  const sale = StatManager.getMagicHat();
 
   const material = this.makeMaterialSection(MakingManager.repair_paper_recipe);
 
@@ -263,7 +262,7 @@ MakingScreen.render = function() {
   inner.push(article);
 
   for(const [sword_name, recipe] of Object.entries(MakingManager.recipes)) {
-    const material = this.makeMaterialSection(recipe, sale);
+    const material = this.makeMaterialSection(recipe);
     const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path[sword_name], sword_name) : this.makeResultSection(Path.unknown, "발견 안됨");
     const article = this.makeGroupArticle(
       material, 

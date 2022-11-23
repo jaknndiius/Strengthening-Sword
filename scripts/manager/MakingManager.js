@@ -4,7 +4,8 @@
  */
 MakingManager = {
   repair_paper_recipe: [],
-  recipes: {},
+  discountable_min_count: 1,
+  recipes: {}
 };
 /**
  * 복구권 조합법을 정합니다.
@@ -26,8 +27,6 @@ MakingManager.setRecipe = function(resultItem, ...materials) {
   this.recipes[resultItem] = materials;
 };
 MakingManager.canMake = function(recipe) {
-
-  const sale = StatManager.getMagicHat();
   
   for(const rec_item of recipe) {
     if(rec_item.type == "money") {
@@ -36,18 +35,20 @@ MakingManager.canMake = function(recipe) {
     }
     const inv_item = InventoryManager.findItem(rec_item.type, rec_item.name);
     if(inv_item === undefined ||
-      (rec_item.type == "piece" && inv_item.count < rec_item.count-sale) ||
+      (rec_item.type == "piece" && inv_item.count < StatManager.calculateMagicHat(rec_item.count, this.discountable_min_count)) ||
       (rec_item.type == "sword" && inv_item.count < rec_item.count)) return false;
   }
   return true;
 };
+MakingManager.salePieceCount = function(count) {
+  return StatManager.calculateMagicHat(count, this.discountable_min_count);
+}
 MakingManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
-  
-  const sale = StatManager.getMagicHat();
+
   for(const rec_item of recipe) {
     if(rec_item.type == "money") MoneyDisplay.changeMoney(-rec_item.count);
-    else if(rec_item.type == "piece") InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count - sale);
+    else if(rec_item.type == "piece") InventoryManager.subtractItem(rec_item.type, rec_item.name, MakingManager.salePieceCount(rec_item.count));
     else InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count);
   }
   return true;
