@@ -99,13 +99,13 @@ function onClickInitButton() {
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(statName) {
   const result = StatManager.test(statName);
-  if(result == TestResult.SUCCESS) {
+  if(result == TestResult.SUCCESS) { // 강화 가능 상태일 때
     StatManager.upgradeStat(statName); // 업그레이드
     StatScreen.render(); // 화면 새로고침
-  } else if(result == TestResult.MAX_UPGRADE) {
-    MessageWindow.popupMaxStatMessage(); 
-  } else if(result == TestResult.RESOURCES_LACK) {
-    MessageWindow.popupStatPointLackMessage();
+  } else if(result == TestResult.MAX_UPGRADE) { // 최대 강화 상태
+    MessageWindow.popupMaxStatMessage();  // 최대 강화 알림
+  } else if(result == TestResult.RESOURCES_LACK) { // 스탯 포인트 부족
+    MessageWindow.popupStatPointLackMessage(); // 스탯 포인트 부족 알림
   }
 }
 gameStart(); // 게임 시작
