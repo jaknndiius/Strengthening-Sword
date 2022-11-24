@@ -326,22 +326,14 @@ StatScreen.makeInfoDiv = function(stat) {
     stat_li.textContent = stat.prefix + stat.stat_per_level[i] + stat.suffix;
     details.appendChild(stat_li)
   }
-  // const lis = stat.stat_per_level.map((value, index) => {
-  //   const stat_li = document.createElement("li");
-  //   if(stat.current == index +1) stat_li.classList.add("active");
-    
-  //   return stat_li;
-  // });
-  // details.appendChildren(...lis);
-
   info_box.appendChildren(pname, pdescription, details);
 
   return info_box;
 };
-StatScreen.makeStatSection = function(stat) {
+StatScreen.makeStatSection = function(statName, stat) {
   const section = $createElementWithClasses("section", "stat", stat.color);
 
-  const icon_box = this.makeIconDiv(Path[stat.name], () => onStatUp(stat));
+  const icon_box = this.makeIconDiv(Path[stat.name], () => onStatUp(statName));
   const level_box = this.makeLevelDiv(stat.current);
   const info_box = this.makeInfoDiv(stat)
 
@@ -356,7 +348,7 @@ StatScreen.show = function() {
  * 스탯 화면을 새로고침합니다.
  */
 StatScreen.render = function() {
-  const stb = StatManager.stats.map((value) => this.makeStatSection(value));
+  const stb = Object.entries(StatManager.stats).map(([key, value]) => this.makeStatSection(key, value));
   $("#stat_box").replaceChildren(...stb);
   $("#stat-point-count").textContent = StatManager.stat_point;
 };
@@ -428,7 +420,7 @@ MessageWindow.renderFallMessage = function(...pieces) {
  */
 MessageWindow.popupInvalidationMessage = function() {
   this.renderInvalidationMessage();
-  this.popupMessage($("#invalidation-message"))
+  this.popupMessage($("#invalidation-message"));
 };
 MessageWindow.renderInvalidationMessage = function() {
   $("#downgrade").textContent = SwordManager.current_sword_index + "강으로 떨어졌습니다!";
@@ -438,7 +430,7 @@ MessageWindow.renderInvalidationMessage = function() {
  */
 MessageWindow.popupGreatSuccessMessage = function() {
   this.renderGreatSuccessMessage();
-  this.popupMessage($("#great-success-message"))
+  this.popupMessage($("#great-success-message"));
 };
 MessageWindow.renderGreatSuccessMessage = function() {
   $("#what_count").textContent = SwordManager.current_sword_index + "강이 되었습니다!";
@@ -447,9 +439,20 @@ MessageWindow.renderGreatSuccessMessage = function() {
  * 게임의 엔딩(목적 달성) 알림을 보여줍니다.
  */
 MessageWindow.popupGameEndMessage = function() {
-  this.popupMessage($("#game-end-message"))
+  this.popupMessage($("#game-end-message"));
 };
-
+/**
+ * 스탯 최대 강화 달성 알림을 보여줍니다.
+ */
+MessageWindow.popupMaxStatMessage = function() {
+  this.popupMessage($("#max-stat-message"));
+}
+/**
+ * 스탯 포인트 부족 알림을 보여줍니다.
+ */
+MessageWindow.popupStatPointLackMessage = function() {
+  this.popupMessage($("#statpoint-lack-message"))
+}
 /**
  * 자산 화면을 제어합니다.
  */

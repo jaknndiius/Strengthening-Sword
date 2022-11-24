@@ -38,7 +38,7 @@ function gameStart() {
 /* 강화하기 버튼을 눌렀을 때 */
 function onClickUpgradeButton() {
   const current_sword = SwordManager.getCurrentSword();
-  const result = GameManager.test();
+  const result = SwordManager.test();
   if(result == TestResult.SUCCESS) { // 강화 가능 상태일 때
     const cost = StatManager.calculateSmith(current_sword.cost);
     RecordStorage.addRecord("upgrade", current_sword.name, cost); // 기록
@@ -64,7 +64,7 @@ function onClickUpgradeButton() {
           MessageWindow.popupFallMessage(...re); // 실패 메세지
         }
     }
-  } else if(result == TestResult.MONEY_LACK) { //돈 부족
+  } else if(result == TestResult.RESOURCES_LACK_LACK) { //돈 부족
     MessageWindow.popupMoneyLackMessage(); // 돈 부족 메세지
   } else if(result == TestResult.MAX_UPGRADE) { // 최대 강화 달성
     MessageWindow.popupMaxMessage(); // 최대 강화 축하 메세지
@@ -97,10 +97,15 @@ function onClickInitButton() {
   GameManager.init(); // 게임 초기화
 }
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
-function onStatUp(stat) {
-  if(StatManager.stat_point > 0 && stat.current < StatManager.getMaxStatLevel()) { // 스탯이 충분하고, 해당 스탯이 최대 강화가 아니면
-    StatManager.upgradeStat(stat); // 업그레이드
+function onStatUp(statName) {
+  const result = StatManager.test(statName);
+  if(result == TestResult.SUCCESS) {
+    StatManager.upgradeStat(statName); // 업그레이드
     StatScreen.render(); // 화면 새로고침
+  } else if(result == TestResult.MAX_UPGRADE) {
+    MessageWindow.popupMaxStatMessage(); 
+  } else if(result == TestResult.RESOURCES_LACK) {
+    MessageWindow.popupStatPointLackMessage();
   }
 }
 gameStart(); // 게임 시작

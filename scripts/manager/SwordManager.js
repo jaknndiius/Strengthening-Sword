@@ -130,3 +130,12 @@ SwordManager.getCurrentSword = function() {
 SwordManager.getNextSword = function() {
   return this.getSword(Math.min(this.current_sword_index +1, this.max_upgradable_index));
 };
+/**
+ * 다음 단계로 업그레이드 가능 여부를 반환합니다.
+ * @returns TestResult
+ */
+SwordManager.test = function() {
+  if(this.max_upgradable_index < this.current_sword_index +1) return TestResult.MAX_UPGRADE;
+  else if(InventoryManager.getMoney() < this.getCurrentSword().cost) return TestResult.MONEY_LACK;
+  return TestResult.SUCCESS;
+};

@@ -139,6 +139,24 @@
           <p class="tip">스탯 포인트는 새로운 검을 발견할 때마다 한개씩 지급됩니다.</p>
         </main>
       </div>
+      <div class="message" id="max-stat-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">이미 최대로 강화된 스탯입니다.</div>
+            <div class="subtitle">다른 스탯을 강화해 보세요!</div>
+          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('max-stat-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
+        </div>
+      </div>
+      <div class="message" id="statpoint-lack-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">스탯 포인트가 부족합니다.</div>
+            <div class="subtitle">새로운 검을 발견해 스탯 포인트를 얻어보세요!</div>
+          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('statpoint-lack-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
+        </div>
+      </div>
     </template>
     <div class="loading" id="maker-window-lodding"><div class="lodding_img"><img src="images/ui/buttons/make.png" alt="제작하기"/></div></div>
   </body>

@@ -56,11 +56,6 @@ Piece.calculate() : PieceItem
 GameManager.init(start: Number)
   GameManager.init() | 검을 0강으로 초기화 후 메인 게임 화면을 보여줍니다.
   GameManager.init(start) | 검을 start강으로 이동 후 메인 게임 화면을 보여줍니다.
-GameManager.test() : testResult
-  다음 단계로 업그레이드 가능 여부를 반환합니다.
-  : TestResult.SUCCESS | 업그레이드 가능
-  : TestResult.MONEY_LACK | 돈 부족으로 불가능
-  : TestResult.MAX_UPGRADE | 최대 강화 달성으로 불가능
 
 RecordStroage.addRecord(type: "upgrade" || "sell", name: String, change: Number) 
   기록 보관함에 name을 change만큼 type한 기록을 합니다.
@@ -88,6 +83,10 @@ MessageWindow.popupGreatSuccessMessage()
   [ 신의 손 ]이 발동했음을 알리는 알림을 보여줍니다.
 MessageWindow.popupGameEndMessage()
   게임의 엔딩 알림을 보여줍니다.
+MessageWindow.popupMaxStatMessage()
+  스탯 최대 강화 달성 알림을 보여줍니다.
+MessageWindow.popupStatPointLackMessage()
+  스탯 포인트 부족 알림을 보여줍니다.
 
 SwordManager.getCurrentSwordIndex() : Number
   현재 검이 몇강인지 반환합니다.
@@ -100,6 +99,11 @@ SwordManager.downgradeSword()
   검을 -1강 합니다.
 SwordManager.appendSword(sword: Sword)
   sword를 검 리스트에 추가합니다.
+SwordManager.test() : testResult
+  다음 단계로 업그레이드 가능 여부를 반환합니다.
+  : TestResult.SUCCESS | 업그레이드 가능
+  : TestResult.RESOURCES_LACK | 돈 부족으로 불가능
+  : TestResult.MAX_UPGRADE | 최대 강화 달성으로 불가능
 
 InventoryManager.savePiece(name: String, count: Number)
   name인 조각을 count만큼 보관함에 저장합니다.
@@ -125,3 +129,8 @@ StatManager.calculateSmith(initialCost: Number)
   initialCost을 [ 대장장이 ]의 현재 스탯만큼 감소시켜 반환합니다.
 StatManager.calculateBigMerchant(initialPrice: Number)
   initialPrice를 [ 대상인 ]의 현재 스탯만큼 증가시켜 반환합니다.
+StatManager.test() : testResult
+  스탯을 다음 단계로 업그레이드 가능 여부를 반환합니다.
+  : TestResult.SUCCESS | 업그레이드 가능
+  : TestResult.RESOURCES_LACK | 스탯 포인트 부족으로 불가능
+  : TestResult.MAX_UPGRADE | 최대 강화 달성으로 불가능
