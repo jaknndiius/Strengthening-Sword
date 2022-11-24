@@ -29,7 +29,7 @@ StatManager = {
 };
 StatManager.getStat = function(name) { 
   const stat = this.stats[name];
-  if(stat === undefined) throw new Error(`There are no stat named ${name}`);
+  if(stat === undefined) throw new Error(`There are no stat named ${name}.`);
   return stat;
 }
 /**
