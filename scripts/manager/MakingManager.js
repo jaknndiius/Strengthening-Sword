@@ -47,9 +47,20 @@ MakingManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
 
   for(const rec_item of recipe) {
-    if(rec_item.type == "money") MoneyDisplay.changeMoney(-rec_item.count);
-    else if(rec_item.type == "piece") InventoryManager.subtractItem(rec_item.type, rec_item.name, MakingManager.salePieceCount(rec_item.count));
-    else InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count);
+    switch (rec_item.type) {
+      case "money": {
+        MoneyDisplay.changeMoney(-rec_item.count);
+        break;
+      }
+      case "piece": {
+        InventoryManager.subtractItem(rec_item.type, rec_item.name, MakingManager.salePieceCount(rec_item.count));
+        break;
+      }
+      case "sword": {
+        InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count);
+        break;
+      }
+    }
   }
   return true;
 };
