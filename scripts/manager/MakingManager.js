@@ -13,7 +13,7 @@ MakingManager = {
  */
 MakingManager.setRepairPaperRecipe = function(...materials) {
   if(materials.length == 0) throw new Error("Making.setRepairPaperRecipe needs more args.");
-  if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item`);
+  if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item.`);
   this.repair_paper_recipe = materials;
 };
 /**
@@ -23,11 +23,10 @@ MakingManager.setRepairPaperRecipe = function(...materials) {
  */
 MakingManager.setRecipe = function(resultItem, ...materials) {
   if(materials.length == 0) throw new Error("Making.setRecipe needs more args.");
-  if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item`);
+  if(!materials.every(value => value instanceof Item)) throw new TypeError(`${materials.filter(value => !(value instanceof Item)).join(", ")} is not item.`);
   this.recipes[resultItem] = materials;
 };
 MakingManager.canMake = function(recipe) {
-  
   for(const rec_item of recipe) {
     if(rec_item.type == "money") {
       if(InventoryManager.getMoney() >= rec_item.count) continue;
@@ -48,18 +47,9 @@ MakingManager.makeWithRecipe = function(recipe) {
 
   for(const rec_item of recipe) {
     switch (rec_item.type) {
-      case "money": {
-        MoneyDisplay.changeMoney(-rec_item.count);
-        break;
-      }
-      case "piece": {
-        InventoryManager.subtractItem(rec_item.type, rec_item.name, MakingManager.salePieceCount(rec_item.count));
-        break;
-      }
-      case "sword": {
-        InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count);
-        break;
-      }
+      case "money": MoneyDisplay.changeMoney(-rec_item.count); break;
+      case "piece": InventoryManager.subtractItem(rec_item.type, rec_item.name, MakingManager.salePieceCount(rec_item.count)); break;
+      case "sword": InventoryManager.subtractItem(rec_item.type, rec_item.name, rec_item.count); break;
     }
   }
   return true;

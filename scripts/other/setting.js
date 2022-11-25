@@ -7,8 +7,23 @@ const $ = (selector) => document.querySelector(selector);
 const $createElementWithClasses = (tagName, ...classes) => { const tag = document.createElement(tagName); tag.classList.add(...classes); return tag; };
 const $createImgWithSrc = (src, alt) => { const img = new Image(); img.src = src; img.alt = alt ? '' : alt; return img; };
 Node.prototype.appendChildren = function(...nodes) { for(const node of nodes ) this.appendChild(node); };
+Node.prototype.text = function(textContent) { this.textContent = textContent; return this; }
 HTMLElement.prototype.display = function() { this.style.display = "block" };
 HTMLElement.prototype.hide = function() { this.style.display = "none" };
+const TestResult = {
+  /**
+   * 자원 부족으로 불가능
+   */
+  RESOURCES_LACK: "RESOURCES LACK",
+  /**
+   * 최대 강화 달성으로 불가능
+   */
+  MAX_UPGRADE: "MAX UPGRADE",
+  /**
+   * 업그레이드 가능
+   */
+  SUCCESS: "SUCCESS"
+};
 const Path = {
   "repair": "images/items/repair_paper.png",
   "money": "images/items/money.png",
@@ -76,10 +91,10 @@ const Path = {
   "증오의 사슬": "images/pieces/anathemas_chains.png",
   "초시계": "images/pieces/commencing_stopwatch.png",
   "충전형 물약": "images/pieces/refillable_potion.png",
-  "대상인": "images/stats/big_merchant.png",
-  "대장장이": "images/stats/smith.png",
-  "마법 모자": "images/stats/magic_hat.png",
-  "무효화 구체": "images/stats/invalidated_sphere.png",
-  "신의 손": "images/stats/god_hand.png",
-  "행운 팔찌": "images/stats/lucky_barcelet.png"
+  "BIG_MERCHANT": "images/stats/big_merchant.png",
+  "SMITH": "images/stats/smith.png",
+  "MAGIC_HAT": "images/stats/magic_hat.png",
+  "INVALIDATED_SPHERE": "images/stats/invalidated_sphere.png",
+  "GOD_HAND": "images/stats/god_hand.png",
+  "LUCKY_BRACELET": "images/stats/lucky_bracelet.png"
 };

@@ -86,8 +86,9 @@ function onClickSaveButton() {
 }
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
-  if(InventoryManager.canUseRepairPaper(SwordManager.getCurrentSword().requiredRepairs)) { // 복구권이 충분하면
-    InventoryManager.subtractRepairPaper(SwordManager.getCurrentSword().requiredRepairs); // 복구권 차감
+  const required = SwordManager.getCurrentSword().requiredRepairs;
+  if(InventoryManager.canUseRepairPaper(required)) { // 복구권이 충분하면
+    InventoryManager.subtractRepairPaper(required); // 복구권 차감
     GameManager.init(SwordManager.current_sword_index); // 복구한 검부터 재시작
   }
 }

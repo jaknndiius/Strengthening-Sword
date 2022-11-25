@@ -45,14 +45,9 @@ InventoryManager.saveItem = function(type, name, count) {
   const item = this.findItem(type, name);
   if(item === undefined) {
     switch (type) {
-      case "piece":
-        this.inventory.push(new PieceItem(name, count));
-        break;
-      case "sword":
-        this.inventory.push(new SwordItem(name, count));
-        break;
-      default:
-        throw new Error(`${type} is not 'piece' or 'sword'`);
+      case "piece": this.inventory.push(new PieceItem(name, count)); break;
+      case "sword": this.inventory.push(new SwordItem(name, count)); break;
+      default: throw new Error(`${type} is not 'piece' or 'sword'`);
     }
   } else item.count += Math.max(count, 0);
 };

@@ -65,9 +65,11 @@ SwordManager = {
 SwordManager.getCurrentSwordIndex = function() { return this.current_sword_index(); };
 SwordManager.getSword = function(value) {
   let res;
-  if(typeof value == "number") res = this.swords[value];
-  else if(typeof value == "string") res = this.swords.find(sword => sword.name == value);
-  else throw new TypeError(`${value} is not a number or string.`);
+  switch (typeof value) {
+    case "number": res = this.swords[value]; break;
+    case "string": res = this.swords.find(sword => sword.name == value); break;
+    default: throw new TypeError(`${value} is not a number or string.`);
+  }
   if(res === undefined) throw new Error(`There is no sword named ${value}.`);
   return res;
 };
@@ -103,18 +105,14 @@ SwordManager.findSword = function(index) {
  * 검을 강화합니다.
  * @param {number?} index 검을 몇강 강화할지 정합니다. 생략시 +1강으로 설정됩니다.
  */
-SwordManager.upgradeSword = function(index) {
-  if(index === undefined) {
-    this.jumpTo(this.current_sword_index +1);
-    return;
-  }
+SwordManager.upgradeSword = function(index=1) {
   if(typeof index != "number") throw new TypeError(`${index} is not a number.`);
-  this.jumpTo(this.current_sword_index +2);
+  this.jumpTo(this.current_sword_index +index);
 };
 /**
  * 검을 -1강 합니다.
  */
-SwordManager.downgradeSword = function() { this.jumpTo(this.current_sword_index -1)};
+SwordManager.downgradeSword = function() { this.jumpTo(this.current_sword_index -1) };
 SwordManager.jumpTo = function(index) {
   if(typeof index != "number") throw new TypeError(`${index} is not a number.`);
   index = Math.min(Math.max(index, 0), this.max_upgradable_index);

@@ -4,7 +4,7 @@ const Keyframes = {
   lodding_kef: [{opacity: '0'}, {opacity: '1'}],
   hammer_kef: [{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0deg)", offset: 0, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: .4, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0turn)", offset: .7, easing: "ease" },{ transform: "translate(calc(-50% - 38.4765625px), -50%) rotate(0.2turn)", offset: 1, easing: "ease" }],
   popup_kef: [{opacity: '0'}, {opacity: '1'}],
-  money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}],
+  money_change_kef: [{opacity: '1', transform: 'translate(-30%, 0%)'},{opacity: '0', transform: 'translate(-30%, -70%)'}]
 };
 /**
  * 메인 게임 화면을 제어합니다.
@@ -19,26 +19,25 @@ MainScreen.show = function() {
  */
 MainScreen.render = function() {
   const current_sword = SwordManager.getCurrentSword();
-  const current_idx = SwordManager.getIndex(current_sword);
-  const isUpgradable = current_idx != SwordManager.max_upgradable_index;
+  const isUpgradable = SwordManager.max_upgradable_index != SwordManager.getIndex(current_sword);
 
   $("#sword-image").src = Path[current_sword.name];
 
-  const number = $("#sword-number");
-  number.textContent = SwordManager.current_sword_index;
+  const number = $("#sword-number").text(SwordManager.current_sword_index);
+
   if(!isUpgradable) number.classList.add("hightlight");
 
-  $("#sword-name").textContent = current_sword.name;
+  $("#sword-name").text(current_sword.name);
 
   const prob = $("#sword-prob");
   const cost = $("#sword-cost");
   prob.setAttribute("enabled", isUpgradable);
   cost.setAttribute("enabled", isUpgradable);
   if(isUpgradable) {
-    prob.textContent = Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100);
-    cost.textContent = StatManager.calculateSmith(current_sword.cost);
+    prob.text(Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100));
+    cost.text(StatManager.calculateSmith(current_sword.cost));
   }
-  $("#sword-price").textContent = StatManager.calculateBigMerchant(current_sword.price);
+  $("#sword-price").text(StatManager.calculateBigMerchant(current_sword.price));
   if(current_sword.price > 0) $("#sell-button").style.visibility = "visible";
   if(current_sword.canSave) $("#save-button").style.visibility = "visible";
 };
@@ -48,9 +47,7 @@ MainScreen.render = function() {
 const InventoryScreen = {};
 InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
-  const span = document.createElement("span");
-  span.textContent = "판매 하기";
-  div.appendChild(span);
+  div.appendChild(document.createElement("span").text("판매 하기"));
   div.addEventListener("click", onclick);
   return div;
 };
@@ -59,17 +56,13 @@ InventoryScreen.makeInventoryArticle = function(src, name, count, sellFnc) {
 
   const div = $createElementWithClasses("div", "item");
   const img = $createImgWithSrc(src);
-
   if(sellFnc !== undefined) div.appendChild(this.makeHoverSellDiv(sellFnc));
-
   div.appendChild(img);
 
-  const pname = $createElementWithClasses("p", "item_name");
-  pname.textContent = name;
-  const pcount = $createElementWithClasses("p", "item_count");
-  pcount.textContent = count;
-  article.appendChildren(div, pname, pcount);
-
+  article.appendChildren(
+    div,
+    $createElementWithClasses("p", "item_name").text(name),
+    $createElementWithClasses("p", "item_count").text(count));
   return article;
 };
 InventoryScreen.makeRepairGroupSection = function() {
@@ -115,11 +108,7 @@ InventoryScreen.render = function() {
 
   if(pieces.length == 0 && swords.length == 0) {
     $(".inventory_window main").classList.add("empty_inventory");
-    if(InventoryManager.repair_paper <= 0) {
-      const p = $createElementWithClasses("p", "no_item");
-      p.textContent = "보관된 아이템이 없습니다.";
-      inner.push(p);
-    }
+    if(InventoryManager.repair_paper <= 0) inner.push($createElementWithClasses("p", "no_item").text("보관된 아이템이 없습니다."));
   } else $(".inventory_window main").classList.remove("empty_inventory");
 
   $("#inventory-items").replaceChildren(...inner);
@@ -128,15 +117,11 @@ InventoryScreen.render = function() {
  * 내 정보 화면을 제어합니다.
  */
 const InformationScreen = {};
-InformationScreen.makeSwordIcon = function(src, alt, type) {
+InformationScreen.makeSwordIcon = function(src, name, type) {
   const div = $createElementWithClasses("div", "sword_icon", type);
-  const img = $createImgWithSrc(src, alt);
+  const img = $createImgWithSrc(src, name);
   div.appendChild(img);
-  if(type == "sword") {
-    const name_span = $createElementWithClasses("span", "sword_name");
-    name_span.textContent = alt;
-    div.appendChild(name_span);
-  }
+  if(type == "sword") div.appendChild($createElementWithClasses("span", "sword_name").text(name));
   return div;
 };
 InformationScreen.show = function() {
@@ -151,7 +136,7 @@ InformationScreen.render = function() {
     else found.push(this.makeSwordIcon(Path.unknown, "unknown", "unknown"));
   }
   $("#found-swords").replaceChildren(...found);
-  $("#found-sword-count").textContent = SwordManager.found_swords.length;
+  $("#found-sword-count").text(SwordManager.found_swords.length);
 };
 /**
  * 제작소 화면을 제어합니다.
@@ -168,7 +153,7 @@ MakingScreen.makeMaterialSection = function(recipes) {
     else if(myitem === undefined) mcount = 0;
     else mcount = myitem.count;
 
-    if(item.type == "sword" && !SwordManager.isFound(item.name)) material.appendChild(this.makeMaterialDiv("발견 안됨","unknown", mcount, item.count));
+    if(item.type == "sword" && !SwordManager.isFound(item.name)) material.appendChild(this.makeMaterialDiv("발견 안됨", "unknown", mcount, item.count));
     else material.appendChild(this.makeMaterialDiv(item.name, item.type, mcount, item.count));
   }
   return material;
@@ -189,8 +174,7 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count) {
   }
   div.appendChild(img);
   if(itemType == "sword" || itemType == "unknown") {
-    const name_span = $createElementWithClasses("span", "name");
-    name_span.textContent = itemName;
+    const name_span = $createElementWithClasses("span", "name").text(itemName);
     div.appendChild(name_span);
   }
 
@@ -198,21 +182,19 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count) {
   if(itemType == "piece") count = MakingManager.salePieceCount(count);
   const count_span = $createElementWithClasses("span", "count");
   if(curc < count) count_span.classList.add("unable");
-
-  count_span.textContent = (itemType == "money") ? count : curc + "/" + count;
+  count_span.text((itemType == "money") ? count + "원" : curc + "/" + count);
   div.appendChild(count_span);
 
   return div;
 };
-MakingScreen.makeGroupArticle = function(material, result, disabled, clickFunction) {
+MakingScreen.makeGroupArticle = function(material, result, color, disabled, clickFunction) {
 
   const article = $createElementWithClasses("article", "group")
 
   article.appendChildren(material, result);
   
-  const btn = document.createElement("button");
+  const btn = $createElementWithClasses("button", color).text("제작");
   btn.addEventListener("click", clickFunction);
-  btn.textContent = "제작";
   btn.disabled = disabled;
 
   article.appendChild(btn);
@@ -220,27 +202,11 @@ MakingScreen.makeGroupArticle = function(material, result, disabled, clickFuncti
   return article;
 };
 MakingScreen.makeResultSection = function(src, name, count)  {
-
   const result = $createElementWithClasses("section", "result");
-
   const img_div = $createElementWithClasses("div", "item");
-
-  const img = $createImgWithSrc(src);
-
-  const span = $createElementWithClasses("span", "name");
-  span.textContent = name;
-
-  img_div.appendChildren(img, span);
-
-  if(count != null) {
-    const countspan = $createElementWithClasses("span", "count");
-    countspan.textContent = count;
-
-    img_div.appendChild(countspan);
-  }
-
+  img_div.appendChildren($createImgWithSrc(src), $createElementWithClasses("span", "name").text(name));
+  if(count != null) img_div.appendChild($createElementWithClasses("span", "count").text(count));
   result.appendChild(img_div);
-
   return result;
 };
 MakingScreen.show = function() {
@@ -255,7 +221,8 @@ MakingScreen.render = function() {
   const result = this.makeResultSection(Path.repair, "복구권", InventoryManager.repair_paper);
   const article = this.makeGroupArticle(
     material, 
-    result, 
+    result,
+    "blue",
     !MakingManager.canMake(MakingManager.repair_paper_recipe), 
     () => MakingManager.makeRepairPaper());
 
@@ -267,6 +234,7 @@ MakingScreen.render = function() {
     const article = this.makeGroupArticle(
       material, 
       result,
+      "purple",
       !(MakingManager.canMake(recipe) && SwordManager.current_sword_index == 0),
       () => MakingManager.makeSword(sword_name)
     );
@@ -293,10 +261,8 @@ StatScreen.makeIconDiv = function(img_src, onclick) {
   const icon_box = $createElementWithClasses("div", "icon");
   icon_box.addEventListener("click", onclick);
 
-  const img = $createElementWithClasses("img", "stat_img");
-  img.src = img_src;
   const stat_up = $createElementWithClasses("div", "stat_up");
-  icon_box.appendChildren(img, stat_up);
+  icon_box.appendChildren($createImgWithSrc(img_src), stat_up);
 
   return icon_box;
 };
@@ -314,30 +280,29 @@ StatScreen.makeLevelDiv = function(current_level) {
 StatScreen.makeInfoDiv = function(stat) {
   const info_box = $createElementWithClasses("div", "info");
 
-  const pname = $createElementWithClasses("p", "name");
-  pname.textContent = stat.name;
-  const pdescription = $createElementWithClasses("p", "description");
-  pdescription.textContent = stat.description;
+  const pname = $createElementWithClasses("p", "name").text(stat.name);
+  const pdescription = $createElementWithClasses("p", "description").text(stat.description);
 
   const details = $createElementWithClasses("ul", "detail");
-  for(let i=0;i<StatManager.getMaxStatLevel();i++) {
-    const stat_li = document.createElement("li");
+  for(let i=0; i<StatManager.getMaxStatLevel(); i++) {
+    const stat_li = document.createElement("li").text(stat.prefix + stat.stat_per_level[i] + stat.suffix);
     if(stat.current == i +1) stat_li.classList.add("active");
-    stat_li.textContent = stat.prefix + stat.stat_per_level[i] + stat.suffix;
-    details.appendChild(stat_li)
+    details.appendChild(stat_li);
   }
   info_box.appendChildren(pname, pdescription, details);
 
   return info_box;
 };
-StatScreen.makeStatSection = function(statName, stat) {
+StatScreen.makeStatSection = function(statName) {
+
+  const stat = StatManager.getStat(statName);
+
   const section = $createElementWithClasses("section", "stat", stat.color);
 
-  const icon_box = this.makeIconDiv(Path[stat.name], () => onStatUp(statName));
-  const level_box = this.makeLevelDiv(stat.current);
-  const info_box = this.makeInfoDiv(stat)
-
-  section.appendChildren(icon_box, level_box, info_box);
+  section.appendChildren(
+    this.makeIconDiv(Path[statName], () => onStatUp(statName)),
+    this.makeLevelDiv(stat.current), 
+    this.makeInfoDiv(stat));
   return section;
 };
 StatScreen.show = function() {
@@ -348,9 +313,9 @@ StatScreen.show = function() {
  * 스탯 화면을 새로고침합니다.
  */
 StatScreen.render = function() {
-  const stb = Object.entries(StatManager.stats).map(([key, value]) => this.makeStatSection(key, value));
+  const stb = Object.keys(StatManager.stats).map(statName => this.makeStatSection(statName));
   $("#stat_box").replaceChildren(...stb);
-  $("#stat-point-count").textContent = StatManager.stat_point;
+  $("#stat-point-count").text(StatManager.stat_point);
 };
 /**
  * 메세지 창을 제어합니다.
@@ -377,15 +342,10 @@ MessageWindow.popupMoneyLackMessage = function() {
 };
 MessageWindow.makeDroppedPieceDiv = function(name, count) {
   const div = document.createElement("div");
-
-  const img = $createImgWithSrc(Path[name]);
-
-  const span0 = $createElementWithClasses("span", "name");
-  const span1 = $createElementWithClasses("span", "count");
-  span0.textContent = name;
-  span1.textContent = count;
-
-  div.appendChildren(img, span0, span1);
+  div.appendChildren(
+    $createImgWithSrc(Path[name]),
+    $createElementWithClasses("span", "name").text(name),
+    $createElementWithClasses("span", "count").text(count));
   return div;
 };
 /**
@@ -400,18 +360,18 @@ MessageWindow.renderFallMessage = function(...pieces) {
   if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))throw new TypeError(`${pieces.filter(value => !(value instanceof Item)).join(", ")} is not pieceItem`);
 
   const pieces_box = $("#pieces");
-  $("#loss").textContent = "손실: " + SwordManager.calculateLoss(SwordManager.current_sword_index) + "원";
+  $("#loss").text("손실: " + SwordManager.calculateLoss(SwordManager.current_sword_index) + "원");
   const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
   pieces_box.replaceChildren(...ret);
 
   const paper_range = `${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs}`;
   if(InventoryManager.canUseRepairPaper(SwordManager.getCurrentSword().requiredRepairs)) {
     $("#fix-button").display();
-    $("#required-count").textContent = `복구권 ${SwordManager.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${paper_range})`;
+    $("#required-count").text(`복구권 ${SwordManager.getCurrentSword().requiredRepairs}개로 복구할 수 있습니다. (${paper_range})`);
     $("#required-count").classList.remove("red-text");
   } else {
     $("#fix-button").hide();
-    $("#required-count").textContent = `복구권이 부족하여 복구할 수 없습니다. (${paper_range})`;
+    $("#required-count").text(`복구권이 부족하여 복구할 수 없습니다. (${paper_range})`);
     $("#required-count").classList.add("red-text");
   }
 };
@@ -423,7 +383,7 @@ MessageWindow.popupInvalidationMessage = function() {
   this.popupMessage($("#invalidation-message"));
 };
 MessageWindow.renderInvalidationMessage = function() {
-  $("#downgrade").textContent = SwordManager.current_sword_index + "강으로 떨어졌습니다!";
+  $("#downgrade").text(SwordManager.current_sword_index + "강으로 떨어졌습니다!");
 };
 /**
  * [ 신의 손 ]이 발동했음을 알리는 알림을 보여줍니다.
@@ -433,7 +393,7 @@ MessageWindow.popupGreatSuccessMessage = function() {
   this.popupMessage($("#great-success-message"));
 };
 MessageWindow.renderGreatSuccessMessage = function() {
-  $("#what_count").textContent = SwordManager.current_sword_index + "강이 되었습니다!";
+  $("#what_count").text(SwordManager.current_sword_index + "강이 되었습니다!");
 };
 /**
  * 게임의 엔딩(목적 달성) 알림을 보여줍니다.
@@ -472,13 +432,12 @@ MoneyDisplay.setMoney = function(num) {
 MoneyDisplay.changeMoney = function(num) {
   InventoryManager.changeMoney(num);
 
-  const money_change_span = $("#money-change");
-  money_change_span.textContent = ((num >= 0) ? "+" + num : num) + "원";
+  const money_change_span = $("#money-change").text(((num >= 0) ? "+" + num : num) + "원");
   money_change_span.animate(Keyframes.money_change_kef, {duration: 300, fill: "both"});
   this.render();
 };
 MoneyDisplay.render = function() {
-  $("#money-number").textContent = InventoryManager.getMoney();
+  $("#money-number").text(InventoryManager.getMoney());
 };
 /**
  * 기록 보관소 창을 제어합니다.
@@ -500,19 +459,11 @@ RecordStorage.addRecord = function(type, name, change) {
   this.records = this.records.slice(Math.max(this.records.length - this.max_recordable_count, 0));
   this.render();
 };
+RecordStorage.recordFormat = {
+  upgrade: (name, change) => `${name} 강화 -${change}`,
+  sell: (name, change) => `${name} 판매 +${change}`
+}
 RecordStorage.render = function () {
-  const ret = this.records.map(rec => {
-    const p = document.createElement("p");
-    switch (rec.type) {
-      case "upgrade":
-        p.textContent = `${rec.name} 강화 -${rec.change}`;
-        break;
-      case "sell":
-        p.textContent = `${rec.name} 판매 +${rec.change}`;
-        break;
-    }
-    return p;
-  });
-
+  const ret = this.records.map(rec => document.createElement("p").text(this.recordFormat[rec.type](rec.name, rec.change)));
   $("#records").replaceChildren(...ret);
 };

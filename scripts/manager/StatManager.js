@@ -72,7 +72,7 @@ StatManager.calculateSmith = function(initialCost) { return initialCost*(100 - t
 StatManager.calculateBigMerchant = function(initialPrice) { return initialPrice*(100 + this.getBigMerchant())/100 };
 StatManager.calculateMagicHat = function(initialCount, minCount) { return Math.max(initialCount - this.getMagicHat(), minCount) }
 /**
- * 스탯을 다음 단계로 업그레이드 가능 여부를 반환합니다.
+ * 스탯을 다음 단계로 업그레이드가 가능한지 여부를 반환합니다.
  * @param {string} statName 확인할 스탯의 이름
  * @returns TestResult
  */

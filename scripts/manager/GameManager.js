@@ -1,18 +1,3 @@
-
-const TestResult = {
-  /**
-   * 자원 부족으로 불가능
-   */
-  RESOURCES_LACK: "RESOURCES LACK",
-  /**
-   * 최대 강화 달성으로 불가능
-   */
-  MAX_UPGRADE: "MAX UPGRADE",
-  /**
-   * 업그레이드 가능
-   */
-  SUCCESS: "SUCCESS"
-};
 /**
  * 게임 관련 객체
  */
