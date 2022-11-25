@@ -5,7 +5,7 @@
  */
 const $ = (selector) => document.querySelector(selector);
 const $createElementWithClasses = (tagName, ...classes) => { const tag = document.createElement(tagName); tag.classList.add(...classes); return tag; };
-const $createImgWithSrc = (src, alt) => { const img = new Image(); img.src = src; img.alt = alt ? '' : alt; return img; };
+const $createImgWithSrc = (src, alt="") => { const img = new Image(); img.src = src; img.alt = alt; return img; };
 Node.prototype.appendChildren = function(...nodes) { for(const node of nodes ) this.appendChild(node); };
 Node.prototype.text = function(textContent) { this.textContent = textContent; return this; }
 HTMLElement.prototype.display = function() { this.style.display = "block" };
