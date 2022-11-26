@@ -17,6 +17,6 @@ function onClickRepairButton() { }
 function onClickInitButton() { }
 
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
-function onStatUp(stat) { }
+function onStatUp(statName) { }
 
 gameStart();

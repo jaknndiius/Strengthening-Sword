@@ -1,5 +1,6 @@
-const $ = (selector) => document.querySelector(selector);
-const $createElementWithClasses = (tagName, ...classes) => { const tag = document.createElement(tagName); tag.classList.add(...classes); return tag; };
+const $ = selector => document.querySelector(selector);
+const $createElement = tagName => document.createElement(tagName);
+const $createElementWithClasses = (tagName, ...classes) => { const tag = $createElement(tagName); tag.classList.add(...classes); return tag; };
 const $createImgWithSrc = (src, alt="") => { const img = new Image(); img.src = src; img.alt = alt; return img; };
 Node.prototype.text = function(textContent) { this.textContent = textContent; return this; }
 Node.prototype.appendChildren = function(...nodes) { for(const node of nodes ) this.appendChild(node); };

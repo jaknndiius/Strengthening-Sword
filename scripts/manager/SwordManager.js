@@ -134,6 +134,6 @@ SwordManager.getNextSword = function() {
  */
 SwordManager.test = function() {
   if(this.max_upgradable_index < this.current_sword_index +1) return TestResult.MAX_UPGRADE;
-  else if(InventoryManager.getMoney() < this.getCurrentSword().cost) return TestResult.MONEY_LACK;
+  else if(InventoryManager.getMoney() < this.getCurrentSword().cost) return TestResult.RESOURCES_LACK;
   return TestResult.SUCCESS;
 };

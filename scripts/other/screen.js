@@ -47,7 +47,7 @@ MainScreen.render = function() {
 const InventoryScreen = {};
 InventoryScreen.makeHoverSellDiv = function(onclick) {
   const div = $createElementWithClasses("div", "hover_sell");
-  div.appendChild(document.createElement("span").text("판매 하기"));
+  div.appendChild($createElement("span").text("판매 하기"));
   div.addEventListener("click", onclick);
   return div;
 };
@@ -268,7 +268,7 @@ StatScreen.makeIconDiv = function(img_src, onclick) {
 };
 StatScreen.makeLevelDiv = function(current_level) {
   const level_box = $createElementWithClasses("div", "level");
-  const ul = document.createElement("ul");
+  const ul = $createElement("ul");
   for(let i=0;i<StatManager.getMaxStatLevel();i++) {
     const li_point = $createElementWithClasses("li", "point");
     if(i < current_level) li_point.classList.add("active");
@@ -285,7 +285,7 @@ StatScreen.makeInfoDiv = function(stat) {
 
   const details = $createElementWithClasses("ul", "detail");
   for(let i=0; i<StatManager.getMaxStatLevel(); i++) {
-    const stat_li = document.createElement("li").text(stat.prefix + stat.stat_per_level[i] + stat.suffix);
+    const stat_li = $createElement("li").text(stat.prefix + stat.stat_per_level[i] + stat.suffix);
     if(stat.current == i +1) stat_li.classList.add("active");
     details.appendChild(stat_li);
   }
@@ -341,7 +341,7 @@ MessageWindow.popupMoneyLackMessage = function() {
   this.popupMessage($("#money-lack-message"));
 };
 MessageWindow.makeDroppedPieceDiv = function(name, count) {
-  const div = document.createElement("div");
+  const div = $createElement("div");
   div.appendChildren(
     $createImgWithSrc(Path[name]),
     $createElementWithClasses("span", "name").text(name),
@@ -360,7 +360,7 @@ MessageWindow.renderFallMessage = function(...pieces) {
   if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))throw new TypeError(`${pieces.filter(value => !(value instanceof Item)).join(", ")} is not pieceItem`);
 
   const pieces_box = $("#pieces");
-  $("#loss").text("손실: " + SwordManager.calculateLoss(SwordManager.current_sword_index) + "원");
+  $("#loss").text(`손실: ${SwordManager.calculateLoss(SwordManager.current_sword_index)}원`);
   const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
   pieces_box.replaceChildren(...ret);
 
@@ -464,6 +464,6 @@ RecordStorage.recordFormat = {
   sell: (name, change) => `${name} 판매 +${change}`
 }
 RecordStorage.render = function () {
-  const ret = this.records.map(rec => document.createElement("p").text(this.recordFormat[rec.type](rec.name, rec.change)));
+  const ret = this.records.map(rec => $createElement("p").text(this.recordFormat[rec.type](rec.name, rec.change)));
   $("#records").replaceChildren(...ret);
 };

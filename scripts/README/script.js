@@ -64,7 +64,7 @@ function onClickUpgradeButton() {
           MessageWindow.popupFallMessage(...re); // 실패 메세지
         }
     }
-  } else if(result == TestResult.RESOURCES_LACK_LACK) { //돈 부족
+  } else if(result == TestResult.RESOURCES_LACK) { //돈 부족
     MessageWindow.popupMoneyLackMessage(); // 돈 부족 메세지
   } else if(result == TestResult.MAX_UPGRADE) { // 최대 강화 달성
     MessageWindow.popupMaxMessage(); // 최대 강화 축하 메세지
@@ -80,8 +80,8 @@ function onClickSellButton() {
 }
 /* 보관하기 버튼을 눌렀을 때 */
 function onClickSaveButton() {
-  const item = SwordManager.getCurrentSword();
-  InventoryManager.saveSword(item.name, 1); // 검 저장
+  const current_sword = SwordManager.getCurrentSword();
+  InventoryManager.saveSword(current_sword.name, 1); // 검 저장
   GameManager.init(); // 게임 초기화
 }
 /* 복구하기 버튼을 눌렀을 때 */
