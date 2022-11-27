@@ -68,8 +68,7 @@ InventoryManager.saveSword = function(name, count) {
   this.saveItem("sword", name, count);
 };
 InventoryManager.findItem = function(type, name) {
-  if(name === undefined) return this.inventory.find(value => value.name == type);
-  return this.inventory.find(value => value.type == type && value.name == name);
+  return (name === undefined) ? this.inventory.find(value => value.name == type) : this.inventory.find(value => value.type == type && value.name == name);
 };
 InventoryManager.subtractItem = function(type, name, count) {
   const item = this.findItem(type, name);
