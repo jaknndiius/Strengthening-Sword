@@ -19,7 +19,7 @@ StatManager = {
   stat_point: 0,
   max_stat_level: 5,
   stats: {
-    LUCKY_BRACELET: new Stat("행운 팔찌", "성공 확률 증가", [1, 2, 3, 4, 5], "blue", ["+", ""]),
+    LUCKY_BRACELET: new Stat("행운 팔찌", "성공 확률 증가", [1, 2, 3, 4, 5], "blue", ["+", "p"]),
     GOD_HAND: new Stat("신의 손", "성공 시 일정 확률로 +2강", [10, 20, 30, 40, 50], "red", ["", "%"]),
     BIG_MERCHANT: new Stat("대상인", "판매 가격 증가", [5, 10, 15, 20, 25,], "sky", ["+", "%"]),
     SMITH: new Stat("대장장이", "강화 비용 감소", [1, 2, 3, 4, 5], "green", ["-", "%"]),

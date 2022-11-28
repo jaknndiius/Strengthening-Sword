@@ -33,7 +33,7 @@ function gameStart() {
   MakingManager.setRecipe("리치베인", new PieceItem("여신의 눈물", 30), new PieceItem("도란의 반지", 30), new SwordItem("요우무의 유령검", 1));
   MakingManager.setRecipe("톱날 단검", new PieceItem("거인의 허리띠", 30), new PieceItem("도란의 반지", 30), new SwordItem("리치베인", 1));
   /* Init Game */
-  GameManager.init();
+  Game.init();
 }
 /* 강화하기 버튼을 눌렀을 때 */
 function onClickUpgradeButton() {
@@ -59,7 +59,7 @@ function onClickUpgradeButton() {
         if(Math.random() < percent) { // [ 무효화 구체 ] 성공시
           SwordManager.downgradeSword(); // -1강
           MainScreen.render(); // 화면 새로고침
-          MessageWindow.popupInvalidationMessage(); // 구체 발도 메세지
+          MessageWindow.popupInvalidationMessage(); // 구체 발동 메세지
         } else {
           MessageWindow.popupFallMessage(...re); // 실패 메세지
         }
@@ -76,25 +76,25 @@ function onClickSellButton() {
   const price = StatManager.calculateBigMerchant(current_sword.price); // [ 대상인 ] 스탯 계산
   RecordStorage.addRecord("sell", current_sword.name, price); // 기록 저장
   MoneyDisplay.changeMoney(price); // 돈 변경
-  GameManager.init(); // 게임 초기화
+  Game.init(); // 게임 초기화
 }
 /* 보관하기 버튼을 눌렀을 때 */
 function onClickSaveButton() {
   const current_sword = SwordManager.getCurrentSword();
   InventoryManager.saveSword(current_sword.name, 1); // 검 저장
-  GameManager.init(); // 게임 초기화
+  Game.init(); // 게임 초기화
 }
 /* 복구하기 버튼을 눌렀을 때 */
 function onClickRepairButton() {
   const required = SwordManager.getCurrentSword().requiredRepairs;
   if(InventoryManager.canUseRepairPaper(required)) { // 복구권이 충분하면
     InventoryManager.subtractRepairPaper(required); // 복구권 차감
-    GameManager.init(SwordManager.current_sword_index); // 복구한 검부터 재시작
+    Game.init(SwordManager.current_sword_index); // 복구한 검부터 재시작
   }
 }
 /* 다시하기 버튼을 눌렀을 때 */
 function onClickInitButton() {
-  GameManager.init(); // 게임 초기화
+  Game.init(); // 게임 초기화
 }
 /* 스탯 레벨 업 버튼을 눌렀을 때 */
 function onStatUp(statName) {

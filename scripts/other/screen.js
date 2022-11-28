@@ -1,3 +1,16 @@
+/**
+ * 게임 관련 객체
+ */
+const Game = {
+  /**
+  * 검을 초기화하고 메인 게임 화면을 보여줍니다.
+  * @param {number?} start 검을 몇강으로 초기화 할 지 정합니다. 생략시 0강으로 초기화합니다.
+  */
+  init(start=0) {
+    SwordManager.jumpTo(start);
+    MainScreen.show();
+  }
+};
 /* 화면 제어 */
 const changeBody = id => $("#main-body").replaceChildren(document.importNode($("#" + id).content, true));
 const Keyframes = {
@@ -467,3 +480,11 @@ RecordStorage.render = function () {
   const ret = this.records.map(rec => $createElement("p").text(this.recordFormat[rec.type](rec.name, rec.change)));
   $("#records").replaceChildren(...ret);
 };
+const onClickCloseButton = id => $("#" + id).hide();
+(function onClickFooterIcon() {
+  $("#main-game-button").addEventListener("click", () => MainScreen.show());
+  $("#information-button").addEventListener("click", () => InformationScreen.show());
+  $("#inventory-button").addEventListener("click", () => InventoryScreen.show());
+  $("#making-button").addEventListener("click", () => MakingScreen.show());
+  $("#stat-button").addEventListener("click", () => StatScreen.show());
+})();
