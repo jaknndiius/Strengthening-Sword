@@ -210,3 +210,10 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow:hi
 .stat_window main .stats .stat .info .detail {font-size: 1rem;color: var(--color-light-gray);list-style: none;display: flex;justify-content: center;align-items: center;}
 .stat_window main .stats .stat .info .detail li:not(:first-child):before {content: ">";font-size: 1.1rem;color: var(--color-gray);margin: 0 0.2rem;}
 .stat_window main .stats .stat .info .detail li.active {color: var(--color-red);}
+#developer-mod-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+}

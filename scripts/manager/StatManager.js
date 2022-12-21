@@ -48,6 +48,11 @@ StatManager.upgradeStat = function(statName) {
   if(this.stat_point <= 0) throw new Error(`There are no stat points.`);
   this.stat_point--;
   stat.levelUp();
+
+  
+  if(Object.values(this.stats).map(s => s.current).every(value => value == this.max_stat_level)) {
+    MessageWindow.popupAllStatMessage();
+  }
 };
 StatManager.getLuckyBracelet = function() { return this.stats.LUCKY_BRACELET.getCurrent(); };
 StatManager.getGodHand = function() { return this.stats.GOD_HAND.getCurrent(); };

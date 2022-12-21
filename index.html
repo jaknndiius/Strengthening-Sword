@@ -14,6 +14,7 @@
     <script src="scripts/manager/InventoryManager.js" defer></script>
     <script src="scripts/manager/MakingManager.js" defer></script>
     <script src="scripts/other/screen.js" defer></script>
+    <script src="scripts/other/developerMod.js" defer></script>
     <script src="scripts/script.js" defer></script>
   </head>
   <body ondragstart="return false">
@@ -113,6 +114,16 @@
           <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('game-end-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
+      <div class="message" id="game-making-last-sword-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">!히든 엔딩 달성!</div>
+            <div class="subtitle">달성 - 제작소에서 제국의 명령 제작하기</div>
+            <div class="paragraph"><p>창을 닫아도 게임은 계속됩니다.</p></div>
+          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('game-making-last-sword-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
+        </div>
+      </div>
     </template>
     <template id="inventory">
       <div class="window inventory_window"><header>보관함</header><main id="inventory-items"></main></div>
@@ -157,7 +168,41 @@
           <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('statpoint-lack-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>
       </div>
+      <div class="message" id="game-all-stat-message">
+        <div class="message_main">
+          <div class="text">
+            <div class="title">!히든 엔딩 달성!</div>
+            <div class="subtitle">달성 - 강화소에서 모든 스탯 만랩 달성하기</div>
+            <div class="paragraph"><p>창을 닫아도 게임은 계속됩니다.</p></div>
+          </div>
+          <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('game-all-stat-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
+        </div>
+      </div>
     </template>
     <div class="loading" id="maker-window-lodding"><div class="lodding_img"><img src="images/ui/buttons/make.png" alt="제작하기"/></div></div>
+    
+    <div id="developer-mod-button"></div>
+    <div class="message" id="developer-mod">
+      <div class="message_main">
+        <div class="text">
+          <div class="title">개발자 모드</div>
+          <div class="paragraph">
+            <p>
+              <input type="checkbox" id="infinity-gold">
+              <label for="infinity-gold">무한 골드</label>
+            </p>
+            <p>
+              <input type="checkbox" id="infinity-material">
+              <label for="infinity-material">무한 재료</label>
+            </p>
+            <p>
+              <input type="checkbox" id="always-success">
+              <label for="always-success">성공 확률 100%</label>
+            </p>
+          </div>
+        </div>
+        <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('developer-mod')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
+      </div>
+    </div>
   </body>
 </html>

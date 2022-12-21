@@ -79,7 +79,14 @@ MakingManager.makeRepairPaper = function(count=1) {
 };
 MakingManager.makeSword = function(swordName) {
   if(this.makeWithRecipe(this.recipes[swordName])) {
-    SwordManager.jumpTo(SwordManager.getIndex(swordName));
-    MakingScreen.animateLodding(1200, () => MainScreen.show());
+    const index = SwordManager.getIndex(swordName);
+    SwordManager.jumpTo(SwordManager.getIndex(index));
+    MakingScreen.animateLodding(1200, () => {
+      MainScreen.show()
+      if(index == SwordManager.max_upgradable_index) {
+        MessageWindow.popupMakingLastSwordMessage();
+      }
+    });
+    
   }
 };

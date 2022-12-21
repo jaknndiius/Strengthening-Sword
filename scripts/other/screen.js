@@ -424,10 +424,16 @@ MessageWindow.popupMaxStatMessage = function() {
   this.popupMessage($("#max-stat-message"));
 }
 /**
- * 진 엔딩 알림을 보여줍니다.
+ * 진 엔딩-제국의 명령 제작을 보여줍니다.
  */
-MessageWindow.popupRealEndingMessage = function() {
-  this.popupMessage($("#game-real-end-message"));
+MessageWindow.popupMakingLastSwordMessage = function() {
+  this.popupMessage($("#game-making-last-sword-message"));
+}
+/**
+ * 진 엔딩-올스탯 달성 알림을 보여줍니다.
+ */
+MessageWindow.popupAllStatMessage = function() {
+  this.popupMessage($("#game-all-stat-message"));
 }
 /**
  * 스탯 포인트 부족 알림을 보여줍니다.

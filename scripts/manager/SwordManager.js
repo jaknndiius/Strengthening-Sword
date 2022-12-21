@@ -2,7 +2,7 @@
 /**
  * 검의 정보를 담은 클래스입니다.
  */
- class Sword {
+class Sword {
   /**
    * @param {string} name 검의 이름
    * @param {number} prob 다음 단계 강화 성공 확률
@@ -20,6 +20,14 @@
     this.requiredRepairs = requiredRepairs;
     this.canSave = canSave;
     this.pieces = pieces;
+  }
+
+  get prob() {
+    return ($("#always-success").checked) ? 1 : this._prob;
+  }
+
+  set prob(value) {
+    this._prob = value;
   }
 }
 /**
