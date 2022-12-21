@@ -1,7 +1,7 @@
 /**
  * 게임 관련 객체
  */
- const Game = {
+const Game = {
   /**
   * 검을 초기화하고 메인 게임 화면을 보여줍니다.
   * @param {number?} start 검을 몇강으로 초기화 할 지 정합니다. 생략시 0강으로 초기화합니다.
@@ -184,23 +184,16 @@ MakingScreen.makeMaterialDiv = function(itemName, itemType, curc, count) {
       img.src = Path[itemType];
       break;
     case "piece":
+      count = MakingManager.salePieceCount(count);
     case "sword":
       img.src = Path[itemName];
       break;
   }
   div.appendChild(img);
-  if(itemType == "sword" || itemType == "unknown") {
-    const name_span = $createElementWithClasses("span", "name").text(itemName);
-    div.appendChild(name_span);
-  }
-
-  if(curc === undefined) return div;
-  if(itemType == "piece") count = MakingManager.salePieceCount(count);
-  const count_span = $createElementWithClasses("span", "count");
+  if(itemType != "money") div.appendChild($createElementWithClasses("span", "name").text(itemName));
+  const count_span = $createElementWithClasses("span", "count").text((itemType == "money") ? count + "원" : curc + "/" + count);
   if(curc < count) count_span.classList.add("unable");
-  count_span.text((itemType == "money") ? count + "원" : curc + "/" + count);
   div.appendChild(count_span);
-
   return div;
 };
 MakingScreen.makeGroupArticle = function(material, result, color, disabled, clickFunction) {
@@ -234,14 +227,14 @@ MakingScreen.makeRecipeGroup = function(count=1) {
     !MakingManager.canMake(recipe), 
     () => MakingManager.makeRepairPaper(count));
 };
-MakingScreen.show = function() {
-  changeBody("making");
-  this.render();
-};
-MakingScreen.render = function() {
+MakingScreen.makeRecipePage = function() {
   const inner = [];
   inner.push(this.makeRecipeGroup(1));
   for(let i=1;i<=3;i++) inner.push(this.makeRecipeGroup(i*5));
+  return inner;
+}
+MakingScreen.makeSwordPage = function() {
+  const inner = [];
   for(const [sword_name, recipe] of Object.entries(MakingManager.recipes)) {
     const material = this.makeMaterialSection(recipe);
     const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path[sword_name], sword_name) : this.makeResultSection(Path.unknown, "발견 안됨");
@@ -254,7 +247,15 @@ MakingScreen.render = function() {
     );
     inner.push(article);
   }
-  $("#recipes").replaceChildren(...inner);
+  return inner;
+}
+MakingScreen.show = function() {
+  changeBody("making");
+  this.render();
+};
+MakingScreen.render = function() {
+  if($("#making-recipes").checked) $("#recipes").replaceChildren(...this.makeRecipePage());
+  else if($("#making-swords").checked) $("#recipes").replaceChildren(...this.makeSwordPage());
 };
 MakingScreen.animateLodding = function(speed, onfinish) {
 
