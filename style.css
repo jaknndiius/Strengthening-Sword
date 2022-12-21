@@ -33,7 +33,7 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow:hi
 @keyframes pop {0%{transform: scale(1);}75%{transform: scale(1.2);}100%{transform: scale(1.15);}}
 .main_main {display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%;}
 .swordbox {display: flex;flex-direction: column;justify-content: space-between;align-items: center;}
-.swordbox img {width: 50%;border-radius: 50%;margin-bottom: 3%;filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray));transition: all 0.3s;}
+.swordbox img {width: 256px;border-radius: 50%;margin-bottom: 3%;filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray));transition: all 0.3s;}
 .swordbox img:hover {transform: scale(1.2);border-radius: 0;transition: all 0.3s;}
 .swordbox .infomation {display: flex;flex-direction: column;align-items: center;}
 #sword-number {font-size: 1.75rem; color: var(--color-dark-gray);}

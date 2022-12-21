@@ -19,7 +19,7 @@ Math.random(): Number | 0 이상 1 미만의 난수 반환
 
 ---Class---------------------------------
 
-Item {
+Item:
   new PieceItem(
     name:String,  : 조각의 이름
     count:Number  : 조각의 갯수
@@ -31,7 +31,6 @@ Item {
   new MoneyItem(
     count:Number  : 돈의 수량
   )
-}
 
 new Sword(
   name:String,            : 검의 이름
@@ -47,6 +46,15 @@ new Piece(
   prob:Number,    : 조각 생성 확률
   max_drop:Number : 최대 생성 확률
 )
+
+예시: let a = new Sword("피바라기", 1.0, 100, 1000, 2, false, new Piece("도란의 반지", 10, 1.0), new Piece("여신의 눈물", 5, 0.5))
+-> 다음 강화 확률이 100%이고, 
+강화하기 위해서는 100원이 필요하며
+판매시 1000원을 획득하고
+파괴시 복구권이 2개 필요하고
+보관함에 저장할 수 없고
+파괴시 도란의 반지를 100% 확률로 1~10개를
+여신의 눈물을 50% 확률로 1~5개를 드랍하는 피바라기를 변수 a에 저장
 
 ---Funcion&Variable---------------------------------
 

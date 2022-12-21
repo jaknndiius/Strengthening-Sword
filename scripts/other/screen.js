@@ -1,7 +1,7 @@
 /**
  * 게임 관련 객체
  */
-const Game = {
+ const Game = {
   /**
   * 검을 초기화하고 메인 게임 화면을 보여줍니다.
   * @param {number?} start 검을 몇강으로 초기화 할 지 정합니다. 생략시 0강으로 초기화합니다.
@@ -49,6 +49,9 @@ MainScreen.render = function() {
   if(isUpgradable) {
     prob.text(Math.floor(StatManager.calculateLuckyBraclet(current_sword.prob)*100));
     cost.text(StatManager.calculateSmith(current_sword.cost));
+  } else {
+    prob.text("");
+    cost.text("");
   }
   $("#sword-price").text(StatManager.calculateBigMerchant(current_sword.price));
   if(current_sword.price > 0) $("#sell-button").style.visibility = "visible";
@@ -218,9 +221,18 @@ MakingScreen.makeResultSection = function(src, name, count)  {
   const result = $createElementWithClasses("section", "result");
   const img_div = $createElementWithClasses("div", "item");
   img_div.appendChildren($createImgWithSrc(src), $createElementWithClasses("span", "name").text(name));
-  if(count != null) img_div.appendChild($createElementWithClasses("span", "count").text(count));
-  result.appendChild(img_div);
+  if(count != null) img_div.appendChild($createElementWithClasses("span", "count").text("+" + count));
+    result.appendChild(img_div);
   return result;
+};
+MakingScreen.makeRecipeGroup = function(count=1) {
+  let recipe = MakingManager.multiplyRecipe(MakingManager.repair_paper_recipe, count);
+  return this.makeGroupArticle(
+    this.makeMaterialSection(recipe), 
+    this.makeResultSection(Path.repair, "복구권", count),
+    "blue",
+    !MakingManager.canMake(recipe), 
+    () => MakingManager.makeRepairPaper(count));
 };
 MakingScreen.show = function() {
   changeBody("making");
@@ -228,19 +240,8 @@ MakingScreen.show = function() {
 };
 MakingScreen.render = function() {
   const inner = [];
-
-  const material = this.makeMaterialSection(MakingManager.repair_paper_recipe);
-
-  const result = this.makeResultSection(Path.repair, "복구권", InventoryManager.repair_paper);
-  const article = this.makeGroupArticle(
-    material, 
-    result,
-    "blue",
-    !MakingManager.canMake(MakingManager.repair_paper_recipe), 
-    () => MakingManager.makeRepairPaper());
-
-  inner.push(article);
-
+  inner.push(this.makeRecipeGroup(1));
+  for(let i=1;i<=3;i++) inner.push(this.makeRecipeGroup(i*5));
   for(const [sword_name, recipe] of Object.entries(MakingManager.recipes)) {
     const material = this.makeMaterialSection(recipe);
     const result = (SwordManager.isFound(sword_name)) ? this.makeResultSection(Path[sword_name], sword_name) : this.makeResultSection(Path.unknown, "발견 안됨");
@@ -372,10 +373,9 @@ MessageWindow.popupFallMessage = function(...pieces) {
 MessageWindow.renderFallMessage = function(...pieces) {
   if(pieces.length != 0 && !pieces.every(value => value instanceof PieceItem))throw new TypeError(`${pieces.filter(value => !(value instanceof Item)).join(", ")} is not pieceItem`);
 
-  const pieces_box = $("#pieces");
   $("#loss").text(`손실: ${SwordManager.calculateLoss(SwordManager.current_sword_index)}원`);
   const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
-  pieces_box.replaceChildren(...ret);
+  $("#fall-pieces").replaceChildren(...ret);
 
   const paper_range = `${InventoryManager.repair_paper}/${SwordManager.getCurrentSword().requiredRepairs}`;
   if(InventoryManager.canUseRepairPaper(SwordManager.getCurrentSword().requiredRepairs)) {
@@ -391,12 +391,15 @@ MessageWindow.renderFallMessage = function(...pieces) {
 /**
  * [ 무효화 구체 ]가 발동했음을 알리는 알림을 보여줍니다.
  */
-MessageWindow.popupInvalidationMessage = function() {
-  this.renderInvalidationMessage();
+MessageWindow.popupInvalidationMessage = function(...pieces) {
+  this.renderInvalidationMessage(...pieces);
   this.popupMessage($("#invalidation-message"));
 };
-MessageWindow.renderInvalidationMessage = function() {
+MessageWindow.renderInvalidationMessage = function(...pieces) {
   $("#downgrade").text(SwordManager.current_sword_index + "강으로 떨어졌습니다!");
+
+  const ret = pieces.map(ele => this.makeDroppedPieceDiv(ele.name, ele.count));
+  $("#invalidation-pieces").replaceChildren(...ret);
 };
 /**
  * [ 신의 손 ]이 발동했음을 알리는 알림을 보여줍니다.
@@ -419,6 +422,12 @@ MessageWindow.popupGameEndMessage = function() {
  */
 MessageWindow.popupMaxStatMessage = function() {
   this.popupMessage($("#max-stat-message"));
+}
+/**
+ * 진 엔딩 알림을 보여줍니다.
+ */
+MessageWindow.popupRealEndingMessage = function() {
+  this.popupMessage($("#game-real-end-message"));
 }
 /**
  * 스탯 포인트 부족 알림을 보여줍니다.

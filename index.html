@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>검 강화하기</title>
     <link rel="stylesheet" href="style.css"/>
-    <link type="image/x-icon" rel="shortcut icon" href="images/swords/단검.png"/>
+    <link type="image/x-icon" rel="shortcut icon" href="images/swords/dagger.png"/>
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon:400" rel="stylesheet"/>
     <script src="scripts/other/setting.js" defer></script>
     <script src="scripts/manager/SwordManager.js" defer></script>
@@ -14,7 +14,7 @@
     <script src="scripts/manager/InventoryManager.js" defer></script>
     <script src="scripts/manager/MakingManager.js" defer></script>
     <script src="scripts/other/screen.js" defer></script>
-    <script src="scripts/README/script.js" defer></script>
+    <script src="scripts/script.js" defer></script>
   </head>
   <body ondragstart="return false">
     <header class="main_header">
@@ -50,7 +50,7 @@
           <div class="text">
             <p class="title">파괴되었습니다.</p>
             <p class="subtitle" id="loss"></p>
-            <div class="paragraph" id="pieces"></div>
+            <div class="paragraph" id="fall-pieces"></div>
             <p class="required_count" id="required-count"></p>
           </div>
           <div class="buttons">
@@ -88,6 +88,7 @@
             <div class="title">검이 파괴되었지만 복구되었습니다!</div>
             <div class="subtitle">한단계 떨어지긴 했지만요.</div>
             <div class="paragraph"><p id="downgrade"></p></div>
+            <div class="paragraph" id="invalidation-pieces"></div>
           </div>
           <div class="buttons"><a class="red_button rotate" onclick="onClickCloseButton('invalidation-message')"><img src="images/ui/buttons/close.png" alt="창 닫기" /><span>창 닫기</span></a></div>
         </div>

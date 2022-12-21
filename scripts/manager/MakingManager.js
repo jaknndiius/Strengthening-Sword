@@ -42,9 +42,26 @@ MakingManager.canMake = function(recipe) {
 MakingManager.salePieceCount = function(count) {
   return StatManager.calculateMagicHat(count, this.discountable_min_count);
 }
+MakingManager.copyRecipe = function(recipe) {
+  const newarray = [];
+  for(const element of recipe) {
+    if(element instanceof MoneyItem) {
+      newarray.push(new MoneyItem(element.count));
+    } else if(element instanceof PieceItem) {
+      newarray.push(new PieceItem(element.name, element.count));
+    } else if(element instanceof SwordItem) {
+      newarray.push(new SwordItem(element.name, element.count));      
+    }
+  }
+  return newarray;
+}
+MakingManager.multiplyRecipe = function(recipe, count) {
+  const newrecipe = this.copyRecipe(recipe);
+  for(const material of newrecipe) material.count *= count;
+  return newrecipe;
+}
 MakingManager.makeWithRecipe = function(recipe) {
   if(!this.canMake(recipe)) return false;
-
   for(const rec_item of recipe) {
     switch (rec_item.type) {
       case "money": MoneyDisplay.changeMoney(-rec_item.count); break;
@@ -54,9 +71,9 @@ MakingManager.makeWithRecipe = function(recipe) {
   }
   return true;
 };
-MakingManager.makeRepairPaper = function() {
-  if(this.makeWithRecipe(this.repair_paper_recipe)) {
-    InventoryManager.addCountToRepairPaper(1);
+MakingManager.makeRepairPaper = function(count=1) {
+  if(this.makeWithRecipe(this.multiplyRecipe(this.repair_paper_recipe, count))) {
+    InventoryManager.addCountToRepairPaper(count);
     MakingScreen.animateLodding(700, () => MakingScreen.render());
   }
 };
