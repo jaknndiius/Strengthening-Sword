@@ -254,8 +254,12 @@ MakingScreen.show = function() {
   this.render();
 };
 MakingScreen.render = function() {
-  if($("#making-recipes").checked) $("#recipes").replaceChildren(...this.makeRecipePage());
-  else if($("#making-swords").checked) $("#recipes").replaceChildren(...this.makeSwordPage());
+  if($("#making-recipes").checked) document.querySelectorAll(".recipes").forEach(element => element.classList.remove("active"));
+  else if($("#making-swords").checked) document.querySelectorAll(".recipes").forEach(element => element.classList.add("active"))
+  $("#repair-recipes").replaceChildren(...this.makeRecipePage());
+  $("#sword-recipes").replaceChildren(...this.makeSwordPage());
+
+  
 };
 MakingScreen.animateLodding = function(speed, onfinish) {
 
