@@ -99,6 +99,7 @@ const Path = {
 };
 (function load(idx, values) {
   if(idx >= values.length) return;
-  $("#img-loadder img").src = values[idx];
-  setTimeout(() => load(idx +1, values), 50);
+  $("#img-loadder").appendChild($createImgWithSrc(values[idx]));
+  console.log(idx);
+  setTimeout(() => load(idx +1, values), 100);
 })(0, Object.values(Path));
