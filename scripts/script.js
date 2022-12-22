@@ -137,3 +137,4 @@ function onStatUp(statName) {
   }
 }
 gameStart(); // 게임 시작
+loadAllImg();

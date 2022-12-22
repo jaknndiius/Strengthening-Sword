@@ -97,8 +97,10 @@ const Path = {
   "초시계": "images/pieces/commencing_stopwatch.png",
   "충전형 물약": "images/pieces/refillable_potion.png"
 };
-(function load(idx, values) {
-  if(idx >= values.length) return;
-  $("#img-loadder").appendChild($createImgWithSrc(values[idx]));
-  setTimeout(() => load(idx +1, values), 10);
-})(0, Object.values(Path));
+function loadAllImg() {
+  (function load(idx, values) {
+    if(idx >= values.length) return;
+    $("#img-loadder").appendChild($createImgWithSrc(values[idx]));
+    setTimeout(() => load(idx +1, values), 10);
+  })(0, Object.values(Path));
+}
