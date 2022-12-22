@@ -92,5 +92,11 @@ const Path = {
   "MAGIC_HAT": "images/stats/magic_hat.png",
   "INVALIDATED_SPHERE": "images/stats/invalidated_sphere.png",
   "GOD_HAND": "images/stats/god_hand.png",
-  "LUCKY_BRACELET": "images/stats/lucky_bracelet.png"
+  "LUCKY_BRACELET": "images/stats/lucky_bracelet.png",
+  "ITEM_FRAME": "images/ui/frames/item_frame.png",
+  "RESULT_FRAME": "images/ui/frames/result_frame.png",
+  "SWORD_FRAME": "images/ui/frames/sword_frame.png"
 };
+for(const img of Object.values(Path)) {
+  $("#img-loadder img").src = img;
+}
