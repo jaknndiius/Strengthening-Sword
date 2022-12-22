@@ -55,6 +55,15 @@ const Path = {
   "피바라기": "images/swords/bloodthirster.png",
   "핏빛 칼날": "images/swords/sanguine_blade.png",
   "헤르메스의 시미터": "images/swords/mercurial_scimitar.png",
+  "ITEM_FRAME": "images/ui/frames/item_frame.png",
+  "RESULT_FRAME": "images/ui/frames/result_frame.png",
+  "SWORD_FRAME": "images/ui/frames/sword_frame.png",
+  "BIG_MERCHANT": "images/stats/big_merchant.png",
+  "SMITH": "images/stats/smith.png",
+  "MAGIC_HAT": "images/stats/magic_hat.png",
+  "INVALIDATED_SPHERE": "images/stats/invalidated_sphere.png",
+  "GOD_HAND": "images/stats/god_hand.png",
+  "LUCKY_BRACELET": "images/stats/lucky_bracelet.png",
   "감시하는 와드석": "images/pieces/watchful_wardstone.png",
   "거인의 허리띠": "images/pieces/giants_belf.png",
   "금지된 우상": "images/pieces/forbidden_idol.png",
@@ -86,17 +95,10 @@ const Path = {
   "주문 도둑의 검": "images/pieces/spellthiefs_edge.png",
   "증오의 사슬": "images/pieces/anathemas_chains.png",
   "초시계": "images/pieces/commencing_stopwatch.png",
-  "충전형 물약": "images/pieces/refillable_potion.png",
-  "BIG_MERCHANT": "images/stats/big_merchant.png",
-  "SMITH": "images/stats/smith.png",
-  "MAGIC_HAT": "images/stats/magic_hat.png",
-  "INVALIDATED_SPHERE": "images/stats/invalidated_sphere.png",
-  "GOD_HAND": "images/stats/god_hand.png",
-  "LUCKY_BRACELET": "images/stats/lucky_bracelet.png",
-  "ITEM_FRAME": "images/ui/frames/item_frame.png",
-  "RESULT_FRAME": "images/ui/frames/result_frame.png",
-  "SWORD_FRAME": "images/ui/frames/sword_frame.png"
+  "충전형 물약": "images/pieces/refillable_potion.png"
 };
-for(const img of Object.values(Path)) {
-  $("#img-loadder img").src = img;
-}
+(function load(idx, values) {
+  if(idx >= values.length) return;
+  $("#img-loadder img").src = values[idx];
+  setTimeout(() => load(idx +1, values), 50);
+})(0, Object.values(Path));
