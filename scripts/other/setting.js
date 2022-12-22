@@ -99,7 +99,7 @@ const Path = {
 };
 function loadAllImg() {
   (function load(idx, values) {
-    if(idx >= values.length) { MainScreen.render(); console.log(1); return; }
+    if(idx >= values.length) { MainScreen.render(); return; }
     $("#img-loadder").appendChild($createImgWithSrc(values[idx]));
     setTimeout(() => load(idx +1, values), 10);
   })(0, Object.values(Path));
