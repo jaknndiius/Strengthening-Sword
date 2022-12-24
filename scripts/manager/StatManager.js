@@ -21,8 +21,8 @@ StatManager = {
   stats: {
     LUCKY_BRACELET: new Stat("행운 팔찌", "성공 확률 증가", [1, 2, 3, 4, 5], "blue", ["+", "p"]),
     GOD_HAND: new Stat("신의 손", "성공 시 일정 확률로 +2강", [10, 15, 20, 25, 50], "red", ["", "%"]),
-    BIG_MERCHANT: new Stat("대상인", "판매 가격 증가", [4, 8, 12, 16, 20], "sky", ["+", "%"]),
-    SMITH: new Stat("대장장이", "강화 비용 감소", [4, 8, 12, 16, 20], "green", ["-", "%"]),
+    BIG_MERCHANT: new Stat("대상인", "판매 가격 증가", [4, 7, 12, 20, 30], "sky", ["+", "%"]),
+    SMITH: new Stat("대장장이", "강화 비용 감소", [4, 7, 12, 20, 30], "green", ["-", "%"]),
     INVALIDATED_SPHERE: new Stat("무효화 구체", "파괴 시 -1강으로 복구", [10, 15, 20, 25, 50], "purple", ["", "%"]),
     MAGIC_HAT: new Stat("마법 모자", "제작소 재료 조각 갯수 감소", [1, 1, 2, 2, 3], "navy", ["-", "개"])
   }

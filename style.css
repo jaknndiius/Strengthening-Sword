@@ -31,6 +31,18 @@ body {display: grid;grid-template-rows: 70px auto 70px;height: 100vh;overflow:hi
 #logo-chb:checked + label .right_sword,
 #logo-chb + label:hover .right_sword {transform: scale(1.2) rotate(39deg) translate(8px, -10px);transition: all 0.35s;}
 @keyframes pop {0%{transform: scale(1);}75%{transform: scale(1.2);}100%{transform: scale(1.15);}}
+#toturial-button {display: none;}
+#toturial-button + label {width: 50px;height: 50px;position: fixed;top: 10px;right: 10px;border: 3px solid var(--color-green);border-radius: 50px;overflow: hidden;transition: all .3s;cursor: pointer;z-index: 11;}
+#toturial-button:checked + label {border-color: var(--color-light-blue);}
+#toturial-button + label span {position: absolute;top: 50%;left: 50%;color: white;font-size: 0.85rem;transform: translate(-50%, -50%);text-shadow: -1px -1px 0px var(--color-green),-1px 1px 0px var(--color-green),1px 1px 0px var(--color-green),1px -1px 0px var(--color-green),-1px 0px 0px var(--color-green),1px 0px 0px var(--color-green),0px 1px 0px var(--color-green),0px -1px 0px var(--color-green);}
+#toturial-button:checked + label span {text-shadow: -1px -1px 0px var(--color-light-blue),-1px 1px 0px var(--color-light-blue),1px 1px 0px var(--color-light-blue),1px -1px 0px var(--color-light-blue),-1px 0px 0px var(--color-light-blue),1px 0px 0px var(--color-light-blue),0px 1px 0px var(--color-light-blue),0px -1px 0px var(--color-light-blue);}
+#toturial-button + label span::after {content: '튜토리얼';}
+#toturial-button:checked + label span::after {content: '돌아가기';}
+#toturial-button + label img {width: 100%;height: 100%;}
+#toturial-button:checked + label img.first {display: none;} 
+#toturial-button + label:hover {transform: scale(1.1);}
+.html_window {width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;background-color: var(--color-white);z-index: 10;display: none;}
+#toturial-button:checked ~ .html_window {display: block;}
 .main_main {display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%;}
 .swordbox {display: flex;flex-direction: column;justify-content: space-between;align-items: center;}
 .swordbox img {width: 256px;border-radius: 50%;margin-bottom: 3%;filter: drop-shadow(2vmin 2vmin 2vmin var(--color-dark-gray));transition: all 0.3s;}
